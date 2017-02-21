@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">SundayMovie</string>
+    <string name="un_follow">+ 收藏</string>
+    <string name="follow">已收藏</string>
+    <string name="test_text">多姆·柯布能够潜入人们的梦境中，窃取潜意识中有价值的秘密，这也使他成为了一名国际逃犯。
+        为了重回原本的生活，柯布和他的团队接受了一项任务，这次不是窃取思想，而是植入思想。如果他们成功，这就是一次完美犯罪。</string>
+    <string name="hello">Hello</string>
+    <string name="search">搜索</string>
+    <string name="feedback">反馈意见</string>
+    <string name="about">关于</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

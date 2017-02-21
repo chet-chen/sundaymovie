@@ -8,4 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="CollapsingText">
+        <item name="android:textSize">18sp</item>
+    </style>
+
 </resources>
