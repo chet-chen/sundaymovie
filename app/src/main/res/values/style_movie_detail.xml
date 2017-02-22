@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
     <style name="BaseInfoTextView">
-        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
         <item name="android:textSize">16sp</item>
     </style>
 </resources>

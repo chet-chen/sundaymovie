@@ -25,7 +25,7 @@ public class FollowButton extends FrameLayout {
     private TextView unFollowTv;
     float centerX;
     float centerY;
-    float revealRadius = 500;
+    float revealRadius = 1080;
     private Path path = new Path();
     private ValueAnimator animator;
 
