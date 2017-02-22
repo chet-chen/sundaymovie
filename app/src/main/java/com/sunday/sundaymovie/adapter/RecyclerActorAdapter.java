@@ -17,7 +17,10 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class RecyclerActorAdapter extends RecyclerView.Adapter<RecyclerActorItemViewHolder> {
+public class RecyclerActorAdapter extends RecyclerView.Adapter {
+    private static final int TYPE_ITEM = 1;
+    private static final int TYPE_HEADER = 2;
+    private static final int TYPE_FOOT = 3;
     private List<Movie.BasicBean.ActorsBean> mList;
     private Context mContext;
 
@@ -28,21 +31,53 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter<RecyclerActorItem
     }
 
     @Override
-    public RecyclerActorItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.activity_movie_recycler_item, parent, false);
-        return new RecyclerActorItemViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        switch (viewType) {
+            case TYPE_ITEM:
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.activity_movie_recycler_item, parent, false);
+                return new RecyclerActorItemViewHolder(view);
+            case TYPE_HEADER:
+                View header = LayoutInflater.from(mContext)
+                        .inflate(R.layout.activity_movie_recycler_header_item, parent, false);
+                return new RecyclerActorItemEmptyVH(header);
+            case TYPE_FOOT:
+                View foot = LayoutInflater.from(mContext)
+                        .inflate(R.layout.activity_movie_recycler_foow_item, parent, false);
+                return new RecyclerActorItemEmptyVH(foot);
+            default:
+                throw new RuntimeException("type is error");
+        }
     }
 
     @Override
-    public void onBindViewHolder(RecyclerActorItemViewHolder holder, int position) {
-        holder.mTextViewActorName.setText(mList.get(position).getName());
-        holder.mTextViewActorRoleName.setText(mList.get(position).getRoleName());
-        Glide.with(mContext).load(mList.get(position).getImg()).into(holder.mImageViewActorImg);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (getItemViewType(position) == TYPE_ITEM) {
+            RecyclerActorItemViewHolder mHolder = (RecyclerActorItemViewHolder) holder;
+            mHolder.mTextViewActorName.setText(mList.get(position - 1).getName());
+            mHolder.mTextViewActorRoleName.setText(mList.get(position - 1).getRoleName());
+            Glide.with(mContext).load(mList.get(position - 1).getImg())
+                    .into(mHolder.mImageViewActorImg);
+        }
     }
 
     @Override
     public int getItemCount() {
+        return getBasicItemCount() + 2;
+    }
+
+    private int getBasicItemCount() {
         return mList == null ? 0 : mList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return TYPE_HEADER;
+        }
+        if (position == mList.size() + 1) {
+            return TYPE_FOOT;
+        }
+        return TYPE_ITEM;
     }
 }
