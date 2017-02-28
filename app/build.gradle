@@ -32,5 +32,6 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
     compile 'com.android.support:support-v4:24.2.0'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.borjabravo:readmoretextview:2.0.1'
+    compile 'com.ms-square:expandableTextView:0.1.4'
+    compile 'com.github.chrisbanes.photoview:library:+'
 }

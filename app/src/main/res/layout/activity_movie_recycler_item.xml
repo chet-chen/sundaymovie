@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="120dp"
     android:layout_height="match_parent"
     android:layout_marginEnd="4dp"
@@ -12,24 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/demo_actor_img"/>
+        tools:src="@drawable/demo_actor_img"/>
 
     <TextView
         android:id="@+id/tv_actors_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
+        android:ellipsize="end"
         android:gravity="center"
-        android:text="莱昂纳多·迪卡普里奥"
+        android:maxLines="1"
         android:textColor="@android:color/secondary_text_light"
-        android:textSize="14sp"/>
+        android:textSize="14sp"
+        tools:text="莱昂纳多·迪卡普里奥"/>
 
     <TextView
         android:id="@+id/tv_actors_role_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:gravity="center"
-        android:text="“盗梦人”道姆·柯布"
+        android:maxLines="1"
         android:textColor="@color/secondaryText_2"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        tools:text="“盗梦人”道姆·柯布"/>
 </LinearLayout>
