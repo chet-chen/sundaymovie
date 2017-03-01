@@ -51,6 +51,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private TextView mTVMovieBoxOffice;
     private ExpandableTextView mTVMovieStory;
     private TextView mTVMovieVideoTitle;
+    private TextView mBtnAllImage;
 
     private ImageView[] mIVMovieImgs = new ImageView[4];
 
@@ -71,6 +72,22 @@ public class MovieDetailActivity extends AppCompatActivity {
             }
         });
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
+            @Override
+            public void onResponse(Movie response) {
+                mMovie = response;
+                if (mMovie == null) {
+                    finish();
+                }
+                modelToView();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+                finish();
+            }
+        });
     }
 
     @Override
@@ -92,7 +109,7 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void init() {
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
         mToolbar.inflateMenu(R.menu.activity_toolbar_menu);
 
         mIVTopBgImg = (ImageView) findViewById(R.id.iv_top_bg_img);
@@ -111,6 +128,13 @@ public class MovieDetailActivity extends AppCompatActivity {
         mTVMovieStory = (ExpandableTextView) findViewById(R.id.tv_movie_story);
         mTVMovieDateAndArea = (TextView) findViewById(R.id.tv_movie_release_date_and_area);
         mTVMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
+        mBtnAllImage = (TextView) findViewById(R.id.btn_all_img);
+        mBtnAllImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+            }
+        });
 
         mRatingBar = (RatingBar) findViewById(R.id.rb_overall_rating);
         ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
@@ -125,22 +149,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
-            @Override
-            public void onResponse(Movie response) {
-                mMovie = response;
-                if (mMovie == null) {
-                    finish();
-                }
-                modelToView();
-            }
-
-            @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
-                finish();
-            }
-        });
     }
 
     private void modelToView() {

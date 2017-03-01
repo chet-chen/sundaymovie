@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
@@ -79,5 +81,24 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
             return TYPE_FOOT;
         }
         return TYPE_ITEM;
+    }
+
+    private static class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder {
+        ImageView mImageViewActorImg;
+        TextView mTextViewActorName;
+        TextView mTextViewActorRoleName;
+
+        RecyclerActorItemViewHolder(View itemView) {
+            super(itemView);
+            mImageViewActorImg = (ImageView) itemView.findViewById(R.id.iv_actor_img);
+            mTextViewActorName = (TextView) itemView.findViewById(R.id.tv_actors_name);
+            mTextViewActorRoleName = (TextView) itemView.findViewById(R.id.tv_actors_role_name);
+        }
+    }
+
+    private static class RecyclerActorItemEmptyVH extends RecyclerView.ViewHolder {
+        RecyclerActorItemEmptyVH(View itemView) {
+            super(itemView);
+        }
     }
 }

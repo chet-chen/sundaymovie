@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.PhotoViewPagerAdapter;
+import com.sunday.sundaymovie.widget.HackyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,9 +34,7 @@ public class PhotoActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(startPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -43,9 +42,7 @@ public class PhotoActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
         upDatePositionHint(startPosition);
     }
@@ -55,7 +52,7 @@ public class PhotoActivity extends AppCompatActivity {
     }
 
     private void init() {
-        mViewPager = (ViewPager) findViewById(R.id.photo_view_pager);
+        mViewPager = (HackyViewPager) findViewById(R.id.photo_hacky_view_pager);
         mTextView = (TextView) findViewById(R.id.tv_photo_position_hint);
     }
 
