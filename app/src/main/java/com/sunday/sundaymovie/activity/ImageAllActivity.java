@@ -3,7 +3,6 @@ package com.sunday.sundaymovie.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
@@ -18,7 +17,7 @@ import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageAllActivity extends AppCompatActivity {
+public class ImageAllActivity extends BaseActivity {
     private Toolbar mToolbar;
     private GridView mGridView;
     private int mMovieId;
@@ -28,11 +27,6 @@ public class ImageAllActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_all);
-        init();
-        Bundle bundle = getIntent().getExtras();
-        mMovieId = bundle.getInt("movieId");
-        mTitle = bundle.getString("title");
         OkManager.getInstance().asyncGet(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
             @Override
             public void onResponse(ImageAll response) {
@@ -54,13 +48,21 @@ public class ImageAllActivity extends AppCompatActivity {
         });
     }
 
-    private void modelToView() {
-        mGridView.setAdapter(new ImgAllGridViewAdapter(getImgUrls(), this));
+    @Override
+    protected void initParams(Bundle bundle) {
+        mMovieId = bundle.getInt("movieId");
+        mTitle = bundle.getString("title");
     }
 
-    private void init() {
+    @Override
+    protected void initView(Context context) {
+        setContentView(R.layout.activity_image_all);
         mToolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
         mGridView = (GridView) findViewById(R.id.image_all_grid_view);
+    }
+
+    private void modelToView() {
+        mGridView.setAdapter(new ImgAllGridViewAdapter(getImgUrls(), this));
     }
 
     private List<String> getImgUrls() {

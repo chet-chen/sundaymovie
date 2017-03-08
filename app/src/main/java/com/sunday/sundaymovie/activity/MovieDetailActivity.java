@@ -6,7 +6,6 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +28,8 @@ import com.sunday.sundaymovie.util.StringFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailActivity extends AppCompatActivity {
-    private int mMovieId = 220423;
+public class MovieDetailActivity extends BaseActivity {
+    private int mMovieId = 190597;
     private Movie mMovie;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -58,21 +57,20 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey("movieId")) {
-            mMovieId = bundle.getInt("movieId");
-        }
-
-        init();
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
-        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
+        mBtnAllImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+            }
+        });
+        OkManager okManager = OkManager.getInstance();
+        okManager.asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
                 mMovie = response;
@@ -91,23 +89,17 @@ public class MovieDetailActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        setTop();
+    protected void initParams(Bundle bundle) {
+        if (bundle != null) {
+            mMovieId = bundle.getInt("movieId");
+        }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void init() {
+    protected void initView(Context context) {
+        setContentView(R.layout.activity_movie_detail);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
         mToolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
         mToolbar.inflateMenu(R.menu.activity_toolbar_menu);
@@ -129,12 +121,6 @@ public class MovieDetailActivity extends AppCompatActivity {
         mTVMovieDateAndArea = (TextView) findViewById(R.id.tv_movie_release_date_and_area);
         mTVMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
         mBtnAllImage = (TextView) findViewById(R.id.btn_all_img);
-        mBtnAllImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
-            }
-        });
 
         mRatingBar = (RatingBar) findViewById(R.id.rb_overall_rating);
         ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
@@ -149,6 +135,22 @@ public class MovieDetailActivity extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setTop();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void modelToView() {
@@ -190,6 +192,14 @@ public class MovieDetailActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(mMovie.getBasic().getVideo().getImg())
                     .into(mIVMovieVideoImg);
+            mIVMovieVideoImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    VideoActivity.startMe(MovieDetailActivity.this
+                            , mMovie.getBasic().getVideo().getHightUrl()
+                            , mMovie.getBasic().getVideo().getTitle());
+                }
+            });
         }
 
         List<Movie.BasicBean.StageImgBean.ListBean> listBean = mMovie.getBasic().getStageImg().getList();
