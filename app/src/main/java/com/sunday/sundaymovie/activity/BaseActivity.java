@@ -33,4 +33,5 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initParams(Bundle bundle);
 
     protected abstract void initView(Context context);
+
 }

@@ -30,8 +30,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     private String title;
 
     private int duration;
-    private boolean prepared = false;
-    private boolean isImmersion = false;
+    private boolean isImmersion = true;
     private boolean isRemoveRunnable = false;
 
     private Handler mHandler = new Handler();
@@ -83,13 +82,13 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    prepared = true;
                     duration = mp.getDuration();
                     mTotalTimeTextView.setText(StringFormatUtil.getTimeString(duration));
                     startProgressTimer();
                     mp.start();
                     timerImmersion();
                     mProgressBar.setVisibility(View.INVISIBLE);
+                    alphaUnShowAnim(mMovieVideoTitle);
                     mSurfaceView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -183,17 +182,15 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (prepared && !mMediaPlayer.isPlaying()) {
-            mImageButton.callOnClick();
-        }
+    protected void onRestart() {
+        super.onRestart();
+        mImageButton.callOnClick();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (prepared && mMediaPlayer.isPlaying()) {
+        if (mMediaPlayer.isPlaying()) {
             mImageButton.callOnClick();
         }
     }
@@ -273,7 +270,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
 
         @Override
         public void run() {
-            if (!isImmersion && mMediaPlayer.isPlaying()) {
+            if (!isImmersion && mMediaPlayer != null && mMediaPlayer.isPlaying()) {
                 immersionSwitch();
             }
         }

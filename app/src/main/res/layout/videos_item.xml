@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_margin="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="4dp">
+
+        <ImageView
+            android:id="@+id/item_video_img"
+            android:layout_width="170dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="@drawable/demo_img_2"/>
+
+        <TextView
+            android:id="@+id/item_video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_toEndOf="@id/item_video_img"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            tools:text="功夫瑜伽 终极版预告片"/>
+
+        <TextView
+            android:id="@+id/item_video_length"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/secondaryText_2"
+            android:textSize="16sp"
+            tools:text="1:30"/>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailActivity extends BaseActivity {
-    private int mMovieId = 190597;
+    private int mMovieId = 91881;
     private Movie mMovie;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -51,6 +51,7 @@ public class MovieDetailActivity extends BaseActivity {
     private ExpandableTextView mTVMovieStory;
     private TextView mTVMovieVideoTitle;
     private TextView mBtnAllImage;
+    private TextView mBtnAllVideo;
 
     private ImageView[] mIVMovieImgs = new ImageView[4];
 
@@ -69,8 +70,13 @@ public class MovieDetailActivity extends BaseActivity {
                 ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
             }
         });
-        OkManager okManager = OkManager.getInstance();
-        okManager.asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
+        mBtnAllVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                VideoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+            }
+        });
+        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
                 mMovie = response;
@@ -86,6 +92,7 @@ public class MovieDetailActivity extends BaseActivity {
                 finish();
             }
         });
+        setTop();
     }
 
     @Override
@@ -121,6 +128,7 @@ public class MovieDetailActivity extends BaseActivity {
         mTVMovieDateAndArea = (TextView) findViewById(R.id.tv_movie_release_date_and_area);
         mTVMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
         mBtnAllImage = (TextView) findViewById(R.id.btn_all_img);
+        mBtnAllVideo = (TextView) findViewById(R.id.btn_all_video);
 
         mRatingBar = (RatingBar) findViewById(R.id.rb_overall_rating);
         ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
@@ -135,12 +143,6 @@ public class MovieDetailActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setTop();
     }
 
     @Override
