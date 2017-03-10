@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -27,7 +26,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener {
-    private static final String TAG = "VideoActivity";
     private String url;
     private String title;
 
@@ -257,7 +255,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
 
     /*
     * bug 已解决
-    * 用户在操作seekbar是有可能隐藏
+    * 用户在操作seekBar时有可能隐藏
     * */
     private void timerImmersion() {
         mHandler.removeCallbacks(mRunnable);
