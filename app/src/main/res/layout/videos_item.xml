@@ -7,13 +7,13 @@
     android:layout_margin="4dp">
 
     <RelativeLayout
+        android:padding="6dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="4dp">
+        android:layout_height="match_parent">
 
         <ImageView
             android:id="@+id/item_video_img"
-            android:layout_width="170dp"
+            android:layout_width="160dp"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
             tools:src="@drawable/demo_img_2"/>
@@ -21,8 +21,8 @@
         <TextView
             android:id="@+id/item_video_title"
             android:layout_width="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/item_video_img"
             android:textColor="@android:color/black"
             android:textSize="18sp"

@@ -28,8 +28,8 @@ import com.sunday.sundaymovie.util.StringFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailActivity extends BaseActivity {
-    private int mMovieId = 91881;
+public class MovieDetailActivity extends BaseActivity implements View.OnClickListener {
+    private int mMovieId = 219171;
     private Movie mMovie;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
@@ -54,6 +54,7 @@ public class MovieDetailActivity extends BaseActivity {
     private TextView mBtnAllVideo;
 
     private ImageView[] mIVMovieImgs = new ImageView[4];
+    private ArrayList<String> mImgsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +65,8 @@ public class MovieDetailActivity extends BaseActivity {
                 finish();
             }
         });
-        mBtnAllImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
-            }
-        });
-        mBtnAllVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                VideoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
-            }
-        });
+        mBtnAllImage.setOnClickListener(this);
+        mBtnAllVideo.setOnClickListener(this);
         OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
@@ -194,32 +185,19 @@ public class MovieDetailActivity extends BaseActivity {
             Glide.with(this)
                     .load(mMovie.getBasic().getVideo().getImg())
                     .into(mIVMovieVideoImg);
-            mIVMovieVideoImg.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    VideoActivity.startMe(MovieDetailActivity.this
-                            , mMovie.getBasic().getVideo().getHightUrl()
-                            , mMovie.getBasic().getVideo().getTitle());
-                }
-            });
+            mIVMovieVideoImg.setOnClickListener(this);
         }
 
         List<Movie.BasicBean.StageImgBean.ListBean> listBean = mMovie.getBasic().getStageImg().getList();
-        final ArrayList<String> imgsList = new ArrayList<>(4);
+        mImgsList = new ArrayList<>(4);
         for (int i = 0; i < listBean.size() || i < 4; i++) {
             Glide.with(this)
                     .load(listBean.get(i).getImgUrl())
                     .into(mIVMovieImgs[i]);
-            imgsList.add(listBean.get(i).getImgUrl());
+            mImgsList.add(listBean.get(i).getImgUrl());
         }
-        for (int i = 0; i < mIVMovieImgs.length; i++) {
-            final int finalI = i;
-            mIVMovieImgs[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PhotoActivity.startMe(MovieDetailActivity.this, imgsList, finalI);
-                }
-            });
+        for (ImageView mIVMovieImg : mIVMovieImgs) {
+            mIVMovieImg.setOnClickListener(this);
         }
 
         List<Movie.BasicBean.ActorsBean> list = mMovie.getBasic().getActors();
@@ -250,4 +228,32 @@ public class MovieDetailActivity extends BaseActivity {
         mTVMovieName.requestFocus();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_movie_video_img:
+                VideoActivity.startMe(MovieDetailActivity.this
+                        , mMovie.getBasic().getVideo().getHightUrl()
+                        , mMovie.getBasic().getVideo().getTitle());
+                break;
+            case R.id.btn_all_img:
+                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+                break;
+            case R.id.btn_all_video:
+                VideoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+                break;
+            case R.id.iv_movie_img_1:
+                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 0);
+                break;
+            case R.id.iv_movie_img_2:
+                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 1);
+                break;
+            case R.id.iv_movie_img_3:
+                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 2);
+                break;
+            case R.id.iv_movie_img_4:
+                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 3);
+                break;
+        }
+    }
 }

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -26,12 +27,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener {
+    private static final String TAG = "VideoActivity";
     private String url;
     private String title;
 
     private int duration;
     private boolean isImmersion = true;
-    private boolean isRemoveRunnable = false;
 
     private Handler mHandler = new Handler();
     private TimerImmerRunnable mRunnable = new TimerImmerRunnable();
@@ -98,22 +99,18 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
                     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                            if (fromUser && !isRemoveRunnable) {
-                                mHandler.removeCallbacks(mRunnable);
-                                isRemoveRunnable = true;
-                            }
+
                         }
 
                         @Override
                         public void onStartTrackingTouch(SeekBar seekBar) {
-
+                            mHandler.removeCallbacks(mRunnable);
                         }
 
                         @Override
                         public void onStopTrackingTouch(SeekBar seekBar) {
                             mMediaPlayer.seekTo(seekBar.getProgress() * duration / 100);
                             mHandler.postDelayed(mRunnable, 2500L);
-                            isRemoveRunnable = false;
                         }
                     });
                 }
@@ -198,13 +195,15 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        cancelProgressTimer();
+        mHandler.removeCallbacks(mRunnable);
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
     }
 
-    public class ProgressTimerTask extends TimerTask {
+    private class ProgressTimerTask extends TimerTask {
         @Override
         public void run() {
             mHandler.post(new Runnable() {
@@ -233,13 +232,12 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     }
 
     private void setProgressAndText() {
-        if (mMediaPlayer == null) {
-            return;
+        if (mMediaPlayer != null) {
+            int current = mMediaPlayer.getCurrentPosition();
+            mCurrentTimeTextView.setText(StringFormatUtil.getTimeString(current));
+            long pos = 100L * current / duration;
+            mSeekBar.setProgress((int) pos);
         }
-        int current = mMediaPlayer.getCurrentPosition();
-        mCurrentTimeTextView.setText(StringFormatUtil.getTimeString(current));
-        long pos = 100L * current / duration;
-        mSeekBar.setProgress((int) pos);
     }
 
     private void immersionSwitch() {

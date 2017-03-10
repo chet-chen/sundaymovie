@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 /**
  * Created by agentchen on 2017/3/1.
  * Email agentchen97@gmail.com
+ * 此类为了解决 photoview 与 viewpager 滑动冲突bug
  */
 
 public class HackyViewPager extends ViewPager {
