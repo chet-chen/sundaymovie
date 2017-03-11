@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailActivity extends BaseActivity implements View.OnClickListener {
-    private int mMovieId = 219171;
+    private int mMovieId = 99547;
     private Movie mMovie;
     private Toolbar mToolbar;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
