@@ -100,7 +100,6 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
         mToolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
-        mToolbar.inflateMenu(R.menu.activity_toolbar_menu);
 
         mIVTopBgImg = (ImageView) findViewById(R.id.iv_top_bg_img);
         mIVMainImg = (ImageView) findViewById(R.id.iv_main_img);

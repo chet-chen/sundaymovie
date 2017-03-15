@@ -10,28 +10,44 @@ import java.util.List;
  * 第一个视频与电影详情中的视频是同一个
  */
 public class VideoAll {
-    private List<Video> list;
+    private int totalPageCount;
+    private List<Video> videoList;
+    private int totalCount;
+
 
     public VideoAll() {
-        list = new ArrayList<>();
+        videoList = new ArrayList<>(20);
     }
 
     public int getVideoCount() {
-        return list.size();
+        return videoList.size();
     }
 
-    public List<Video> getList() {
-        return list;
+    public int getTotalPageCount() {
+        return totalPageCount;
     }
 
-    public void addVideo(Video video) {
-        list.add(video);
+    public void setTotalPageCount(int totalPageCount) {
+        this.totalPageCount = totalPageCount;
     }
 
-    /*
-    * 电影视频类
-    *
-    * */
+    public int getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(int totalCount) {
+        this.totalCount = totalCount;
+    }
+
+    public List<Video> getVideoList() {
+        return videoList;
+    }
+
+    public void setVideoList(List<Video> videoList) {
+        this.videoList = videoList;
+    }
+
+    //电影视频类
     public static class Video {
         /**
          * id : 64406

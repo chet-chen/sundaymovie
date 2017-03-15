@@ -11,18 +11,27 @@ import android.view.View;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerVideosAdapter;
 import com.sunday.sundaymovie.api.Api;
+import com.sunday.sundaymovie.listener.OnScrollEndListener;
 import com.sunday.sundaymovie.model.VideoAll;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.VideoAllCallBack;
 
+import java.util.List;
+
 public class VideoAllActivity extends BaseActivity {
     private int id;
     private String title;
+    private int pageCount = 1;
+    private boolean loading = false;
+
+    private OkManager mOkManager;
     private VideoAll mVideoAll;
+    private List<VideoAll.Video> mVideos;
 
     private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private RecyclerVideosAdapter mAdapter;
+    private OnScrollEndListener mOnScrollEndListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +43,8 @@ public class VideoAllActivity extends BaseActivity {
                 finish();
             }
         });
-        OkManager.getInstance().asyncGet(Api.getVideoAllYrl(id), new VideoAllCallBack() {
+        mOkManager = OkManager.getInstance();
+        mOkManager.asyncGet(Api.getVideoAllUrl(id, 1), new VideoAllCallBack() {
             @Override
             public void onResponse(VideoAll response) {
                 mVideoAll = response;
@@ -46,6 +56,31 @@ public class VideoAllActivity extends BaseActivity {
                 finish();
             }
         });
+        mOnScrollEndListener = new OnScrollEndListener() {
+            @Override
+            public void onScrollEnd() {
+                if (pageCount < mVideoAll.getTotalPageCount() && !loading) {
+                    loading = true;
+                    mOkManager.asyncGet(Api.getVideoAllUrl(id, ++pageCount), new VideoAllCallBack() {
+                        @Override
+                        public void onResponse(VideoAll response) {
+                            mVideos.addAll(response.getVideoList());
+                            mAdapter.notifyDataSetChanged();
+                            loading = false;
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            e.printStackTrace();
+                            pageCount--;
+                            loading = false;
+                        }
+                    });
+                } else if (pageCount == mVideoAll.getTotalPageCount()) {
+                    mRecyclerView.removeOnScrollListener(mOnScrollEndListener);
+                }
+            }
+        };
     }
 
     @Override
@@ -61,11 +96,14 @@ public class VideoAllActivity extends BaseActivity {
         setContentView(R.layout.activity_video_all);
         mToolbar = (Toolbar) findViewById(R.id.video_all_toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_videos);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void modelToView() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new RecyclerVideosAdapter(mVideoAll.getList(), this));
+        mVideos = mVideoAll.getVideoList();
+        mAdapter = new RecyclerVideosAdapter(mVideos, this);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(mOnScrollEndListener);
     }
 
     public static void startMe(Context context, int id, String title) {
@@ -73,5 +111,11 @@ public class VideoAllActivity extends BaseActivity {
         intent.putExtra("id", id);
         intent.putExtra("title", title);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mRecyclerView.removeOnScrollListener(mOnScrollEndListener);
     }
 }

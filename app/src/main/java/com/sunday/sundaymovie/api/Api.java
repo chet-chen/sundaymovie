@@ -19,7 +19,7 @@ public class Api {
     private static final String PERSON_URL_END = "&cityId=290";
     private static final String MOVIE_URL = "https://ticket-api-m.mtime.cn/movie/detail.api?locationId=290&movieId=";
     private static final String IMAGE_ALL = "https://api-m.mtime.cn/Movie/ImageAll.api?movieId=";
-    private static final String VIDEO_ALL = "https://api-m.mtime.cn/Movie/Video.api?pageIndex=1&movieId=";
+    private static final String VIDEO_ALL = "https://api-m.mtime.cn/Movie/Video.api?pageIndex=";
     public static final String SHOW_TIME = "https://api-m.mtime.cn/Showtime/LocationMovies.api?locationId=290";
     public static final String COMING_MOVIE = "https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId=290";
 
@@ -39,7 +39,7 @@ public class Api {
         return IMAGE_ALL + id;
     }
 
-    public static String getVideoAllYrl(int id) {
-        return VIDEO_ALL + id;
+    public static String getVideoAllUrl(int id, int pageIndex) {
+        return VIDEO_ALL + pageIndex + "&movieId=" + id;
     }
 }
