@@ -8,14 +8,19 @@
     android:orientation="vertical"
     tools:context="com.sunday.sundaymovie.activity.ImageAllActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/image_all_toolbar"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:titleTextAppearance="@style/CollapsingText"
-        app:titleTextColor="@android:color/white"/>
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/image_all_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:titleTextAppearance="@style/CollapsingText"
+            app:titleTextColor="@android:color/white"/>
+    </android.support.design.widget.AppBarLayout>
 
     <GridView
         android:id="@+id/image_all_grid_view"

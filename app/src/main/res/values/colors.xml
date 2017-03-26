@@ -6,5 +6,6 @@
     <color name="secondaryBG">#F1F1F1</color>
     <color name="secondaryText">#D1D1D1</color>
     <color name="secondaryText_2">#9C9C9C</color>
+    <color name="searchToolBarBG">#FAFAFA</color>
     <color name="colorAccent_2">#FCC928</color>
 </resources>

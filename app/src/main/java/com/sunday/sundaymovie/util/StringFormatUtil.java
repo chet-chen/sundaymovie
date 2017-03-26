@@ -29,6 +29,9 @@ public class StringFormatUtil {
     }
 
     public static String getMovieReleaseText(String releaseDate, String releaseArea) {
+        if (releaseDate.length() < 4) {
+            return releaseDate + releaseArea;
+        }
         StringBuilder sb = new StringBuilder();
         sb.append("上映日期: ");
         sb.append(releaseDate.substring(0, 4))
@@ -59,6 +62,4 @@ public class StringFormatUtil {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
-
-
 }

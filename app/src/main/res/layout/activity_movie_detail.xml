@@ -14,7 +14,7 @@
         android:layout_height="250dp"
         android:fitsSystemWindows="true">
 
-        <com.sunday.sundaymovie.widget.MyCollapsingToolbarLayout
+        <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -41,7 +41,7 @@
                 app:layout_collapseMode="pin"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
 
-        </com.sunday.sundaymovie.widget.MyCollapsingToolbarLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -54,8 +54,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:background="@android:color/white"
+            android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingTop="8dp">
@@ -215,6 +215,7 @@
                 android:scrollbars="none">
 
                 <LinearLayout
+                    android:id="@+id/movie_detail_img_parent"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"

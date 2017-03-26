@@ -10,6 +10,8 @@ import android.util.AttributeSet;
  * 此类为了避免 CollapsingToolbarLayout 的一个bug
  * bug: 在有CollapsingToolbarLayout的activity下,启动一个不同orientation的activity，原activity在滑动时title的位置不对
  * 参考: http://stackoverflow.com/questions/39663363/bug-in-appbarlayout-wrong-title-behavior-when-initially-collapsed
+ *
+ * 2017/3/22 今天更新了 com.android.support:design 库，发现使用此类又会出现bug，反之则不出现，应该是google修复了bug
  */
 
 public class MyCollapsingToolbarLayout extends CollapsingToolbarLayout {

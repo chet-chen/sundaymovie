@@ -1,5 +1,6 @@
 package com.sunday.sundaymovie.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,7 +44,7 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
         holder.mTVTitle.setText(video.getTitle());
         holder.mTVLength.setText(StringFormatUtil.getTimeString(
                 video.getLength() * 1000));
-        Glide.with(mContext).load(video.getImage()).into(holder.mImageView);
+        Glide.with((Activity) mContext).load(video.getImage()).into(holder.mImageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -48,7 +48,6 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         mMovieVideoTitle.setText(title);
         mSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -217,7 +216,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         cancelProgressTimer();
         timer = new Timer();
         mProgressTimerTask = new ProgressTimerTask();
-        timer.schedule(mProgressTimerTask, 0, 1000);
+        timer.schedule(mProgressTimerTask, 0L, 1000L);
     }
 
     public void cancelProgressTimer() {

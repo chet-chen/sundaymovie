@@ -234,7 +234,7 @@ public class Movie {
             }
 
             public String getName() {
-                return name;
+                return "".equals(name) ? "无" : name;
             }
 
             public void setName(String name) {
@@ -510,7 +510,7 @@ public class Movie {
         }
 
         public String getTotalBoxDes() {
-            return totalBoxDes;
+            return totalBoxDes == null ? "无" : totalBoxDes;
         }
 
         public void setTotalBoxDes(String totalBoxDes) {

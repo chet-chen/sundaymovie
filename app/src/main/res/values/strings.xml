@@ -20,4 +20,7 @@
     <string name="all_video">全部视频</string>
     <string name="all_img">全部图片</string>
     <string name="_00_00">00:00</string>
+    <string name="search_hint">搜索电影、影人</string>
+    <string name="clean_history">清除历史</string>
+    <string name="search_null">未找到任何搜索结果</string>
 </resources>

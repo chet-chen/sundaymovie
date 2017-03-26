@@ -40,11 +40,11 @@ public class VideoAllActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
         mOkManager = OkManager.getInstance();
-        mOkManager.asyncGet(Api.getVideoAllUrl(id, 1), new VideoAllCallBack() {
+        mOkManager.asyncGet(Api.getVideoAllUrl(id, pageCount), new VideoAllCallBack() {
             @Override
             public void onResponse(VideoAll response) {
                 mVideoAll = response;
