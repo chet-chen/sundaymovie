@@ -9,6 +9,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.PhotoActivity;
 
 import java.util.ArrayList;
@@ -54,7 +55,10 @@ public class ImgAllGridViewAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Glide.with((Activity) mContext).load(mList.get(position)).into(imageView);
+        Glide.with((Activity) mContext)
+                .load(mList.get(position))
+                .placeholder(R.drawable.img_load)
+                .into(imageView);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -45,6 +45,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Glide.with((Activity) mContext).load(mSearches.get(position).getCover())
+                .placeholder(R.drawable.img_load)
                 .into(holder.mImageView);
         switch (mType) {
             case SearchResult.TYPE_MOVIE:
@@ -74,7 +75,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
         return mSearches.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView mImageView;
         private TextView mTitle, mType, mRating;
 

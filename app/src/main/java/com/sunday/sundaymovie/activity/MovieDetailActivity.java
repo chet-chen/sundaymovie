@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MovieDetailActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = "MovieDetailActivity";
     private int mMovieId = 99547;
     private Movie mMovie;
     private Toolbar mToolbar;
@@ -61,24 +61,6 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-        mToolbar.inflateMenu(R.menu.activity_toolbar_menu);
-        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.menu_search:
-                        SearchActivity.startMe(MovieDetailActivity.this, null);
-                        break;
-                }
-                return true;
-            }
-        });
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
         OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
@@ -114,6 +96,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
         mToolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
+        setSupportActionBar(mToolbar);
 
         mIVTopBgImg = (ImageView) findViewById(R.id.iv_top_bg_img);
         mIVMainImg = (ImageView) findViewById(R.id.iv_main_img);
@@ -152,11 +135,13 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home:
-                finish();
-                return true;
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void modelToView() {
@@ -168,15 +153,17 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         }
         Glide.with(this)
                 .load(mMovie.getBasic().getImg())
+                .placeholder(R.drawable.img_load)
                 .into(mIVMainImg);
         mCollapsingToolbarLayout.setTitle(mMovie.getBasic().getName());
         mTVMovieName.setText(mMovie.getBasic().getName());
         mTVMovieENName.setText(mMovie.getBasic().getNameEn());
         mRatingBar.setRating((float) (mMovie.getBasic().getOverallRating() / 2));
         if (mMovie.getBasic().getOverallRating() > 0) {
-            mTVOverallRating.setText(String.format("%s 分", String.valueOf(mMovie.getBasic().getOverallRating())));
+            mTVOverallRating.setText(String.valueOf(mMovie.getBasic().getOverallRating()));
         } else {
-            mTVOverallRating.setText("无");
+            mRatingBar.setVisibility(View.GONE);
+            mTVOverallRating.setText("暂无评分");
         }
         mTVMovieType.setText(StringFormatUtil.getMovieType(mMovie.getBasic().getType()));
         mTVMovieDirectorName.setText(String.format("导演: %s", mMovie.getBasic().getDirector().getName()));
@@ -185,9 +172,10 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         String movieMin;
         movieMin = mMovie.getBasic().getMins();
         if (movieMin.isEmpty()) {
-            movieMin = "无";
+            mTVMovieMins.setVisibility(View.GONE);
+        } else {
+            mTVMovieMins.setText(String.format("片长: %s", movieMin));
         }
-        mTVMovieMins.setText(String.format("片长: %s", movieMin));
         mTVMovieBoxOffice.setText(String.format("累计票房: %s", mMovie.getBoxOffice().getTotalBoxDes()));
         mTVMovieStory.setText(mMovie.getBasic().getStory());
 
@@ -204,6 +192,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
             mTVMovieVideoTitle.setText(mMovie.getBasic().getVideo().getTitle());
             Glide.with(this)
                     .load(mMovie.getBasic().getVideo().getImg())
+                    .placeholder(R.drawable.img_load)
                     .into(mIVMovieVideoImg);
             mIVMovieVideoImg.setOnClickListener(this);
         }
@@ -213,6 +202,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         for (int i = 0; i < listBean.size() && i < 4; i++) {
             Glide.with(this)
                     .load(listBean.get(i).getImgUrl())
+                    .placeholder(R.drawable.img_load)
                     .into(mIVMovieImgs[i]);
             mImgsList.add(listBean.get(i).getImgUrl());
         }
@@ -278,6 +268,8 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.iv_movie_img_4:
                 PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 3);
+                break;
+            default:
                 break;
         }
     }

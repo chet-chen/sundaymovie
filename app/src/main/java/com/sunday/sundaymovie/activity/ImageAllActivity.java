@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.sunday.sundaymovie.R;
@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ImageAllActivity extends BaseActivity {
-    private Toolbar mToolbar;
     private GridView mGridView;
     private int mMovieId;
     private String mTitle;
@@ -39,13 +38,7 @@ public class ImageAllActivity extends BaseActivity {
                 finish();
             }
         });
-        mToolbar.setTitle(mTitle);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        setTitle(mTitle);
     }
 
     @Override
@@ -57,8 +50,21 @@ public class ImageAllActivity extends BaseActivity {
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_image_all);
-        mToolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
+        setSupportActionBar(toolbar);
         mGridView = (GridView) findViewById(R.id.image_all_grid_view);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     private void modelToView() {

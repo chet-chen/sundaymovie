@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class VideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener {
+public class VideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, View.OnClickListener {
     private String url;
     private String title;
 
@@ -49,6 +49,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMovieVideoTitle.setText(title);
+        mMediaPlayer = new MediaPlayer();
         mSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -87,12 +88,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
                     timerImmersion();
                     mProgressBar.setVisibility(View.INVISIBLE);
                     alphaUnShowAnim(mMovieVideoTitle);
-                    mSurfaceView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            immersionSwitch();
-                        }
-                    });
+                    mSurfaceView.setOnClickListener(VideoActivity.this);
                     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
                         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -116,6 +112,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mImageButton.setOnClickListener(this);
     }
 
     @Override
@@ -131,23 +128,9 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_video);
-        mMediaPlayer = new MediaPlayer();
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_view_video);
         mSeekBar = (SeekBar) findViewById(R.id.media_controller_seek_bar);
         mImageButton = (ImageButton) findViewById(R.id.btn_play_video);
-        mImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mMediaPlayer.isPlaying()) {
-                    mMediaPlayer.pause();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_48dp));
-                } else {
-                    mMediaPlayer.start();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_48dp));
-                    timerImmersion();
-                }
-            }
-        });
         mProgressBar = (ProgressBar) findViewById(R.id.progress_video_load);
         mCurrentTimeTextView = (TextView) findViewById(R.id.current);
         mTotalTimeTextView = (TextView) findViewById(R.id.total);
@@ -197,6 +180,27 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.surface_view_video:
+                immersionSwitch();
+                break;
+            case R.id.btn_play_video:
+                if (mMediaPlayer.isPlaying()) {
+                    mMediaPlayer.pause();
+                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_48dp));
+                } else {
+                    mMediaPlayer.start();
+                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_48dp));
+                    timerImmersion();
+                }
+                break;
+            default:
+                break;
         }
     }
 

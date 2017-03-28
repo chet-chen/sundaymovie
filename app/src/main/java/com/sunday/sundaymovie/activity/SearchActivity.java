@@ -11,11 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerSearchAdapter;
@@ -32,7 +34,6 @@ public class SearchActivity extends BaseActivity {
     private static final String TAG = "SearchActivity";
     int activityCloseExitAnimation;
     private String query;
-    private Toolbar mToolbar;
     private SearchView mSearchView;
     private ListView mListView;
     private ArrayAdapter<String> mHistoryAdapter;
@@ -67,12 +68,6 @@ public class SearchActivity extends BaseActivity {
                 if (position < history.size()) {
                     mSearchView.setQuery(history.get(position), true);
                 }
-            }
-        });
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
             }
         });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -113,11 +108,25 @@ public class SearchActivity extends BaseActivity {
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_search);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        setTitle(null);
         mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.lv_search_history);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     private void doMySearch(String query) {
@@ -131,7 +140,7 @@ public class SearchActivity extends BaseActivity {
 
             @Override
             public void onError(Exception e) {
-
+                Toast.makeText(SearchActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -151,7 +160,7 @@ public class SearchActivity extends BaseActivity {
 
     public static void startMe(Context context, String query) {
         Intent intent = new Intent(context, SearchActivity.class);
-        if (!"".equals(query)) {
+        if (query != null && !query.isEmpty()) {
             intent.putExtra(SearchManager.QUERY, query);
         }
         context.startActivity(intent);

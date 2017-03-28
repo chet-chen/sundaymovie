@@ -27,6 +27,6 @@
         android:id="@+id/recycler_view_videos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/secondaryText"
+        android:background="@color/colorRecyclerViewBG_Line"
         android:scrollbars="vertical"/>
 </LinearLayout>

@@ -44,7 +44,10 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
         holder.mTVTitle.setText(video.getTitle());
         holder.mTVLength.setText(StringFormatUtil.getTimeString(
                 video.getLength() * 1000));
-        Glide.with((Activity) mContext).load(video.getImage()).into(holder.mImageView);
+        Glide.with((Activity) mContext)
+                .load(video.getImage())
+                .placeholder(R.drawable.img_load)
+                .into(holder.mImageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +61,7 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
         return mList.size();
     }
 
-    static class VideosViewHolder extends RecyclerView.ViewHolder {
+    class VideosViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImageView;
         private TextView mTVTitle;

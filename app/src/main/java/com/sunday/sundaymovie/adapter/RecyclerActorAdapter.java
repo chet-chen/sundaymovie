@@ -59,6 +59,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
             mHolder.mTextViewActorName.setText(mList.get(position - 1).getName());
             mHolder.mTextViewActorRoleName.setText(mList.get(position - 1).getRoleName());
             Glide.with(mContext).load(mList.get(position - 1).getImg())
+                    .placeholder(R.drawable.img_load)
                     .into(mHolder.mImageViewActorImg);
         }
     }
@@ -83,7 +84,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
         return TYPE_ITEM;
     }
 
-    private static class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder {
+    private class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder {
         ImageView mImageViewActorImg;
         TextView mTextViewActorName;
         TextView mTextViewActorRoleName;
@@ -96,7 +97,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private static class RecyclerActorItemEmptyVH extends RecyclerView.ViewHolder {
+    private class RecyclerActorItemEmptyVH extends RecyclerView.ViewHolder {
         RecyclerActorItemEmptyVH(View itemView) {
             super(itemView);
         }

@@ -23,4 +23,7 @@
     <string name="search_hint">搜索电影、影人</string>
     <string name="clean_history">清除历史</string>
     <string name="search_null">未找到任何搜索结果</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

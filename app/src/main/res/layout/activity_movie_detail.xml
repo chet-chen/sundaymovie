@@ -22,6 +22,7 @@
             app:collapsedTitleGravity="left"
             app:collapsedTitleTextAppearance="@style/CollapsingText"
             app:contentScrim="?attr/colorPrimary"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:expandedTitleTextAppearance="@style/ExpandedText"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -39,7 +40,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

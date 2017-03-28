@@ -510,7 +510,7 @@ public class Movie {
         }
 
         public String getTotalBoxDes() {
-            return totalBoxDes == null ? "无" : totalBoxDes;
+            return totalBoxDes == null ? "暂无" : totalBoxDes;
         }
 
         public void setTotalBoxDes(String totalBoxDes) {

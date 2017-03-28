@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.sunday.sundaymovie.R;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class VideoAllActivity extends BaseActivity {
     private int id;
-    private String title;
+    private String mTitle;
     private int pageCount = 1;
     private boolean loading = false;
 
@@ -28,7 +29,6 @@ public class VideoAllActivity extends BaseActivity {
     private VideoAll mVideoAll;
     private List<VideoAll.Video> mVideos;
 
-    private Toolbar mToolbar;
     private RecyclerView mRecyclerView;
     private RecyclerVideosAdapter mAdapter;
     private OnScrollEndListener mOnScrollEndListener;
@@ -36,13 +36,7 @@ public class VideoAllActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mToolbar.setTitle(title);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        setTitle(mTitle);
         mOkManager = OkManager.getInstance();
         mOkManager.asyncGet(Api.getVideoAllUrl(id, pageCount), new VideoAllCallBack() {
             @Override
@@ -87,16 +81,29 @@ public class VideoAllActivity extends BaseActivity {
     protected void initParams(Bundle bundle) {
         if (bundle != null) {
             id = bundle.getInt("id");
-            title = bundle.getString("title");
+            mTitle = bundle.getString("title");
         }
     }
 
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_video_all);
-        mToolbar = (Toolbar) findViewById(R.id.video_all_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.video_all_toolbar);
+        setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_videos);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            default:
+                break;
+        }
+        return true;
     }
 
     private void modelToView() {
