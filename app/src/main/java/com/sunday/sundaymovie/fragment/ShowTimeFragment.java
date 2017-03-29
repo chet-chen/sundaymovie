@@ -45,7 +45,6 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(refresh_layout);
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_show_time);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setRefreshing(true);
         onRefresh();
@@ -65,7 +64,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             @Override
             public void onError(Exception e) {
-                Toast.makeText(getActivity(), "网络异常", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "网络异常,下拉重试", Toast.LENGTH_SHORT).show();
                 if (mRefreshLayout.isRefreshing()) {
                     mRefreshLayout.setRefreshing(false);
                 }
@@ -75,11 +74,19 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void modelToView() {
         if (mAdapter == null) {
+            //在这里setLayoutManager为了解决没网状态下启动Fragment，将不能下拉刷新，原因未知
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mAdapter = new ShowTimeAdapter(getActivity(), mShowTimeMovies.getMs());
             mRecyclerView.setAdapter(mAdapter);
         } else {
             mAdapter.refresh(mShowTimeMovies.getMs());
             mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void smoothScrollToTop() {
+        if (mAdapter != null && mAdapter.getItemCount() > 0) {
+            mRecyclerView.smoothScrollToPosition(0);
         }
     }
 

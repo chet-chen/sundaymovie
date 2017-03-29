@@ -13,9 +13,6 @@ public class ComingMovie {
      * id : 229728
      * image : http://img5.mtime.cn/mt/2017/01/18/115740.32791274_1280X720X2.jpg
      * locationName : 美国
-     * rDay : 17
-     * rMonth : 2
-     * rYear : 2017
      * releaseDate : 2月17日上映
      * title : 欢乐好声音
      * type : 动画 / 喜剧 / 剧情
@@ -27,9 +24,6 @@ public class ComingMovie {
     private int id;
     private String image;
     private String locationName;
-    private int rDay;
-    private int rMonth;
-    private int rYear;
     private String releaseDate;
     private String title;
     private String type;
@@ -82,30 +76,6 @@ public class ComingMovie {
         this.locationName = locationName;
     }
 
-    public int getrDay() {
-        return rDay;
-    }
-
-    public void setrDay(int rDay) {
-        this.rDay = rDay;
-    }
-
-    public int getrMonth() {
-        return rMonth;
-    }
-
-    public void setrMonth(int rMonth) {
-        this.rMonth = rMonth;
-    }
-
-    public int getrYear() {
-        return rYear;
-    }
-
-    public void setrYear(int rYear) {
-        this.rYear = rYear;
-    }
-
     public String getReleaseDate() {
         return releaseDate;
     }
@@ -129,4 +99,5 @@ public class ComingMovie {
     public void setType(String type) {
         this.type = type;
     }
+
 }

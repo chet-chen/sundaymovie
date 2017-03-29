@@ -10,10 +10,11 @@
     <color name="colorAccent_2">#FCC928</color>
     <color name="colorStatusBar">#3c000000</color>
     <color name="colorRecyclerViewBG_Line">#DBDBDB</color>
-    <color name="colorTextWhite_1">#ffffff</color>
+    <color name="colorTextWhite_1">#fff</color>
     <color name="colorTextWhite_2">#deffffff</color>
     <color name="colorTextWhite_3">#8affffff</color>
     <color name="colorTextWhite_4">#42ffffff</color>
+    <color name="colorTabText">#99ffffff</color>
     <color name="colorTextBlack_1">#000000</color>
     <color name="colorTextBlack_2">#de000000</color>
     <color name="colorTextBlack_3">#8a000000</color>

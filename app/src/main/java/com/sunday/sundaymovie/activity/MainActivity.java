@@ -14,22 +14,26 @@ import android.view.View;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.MainPagerAdapter;
+import com.sunday.sundaymovie.fragment.ComingFragment;
+import com.sunday.sundaymovie.fragment.ShowTimeFragment;
 
 import static com.sunday.sundaymovie.R.id.drawer_layout;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
+    private MainPagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MainPagerAdapter adapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles, this);
-        mViewPager.setAdapter(adapter);
+        mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles, this);
+        mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addOnTabSelectedListener(this);
     }
 
     @Override
@@ -40,6 +44,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_main);
+        setTitle("主页");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mDrawerLayout = (DrawerLayout) findViewById(drawer_layout);
@@ -74,5 +79,37 @@ public class MainActivity extends BaseActivity {
             mDrawerLayout.addDrawerListener(drawerToggle);
             drawerToggle.syncState();
         }
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+        switch (tab.getPosition()) {
+            case 0:
+                ShowTimeFragment sf = (ShowTimeFragment) mAdapter.instantiateItem(mViewPager, 0);
+                sf.smoothScrollToTop();
+                break;
+            case 1:
+                ComingFragment cf = (ComingFragment) mAdapter.instantiateItem(mViewPager, 1);
+                cf.smoothScrollToTop();
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTabLayout.removeOnTabSelectedListener(this);
     }
 }

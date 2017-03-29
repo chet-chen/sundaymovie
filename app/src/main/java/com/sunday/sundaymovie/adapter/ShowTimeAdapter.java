@@ -36,7 +36,7 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_fragment_main, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_show_time_movie, parent, false);
         return new ViewHolder(view);
     }
 
@@ -82,12 +82,12 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         ViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.iv_movie_img);
-            mTVMovieTCN = (TextView) itemView.findViewById(R.id.tv_movie_t_cn);
+            mTVMovieTCN = (TextView) itemView.findViewById(R.id.tv_movie_title);
             mTVMovieTEN = (TextView) itemView.findViewById(R.id.tv_movie_t_en);
             mTVMovieRating = (TextView) itemView.findViewById(R.id.tv_rating);
             mTVMovieType = (TextView) itemView.findViewById(R.id.tv_movie_type);
-            mTVMovieDN = (TextView) itemView.findViewById(R.id.tv_movie_d_n);
-            mTVMovieN = (TextView) itemView.findViewById(R.id.tv_movie_n);
+            mTVMovieDN = (TextView) itemView.findViewById(R.id.tv_movie_director);
+            mTVMovieN = (TextView) itemView.findViewById(R.id.tv_movie_actor);
             mRatingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
             ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2).setColorFilter(
                     mContext.getResources().getColor(R.color.colorAccent)

@@ -26,6 +26,7 @@ public class ImageAllActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(mTitle);
         OkManager.getInstance().asyncGet(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
             @Override
             public void onResponse(ImageAll response) {
@@ -38,7 +39,6 @@ public class ImageAllActivity extends BaseActivity {
                 finish();
             }
         });
-        setTitle(mTitle);
     }
 
     @Override
