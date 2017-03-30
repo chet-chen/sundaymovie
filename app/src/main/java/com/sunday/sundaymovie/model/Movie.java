@@ -510,7 +510,15 @@ public class Movie {
         }
 
         public String getTotalBoxDes() {
-            return totalBoxDes == null ? "暂无" : totalBoxDes;
+            if (totalBoxDes == null || totalBoxDes.isEmpty()) {
+                return "暂无";
+            } else {
+                if (('元') == totalBoxDes.charAt(totalBoxDes.length() - 1)) {
+                    return totalBoxDes;
+                } else {
+                    return String.format("%s%s元", totalBoxDes, totalBoxUnit.charAt(5));
+                }
+            }
         }
 
         public void setTotalBoxDes(String totalBoxDes) {

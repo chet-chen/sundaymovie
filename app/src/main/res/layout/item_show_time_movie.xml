@@ -6,15 +6,16 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
     android:background="@drawable/bg_white_ripple"
-    android:paddingBottom="4dp"
+    android:paddingBottom="6dp"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="4dp">
+    android:paddingTop="6dp">
 
     <ImageView
         android:id="@+id/iv_movie_img"
         android:layout_width="90dp"
         android:layout_height="130dp"
+        tools:src="@drawable/img_load"
         android:scaleType="centerCrop"/>
 
     <TextView
@@ -73,12 +74,12 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/tv_movie_type"
         android:layout_alignStart="@id/tv_movie_title"
-        android:gravity="center_vertical"
+        android:gravity="bottom"
         android:orientation="horizontal">
 
         <RatingBar
             android:id="@+id/rb_rating"
-            style="?android:attr/ratingBarStyleSmall"
+            style="@style/Widget.AppCompat.RatingBar.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
@@ -90,9 +91,9 @@
             android:id="@+id/tv_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorTextBlack_2"
+            android:textColor="@color/colorTextBlack_3"
             android:textSize="14sp"
-            tools:text="7.3分"/>
+            tools:text="7.3"/>
     </LinearLayout>
 
 </RelativeLayout>

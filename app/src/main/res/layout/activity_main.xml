@@ -30,7 +30,7 @@
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 app:tabIndicatorColor="@android:color/white"
                 app:tabSelectedTextColor="@android:color/white"
                 app:tabTextColor="@color/colorTabText"/>
@@ -48,6 +48,8 @@
         android:id="@+id/navigation_view"
         android:layout_width="280dp"
         android:layout_height="match_parent"
-        android:layout_gravity="start">
+        android:layout_gravity="start"
+        app:headerLayout="@layout/navigation_header"
+        app:menu="@menu/navigation_menu">
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>

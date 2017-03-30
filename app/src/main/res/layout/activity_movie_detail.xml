@@ -22,9 +22,9 @@
             app:collapsedTitleGravity="left"
             app:collapsedTitleTextAppearance="@style/CollapsingText"
             app:contentScrim="?attr/colorPrimary"
-            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:expandedTitleTextAppearance="@style/ExpandedText"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <ImageView
                 android:id="@+id/iv_top_bg_img"
@@ -33,7 +33,7 @@
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
-                tools:src="@drawable/demo_gb_img"/>
+                tools:src="@drawable/img_load"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/movie_detail_toolbar"
@@ -75,7 +75,7 @@
                     android:layout_width="130dp"
                     android:layout_height="186dp"
                     android:scaleType="centerCrop"
-                    tools:src="@drawable/demo_main_img"/>
+                    tools:src="@drawable/img_load"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -121,21 +121,21 @@
 
                         <RatingBar
                             android:id="@+id/rb_overall_rating"
-                            style="?android:attr/ratingBarStyleSmall"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
+                            android:layout_marginEnd="6dp"
                             android:isIndicator="true"
-                            android:numStars="5"/>
+                            android:numStars="5"
+                            tools:rating="4.55"/>
 
                         <TextView
                             android:id="@+id/tv_overall_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
                             android:textColor="@android:color/secondary_text_light"
                             android:textSize="14sp"
-                            tools:text="9.1 分"/>
+                            tools:text="9.1"/>
                     </LinearLayout>
 
                     <TextView
@@ -230,7 +230,7 @@
                         android:layout_width="154dp"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/demo_gb_img"/>
+                        tools:src="@drawable/img_load"/>
 
                     <ImageView
                         android:id="@+id/iv_movie_img_2"
@@ -238,7 +238,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/demo_img_2"/>
+                        tools:src="@drawable/img_load"/>
 
                     <ImageView
                         android:id="@+id/iv_movie_img_3"
@@ -246,7 +246,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/demo_img_3"/>
+                        tools:src="@drawable/img_load"/>
 
                     <ImageView
                         android:id="@+id/iv_movie_img_4"
@@ -254,7 +254,7 @@
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/demo_img_4"/>
+                        tools:src="@drawable/img_load"/>
 
                     <TextView
                         android:id="@+id/btn_all_img"
@@ -301,7 +301,7 @@
                         android:layout_width="224dp"
                         android:layout_height="126dp"
                         android:scaleType="centerCrop"
-                        tools:src="@drawable/demo_movie_video_img"/>
+                        tools:src="@drawable/img_load"/>
 
                     <ImageView
                         android:layout_width="36dp"

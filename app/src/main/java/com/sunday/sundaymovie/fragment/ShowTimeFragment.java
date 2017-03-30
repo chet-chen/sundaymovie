@@ -2,6 +2,7 @@ package com.sunday.sundaymovie.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
@@ -31,6 +32,9 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
     private RecyclerView mRecyclerView;
     private OkManager mOkManager;
     private ShowTimeAdapter mAdapter;
+    private boolean recyclerEmpty = true;
+    private FrameLayout mFrameLayout;
+    private View mNetErrorView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +49,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
         mRefreshLayout = (SwipeRefreshLayout) view.findViewById(refresh_layout);
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_show_time);
+        mFrameLayout = (FrameLayout) view.findViewById(R.id.frame_layout);
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setRefreshing(true);
         onRefresh();
@@ -55,6 +60,11 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
         mOkManager.asyncGet(Api.SHOW_TIME, new ShowTimeCallBack() {
             @Override
             public void onResponse(ShowTimeMovies response) {
+                if (mNetErrorView != null && recyclerEmpty) {
+                    mFrameLayout.removeView(mNetErrorView);
+                    recyclerEmpty = false;
+                    mNetErrorView = null;
+                }
                 mShowTimeMovies = response;
                 modelToView();
                 if (mRefreshLayout.isRefreshing()) {
@@ -64,7 +74,12 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
 
             @Override
             public void onError(Exception e) {
-                Toast.makeText(getActivity(), "网络异常,下拉重试", Toast.LENGTH_SHORT).show();
+                if (mNetErrorView == null && recyclerEmpty) {
+                    mNetErrorView = LayoutInflater.from(getActivity())
+                            .inflate(R.layout.net_error, mFrameLayout, false);
+                    mFrameLayout.addView(mNetErrorView);
+                }
+                Snackbar.make(mRefreshLayout, "网络异常,下拉重试", Snackbar.LENGTH_SHORT).show();
                 if (mRefreshLayout.isRefreshing()) {
                     mRefreshLayout.setRefreshing(false);
                 }

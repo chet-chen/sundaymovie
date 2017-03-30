@@ -6,10 +6,10 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="1dp"
     android:background="@drawable/bg_white_ripple"
-    android:paddingBottom="4dp"
+    android:paddingBottom="6dp"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="4dp">
+    android:paddingTop="6dp">
 
     <ImageView
         android:id="@+id/iv_movie_img"

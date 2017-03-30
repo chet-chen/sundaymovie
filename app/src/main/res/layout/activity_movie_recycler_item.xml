@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:scaleType="centerCrop"
-        tools:src="@drawable/demo_actor_img"/>
+        tools:src="@drawable/img_load"/>
 
     <TextView
         android:id="@+id/tv_actors_name"

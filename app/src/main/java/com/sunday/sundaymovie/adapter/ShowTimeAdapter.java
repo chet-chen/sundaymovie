@@ -54,9 +54,9 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         holder.mTVMovieDN.setText(String.format("导演: %s", msBean.getDN()));
         holder.mTVMovieN.setText(String.format("主演: %s, %s", msBean.getAN1(), msBean.getAN2()));
         if (msBean.getR() > 0) {
-            holder.mTVMovieRating.setText(String.valueOf(msBean.getR()));
             holder.mRatingBar.setVisibility(View.VISIBLE);
-            holder.mRatingBar.setRating((float) (msBean.getR() / 2));
+            holder.mTVMovieRating.setText(String.valueOf(msBean.getR()));
+            holder.mRatingBar.setRating((float) msBean.getR() / 2);
         } else {
             holder.mRatingBar.setVisibility(View.GONE);
             holder.mTVMovieRating.setText("暂无评分");
@@ -89,9 +89,6 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
             mTVMovieDN = (TextView) itemView.findViewById(R.id.tv_movie_director);
             mTVMovieN = (TextView) itemView.findViewById(R.id.tv_movie_actor);
             mRatingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
-            ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2).setColorFilter(
-                    mContext.getResources().getColor(R.color.colorAccent)
-                    , PorterDuff.Mode.SRC_ATOP);
         }
     }
 }

@@ -3,11 +3,14 @@ package com.sunday.sundaymovie.activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,12 +22,15 @@ import com.sunday.sundaymovie.fragment.ShowTimeFragment;
 
 import static com.sunday.sundaymovie.R.id.drawer_layout;
 
-public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener {
+public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
+        , NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = "MainActivity";
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
     private MainPagerAdapter mAdapter;
 
     @Override
@@ -34,6 +40,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);
+        mNavigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -44,10 +51,11 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_main);
-        setTitle("主页");
+        setTitle("首页");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mDrawerLayout = (DrawerLayout) findViewById(drawer_layout);
+        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);
         toggleSettings();
@@ -108,8 +116,23 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     }
 
     @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawer(Gravity.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mTabLayout.removeOnTabSelectedListener(this);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mDrawerLayout.closeDrawer(Gravity.START);
+        return true;
     }
 }

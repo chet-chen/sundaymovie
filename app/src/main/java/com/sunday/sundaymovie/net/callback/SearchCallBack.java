@@ -18,7 +18,6 @@ import okhttp3.Response;
  */
 public abstract class SearchCallBack implements CallBack<SearchResult> {
 
-
     @Override
     public SearchResult parseResponse(Response response) {
         SearchResult searchResult = null;
@@ -30,6 +29,7 @@ public abstract class SearchCallBack implements CallBack<SearchResult> {
                 e.printStackTrace();
             }
         }
+        //此处有bug，搜索super man，responseString可能为空字符串
         String jsonStr = responseString.substring(22, responseString.length() - 3);
         try {
             JSONObject object = new JSONObject(jsonStr).getJSONObject("value");

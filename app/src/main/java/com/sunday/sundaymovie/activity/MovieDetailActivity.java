@@ -2,8 +2,6 @@ package com.sunday.sundaymovie.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -118,8 +116,8 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mBtnAllVideo = (TextView) findViewById(R.id.btn_all_video);
 
         mRatingBar = (RatingBar) findViewById(R.id.rb_overall_rating);
-        ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
-                .setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
+//        ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
+//                .setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
 
         mIVMovieImgs = new ImageView[]{(ImageView) findViewById(R.id.iv_movie_img_1)
                 , (ImageView) findViewById(R.id.iv_movie_img_2)
@@ -164,6 +162,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         } else {
             mRatingBar.setVisibility(View.GONE);
             mTVOverallRating.setText("暂无评分");
+            mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
         }
         mTVMovieType.setText(StringFormatUtil.getMovieType(mMovie.getBasic().getType()));
         mTVMovieDirectorName.setText(String.format("导演: %s", mMovie.getBasic().getDirector().getName()));

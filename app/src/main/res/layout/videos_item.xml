@@ -17,7 +17,7 @@
         android:layout_width="160dp"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        tools:src="@drawable/demo_img_2"/>
+        tools:src="@drawable/img_load"/>
 
     <TextView
         android:id="@+id/item_video_title"
