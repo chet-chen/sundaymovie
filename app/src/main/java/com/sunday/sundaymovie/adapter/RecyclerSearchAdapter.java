@@ -44,30 +44,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        Glide.with((Activity) mContext).load(mSearches.get(position).getCover())
-                .placeholder(R.drawable.img_load)
-                .into(holder.mImageView);
-        switch (mType) {
-            case SearchResult.TYPE_MOVIE:
-                final SearchMovie sm = (SearchMovie) mSearches.get(position);
-                holder.mTitle.setText(sm.getMovieTitle());
-                holder.mType.setText(sm.getGenreTypes());
-                holder.mRating.setText(String.format("%s 分", sm.getMovieRating()));
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MovieDetailActivity.startMe(mContext, sm.getMovieId());
-                    }
-                });
-                break;
-            case SearchResult.TYPE_PERSON:
-                SearchPerson sp = (SearchPerson) mSearches.get(position);
-                holder.mTitle.setText(sp.getPersonTitle());
-                holder.mType.setText(sp.getPersonFilmography());
-                holder.mRating.setText(sp.getBirth());
-                break;
-        }
-
+        holder.bindSearchMovie(mSearches.get(position), mType);
     }
 
     @Override
@@ -75,16 +52,50 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
         return mSearches.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private Search mSearch;
+        private int type;
         private ImageView mImageView;
-        private TextView mTitle, mType, mRating;
+        private TextView mTitle, mT1, mT2;
 
         ViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.iv_search_movie);
             mTitle = (TextView) itemView.findViewById(R.id.tv_search_title);
-            mType = (TextView) itemView.findViewById(R.id.tv_search_t1);
-            mRating = (TextView) itemView.findViewById(R.id.tv_search_t2);
+            mT1 = (TextView) itemView.findViewById(R.id.tv_search_t1);
+            mT2 = (TextView) itemView.findViewById(R.id.tv_search_t2);
+        }
+
+        void bindSearchMovie(Search movie, int type) {
+            mSearch = movie;
+            Glide.with((Activity) mContext).load(mSearch.getCover())
+                    .placeholder(R.drawable.img_load)
+                    .into(mImageView);
+            this.type = type;
+            switch (type) {
+                case SearchResult.TYPE_MOVIE:
+                    SearchMovie sm = (SearchMovie) mSearch;
+                    mTitle.setText(sm.getMovieTitle());
+                    mT1.setText(sm.getGenreTypes());
+                    mT2.setText(String.format("%s 分", sm.getMovieRating()));
+                    itemView.setOnClickListener(this);
+                    break;
+                case SearchResult.TYPE_PERSON:
+                    SearchPerson sp = (SearchPerson) mSearch;
+                    mTitle.setText(sp.getPersonTitle());
+                    mT1.setText(sp.getPersonFilmography());
+                    mT2.setText(sp.getBirth());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (type == SearchResult.TYPE_MOVIE) {
+                MovieDetailActivity.startMe(mContext, ((SearchMovie) mSearch).getMovieId());
+            }
         }
     }
 }

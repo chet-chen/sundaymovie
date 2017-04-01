@@ -25,10 +25,9 @@
     <string name="clean_history">清除历史</string>
     <string name="search_null">未找到任何搜索结果</string>
     <string name="title_activity_main">MainActivity</string>
-
     <string name="action_settings">Settings</string>
     <string name="home">首页</string>
-    <string name="star">收藏</string>
+    <string name="star">收藏夹</string>
     <string name="download">下载管理</string>
     <string name="settings">设置</string>
     <string name="net_error">网络异常，下拉刷新重试</string>

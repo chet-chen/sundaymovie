@@ -14,8 +14,6 @@ import okhttp3.Response;
 public abstract class ComingCallBack implements CallBack<ComingMovies> {
     @Override
     public ComingMovies parseResponse(Response response) {
-        long oldTime = System.currentTimeMillis();
-
         ComingMovies comingMovies = null;
         if (response != null && response.isSuccessful()) {
             try {

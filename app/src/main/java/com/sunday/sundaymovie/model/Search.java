@@ -5,7 +5,7 @@ package com.sunday.sundaymovie.model;
  * Email agentchen97@gmail.com
  * 搜索结果基类
  */
-public abstract class Search {
+public class Search {
     private String cover;
 
     public String getCover() {

@@ -55,12 +55,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
-            RecyclerActorItemViewHolder mHolder = (RecyclerActorItemViewHolder) holder;
-            mHolder.mTextViewActorName.setText(mList.get(position - 1).getName());
-            mHolder.mTextViewActorRoleName.setText(mList.get(position - 1).getRoleName());
-            Glide.with(mContext).load(mList.get(position - 1).getImg())
-                    .placeholder(R.drawable.img_load)
-                    .into(mHolder.mImageViewActorImg);
+            ((RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position - 1));
         }
     }
 
@@ -85,6 +80,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
     }
 
     private class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder {
+        private Movie.BasicBean.ActorsBean mBean;
         ImageView mImageViewActorImg;
         TextView mTextViewActorName;
         TextView mTextViewActorRoleName;
@@ -94,6 +90,15 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
             mImageViewActorImg = (ImageView) itemView.findViewById(R.id.iv_actor_img);
             mTextViewActorName = (TextView) itemView.findViewById(R.id.tv_actors_name);
             mTextViewActorRoleName = (TextView) itemView.findViewById(R.id.tv_actors_role_name);
+        }
+
+        void bindActorsBean(Movie.BasicBean.ActorsBean bean) {
+            mBean = bean;
+            Glide.with(mContext).load(mBean.getImg())
+                    .placeholder(R.drawable.img_load)
+                    .into(mImageViewActorImg);
+            mTextViewActorName.setText(mBean.getName());
+            mTextViewActorRoleName.setText(mBean.getRoleName());
         }
     }
 

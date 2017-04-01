@@ -65,9 +65,9 @@ public class ComingFragment extends Fragment implements SwipeRefreshLayout.OnRef
         mOkManager.asyncGet(Api.COMING_MOVIE, new ComingCallBack() {
             @Override
             public void onResponse(ComingMovies response) {
-                if (mNetErrorView != null && recyclerEmpty) {
+                recyclerEmpty = false;
+                if (mNetErrorView != null) {
                     mFrameLayout.removeView(mNetErrorView);
-                    recyclerEmpty = false;
                     mNetErrorView = null;
                 }
                 mComingMovies = response;

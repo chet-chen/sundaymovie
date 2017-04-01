@@ -40,20 +40,7 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
 
     @Override
     public void onBindViewHolder(VideosViewHolder holder, final int position) {
-        final VideoAll.Video video = mList.get(position);
-        holder.mTVTitle.setText(video.getTitle());
-        holder.mTVLength.setText(StringFormatUtil.getTimeString(
-                video.getLength() * 1000));
-        Glide.with((Activity) mContext)
-                .load(video.getImage())
-                .placeholder(R.drawable.img_load)
-                .into(holder.mImageView);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                VideoActivity.startMe(mContext, video.getHightUrl(), video.getTitle());
-            }
-        });
+        holder.bindVideo(mList.get(position));
     }
 
     @Override
@@ -61,8 +48,8 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
         return mList.size();
     }
 
-    class VideosViewHolder extends RecyclerView.ViewHolder {
-
+    class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private VideoAll.Video mVideo;
         private ImageView mImageView;
         private TextView mTVTitle;
         private TextView mTVLength;
@@ -72,6 +59,22 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
             mImageView = (ImageView) itemView.findViewById(R.id.item_video_img);
             mTVTitle = (TextView) itemView.findViewById(R.id.item_video_title);
             mTVLength = (TextView) itemView.findViewById(R.id.item_video_length);
+        }
+
+        void bindVideo(VideoAll.Video video) {
+            mVideo = video;
+            Glide.with((Activity) mContext).load(mVideo.getImage())
+                    .placeholder(R.drawable.img_load)
+                    .into(mImageView);
+            mTVTitle.setText(mVideo.getTitle());
+            mTVLength.setText(StringFormatUtil.getTimeString(
+                    mVideo.getLength() * 1000));
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            VideoActivity.startMe(mContext, mVideo.getHightUrl(), mVideo.getTitle());
         }
     }
 }

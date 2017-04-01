@@ -3,11 +3,12 @@
     <color name="colorPrimary">#1D89E6</color>
     <color name="colorPrimaryDark">#166EB7</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent_2">#FCC928</color>
+    <color name="colorAccent_3">#00E676</color>
     <color name="secondaryBG">#F1F1F1</color>
     <color name="secondaryText">#D1D1D1</color>
     <color name="secondaryText_2">#9C9C9C</color>
     <color name="searchToolBarBG">#FAFAFA</color>
-    <color name="colorAccent_2">#FCC928</color>
     <color name="colorStatusBar">#3c000000</color>
     <color name="colorRecyclerViewBG_Line">#DBDBDB</color>
     <color name="colorTextWhite_1">#fff</color>

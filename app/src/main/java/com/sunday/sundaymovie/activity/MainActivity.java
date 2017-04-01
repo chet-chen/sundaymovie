@@ -24,7 +24,6 @@ import static com.sunday.sundaymovie.R.id.drawer_layout;
 
 public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
-    private static final String TAG = "MainActivity";
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
@@ -36,7 +35,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles, this);
+        mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);

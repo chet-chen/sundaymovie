@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.PhotoActivity;
+import com.sunday.sundaymovie.util.PixelUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class ImgAllGridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT
-                    , (parent.getWidth() - dip2px(mContext, 8)) / 3));
+                    , (parent.getWidth() - PixelUtil.dip2px(mContext, 8)) / 3));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;
@@ -66,10 +67,5 @@ public class ImgAllGridViewAdapter extends BaseAdapter {
             }
         });
         return imageView;
-    }
-
-    private static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 }

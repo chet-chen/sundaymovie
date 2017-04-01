@@ -39,22 +39,8 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ComingMovie movie = mMovies.get(position);
-        Glide.with((Activity) mContext)
-                .load(movie.getImage())
-                .placeholder(R.drawable.img_load)
-                .into(holder.mImageView);
-        holder.mTVTitle.setText(movie.getTitle());
-        holder.mTVDate.setText(movie.getReleaseDate());
-        holder.mTVType.setText(movie.getType());
-        holder.mTVDirecto.setText(String.format("导演: %s", movie.getDirector()));
-        holder.mTVActor.setText(String.format("主演: %s, %s", movie.getActor1(), movie.getActor2()));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MovieDetailActivity.startMe(mContext, movie.getId());
-            }
-        });
+        ComingMovie movie = mMovies.get(position);
+        holder.bindMovie(movie);
     }
 
     @Override
@@ -66,11 +52,12 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
         mMovies = movies;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ComingMovie mMovie;
         private ImageView mImageView;
         private TextView mTVTitle, mTVDate, mTVType, mTVDirecto, mTVActor;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView.findViewById(R.id.iv_movie_img);
             mTVTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
@@ -78,6 +65,25 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
             mTVType = (TextView) itemView.findViewById(R.id.tv_movie_type);
             mTVDirecto = (TextView) itemView.findViewById(R.id.tv_movie_director);
             mTVActor = (TextView) itemView.findViewById(R.id.tv_movie_actor);
+        }
+
+        void bindMovie(ComingMovie movie) {
+            mMovie = movie;
+            Glide.with((Activity) mContext)
+                    .load(mMovie.getImage())
+                    .placeholder(R.drawable.img_load)
+                    .into(mImageView);
+            mTVTitle.setText(mMovie.getTitle());
+            mTVDate.setText(mMovie.getReleaseDate());
+            mTVType.setText(mMovie.getType());
+            mTVDirecto.setText(String.format("导演: %s", mMovie.getDirector()));
+            mTVActor.setText(String.format("主演: %s, %s", mMovie.getActor1(), movie.getActor2()));
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            MovieDetailActivity.startMe(mContext, mMovie.getId());
         }
     }
 }
