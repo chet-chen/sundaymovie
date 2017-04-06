@@ -7,11 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerVideosAdapter;
-import com.sunday.sundaymovie.api.Api;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.listener.OnScrollEndListener;
 import com.sunday.sundaymovie.model.VideoAll;
 import com.sunday.sundaymovie.net.OkManager;

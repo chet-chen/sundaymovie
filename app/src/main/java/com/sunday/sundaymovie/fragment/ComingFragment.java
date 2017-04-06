@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ComingAdapter;
-import com.sunday.sundaymovie.api.Api;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.model.ComingMovies;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ComingCallBack;

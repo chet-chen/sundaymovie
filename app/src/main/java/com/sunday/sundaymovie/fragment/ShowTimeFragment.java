@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
-import com.sunday.sundaymovie.api.Api;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.model.ShowTimeMovies;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;

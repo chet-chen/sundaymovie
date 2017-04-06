@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,8 +19,8 @@ import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerActorAdapter;
-import com.sunday.sundaymovie.api.Api;
 import com.sunday.sundaymovie.model.Movie;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.MovieCallBack;
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -27,11 +28,10 @@ import com.sunday.sundaymovie.util.StringFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailActivity extends BaseActivity implements View.OnClickListener {
-    private static final String TAG = "MovieDetailActivity";
+public class MovieDetailActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private int mMovieId = 99547;
     private Movie mMovie;
-    private Toolbar mToolbar;
+    private SwipeRefreshLayout mRefreshLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
     private RecyclerView mRecyclerView;
@@ -59,25 +59,11 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRefreshLayout.setOnRefreshListener(this);
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
-        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
-            @Override
-            public void onResponse(Movie response) {
-                mMovie = response;
-                if (mMovie == null) {
-                    finish();
-                }
-                modelToView();
-            }
-
-            @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
-                Toast.makeText(MovieDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-            }
-        });
-        setTop();
+        mRefreshLayout.setRefreshing(true);
+        onRefresh();
     }
 
     @Override
@@ -90,11 +76,13 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_movie_detail);
+        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
+        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
-        mToolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
+        setSupportActionBar(toolbar);
 
         mIVTopBgImg = (ImageView) findViewById(R.id.iv_top_bg_img);
         mIVMainImg = (ImageView) findViewById(R.id.iv_main_img);
@@ -145,14 +133,18 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private void modelToView() {
         List<Movie.BasicBean.StageImgBean.ListBean> imgs = mMovie.getBasic().getStageImg().getList();
         if (imgs.size() != 0) {
-            Glide.with(this)
-                    .load(imgs.get(0).getImgUrl())
-                    .into(mIVTopBgImg);
+            if (!this.isFinishing()) {
+                Glide.with(this)
+                        .load(imgs.get(0).getImgUrl())
+                        .into(mIVTopBgImg);
+            }
         }
-        Glide.with(this)
-                .load(mMovie.getBasic().getImg())
-                .placeholder(R.drawable.img_load)
-                .into(mIVMainImg);
+        if (!this.isFinishing()) {
+            Glide.with(this)
+                    .load(mMovie.getBasic().getImg())
+                    .placeholder(R.drawable.img_load)
+                    .into(mIVMainImg);
+        }
         mCollapsingToolbarLayout.setTitle(mMovie.getBasic().getName());
         mTVMovieName.setText(mMovie.getBasic().getName());
         mTVMovieENName.setText(mMovie.getBasic().getNameEn());
@@ -189,21 +181,25 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
             findViewById(R.id.layout_movie_video).setVisibility(View.GONE);
         } else {
             mTVMovieVideoTitle.setText(mMovie.getBasic().getVideo().getTitle());
-            Glide.with(this)
-                    .load(mMovie.getBasic().getVideo().getImg())
-                    .placeholder(R.drawable.img_load)
-                    .into(mIVMovieVideoImg);
+            if (!this.isFinishing()) {
+                Glide.with(this)
+                        .load(mMovie.getBasic().getVideo().getImg())
+                        .placeholder(R.drawable.img_load)
+                        .into(mIVMovieVideoImg);
+            }
             mIVMovieVideoImg.setOnClickListener(this);
         }
 
         List<Movie.BasicBean.StageImgBean.ListBean> listBean = mMovie.getBasic().getStageImg().getList();
         mImgsList = new ArrayList<>(4);
-        for (int i = 0; i < listBean.size() && i < 4; i++) {
-            Glide.with(this)
-                    .load(listBean.get(i).getImgUrl())
-                    .placeholder(R.drawable.img_load)
-                    .into(mIVMovieImgs[i]);
-            mImgsList.add(listBean.get(i).getImgUrl());
+        if (!this.isFinishing()) {
+            for (int i = 0; i < listBean.size() && i < 4; i++) {
+                Glide.with(this)
+                        .load(listBean.get(i).getImgUrl())
+                        .placeholder(R.drawable.img_load)
+                        .into(mIVMovieImgs[i]);
+                mImgsList.add(listBean.get(i).getImgUrl());
+            }
         }
         if (listBean.size() < 4) {
             for (int i = 3; i >= listBean.size(); i--) {
@@ -272,4 +268,28 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
         }
     }
+
+    @Override
+    public void onRefresh() {
+        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
+            @Override
+            public void onResponse(Movie response) {
+                mRefreshLayout.setRefreshing(false);
+                mMovie = response;
+                if (mMovie == null) {
+                    finish();
+                }
+                modelToView();
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mRefreshLayout.setRefreshing(false);
+                e.printStackTrace();
+                Toast.makeText(MovieDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+            }
+        });
+        setTop();
+    }
+
 }

@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerSearchAdapter;
-import com.sunday.sundaymovie.api.Api;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.model.SearchResult;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.SearchCallBack;

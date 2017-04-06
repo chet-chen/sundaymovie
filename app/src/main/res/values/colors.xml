@@ -16,7 +16,7 @@
     <color name="colorTextWhite_3">#8affffff</color>
     <color name="colorTextWhite_4">#42ffffff</color>
     <color name="colorTabText">#99ffffff</color>
-    <color name="colorTextBlack_1">#000000</color>
+    <color name="colorTextBlack_1">#000</color>
     <color name="colorTextBlack_2">#de000000</color>
     <color name="colorTextBlack_3">#8a000000</color>
     <color name="colorTextBlack_4">#42000000</color>

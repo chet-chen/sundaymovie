@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.api;
+package com.sunday.sundaymovie.net;
 
 /**
  * Created by agentchen on 2017/2/15.
