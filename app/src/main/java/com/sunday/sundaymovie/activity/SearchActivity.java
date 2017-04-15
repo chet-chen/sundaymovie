@@ -16,13 +16,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.RecyclerSearchAdapter;
-import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.model.SearchResult;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.SearchCallBack;
 
@@ -40,15 +41,17 @@ public class SearchActivity extends BaseActivity {
     private TextView mTextView, mTVSearchNull;
     private RecyclerView mRecyclerView;
     private SearchResult mSearchResult;
+    private ProgressBar mProgressBar;
+    private boolean isSearching = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final List<String> history = getSearchHistory();
-        mHistoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, history);
+        mHistoryAdapter = new ArrayAdapter<>(this, R.layout.item_search_history, history);
         mListView.setAdapter(mHistoryAdapter);
 
-        mTextView = (TextView) LayoutInflater.from(this).inflate(R.layout.clean_search_history, null, false);
+        mTextView = (TextView) LayoutInflater.from(this).inflate(R.layout.clean_search_history, mListView, false);
 
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +118,7 @@ public class SearchActivity extends BaseActivity {
         mListView = (ListView) findViewById(R.id.lv_search_history);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mProgressBar = new ProgressBar(this);
     }
 
     @Override
@@ -126,23 +130,31 @@ public class SearchActivity extends BaseActivity {
             default:
                 break;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void doMySearch(String query) {
+        if (!isSearching) {
+            mListView.addHeaderView(mProgressBar);
+        }
         OkManager.getInstance().asyncGet(Api.getSearchUrl(query), new SearchCallBack() {
             @Override
             public void onResponse(SearchResult response) {
+                mListView.removeHeaderView(mProgressBar);
                 mSearchResult = response;
                 modelToView();
                 mListView.setVisibility(View.GONE);
+                isSearching = false;
             }
 
             @Override
             public void onError(Exception e) {
+                mListView.removeHeaderView(mProgressBar);
                 Toast.makeText(SearchActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                isSearching = false;
             }
         });
+        isSearching = true;
     }
 
     private void modelToView() {

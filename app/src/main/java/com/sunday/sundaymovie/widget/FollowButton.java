@@ -91,7 +91,7 @@ public class FollowButton extends FrameLayout {
         followTv.setGravity(17);
         followTv.setSingleLine();
         followTv.setBackgroundColor(getResources().getColor(R.color.secondaryBG));
-        followTv.setTextColor(getResources().getColor(R.color.secondaryText));
+        followTv.setTextColor(getResources().getColor(R.color.colorRecyclerViewBG_Line));
         addView(this.followTv);
 
         setFollowed(false, false);

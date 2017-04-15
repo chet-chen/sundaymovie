@@ -59,8 +59,8 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_movie_img);
-            mTVTitle = (TextView) itemView.findViewById(R.id.tv_movie_title);
+            mImageView = (ImageView) itemView.findViewById(R.id.iv_hot_movie_img);
+            mTVTitle = (TextView) itemView.findViewById(R.id.tv_movie_t);
             mTVDate = (TextView) itemView.findViewById(R.id.tv_movie_date);
             mTVType = (TextView) itemView.findViewById(R.id.tv_movie_type);
             mTVDirecto = (TextView) itemView.findViewById(R.id.tv_movie_director);

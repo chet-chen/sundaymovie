@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_toEndOf="@id/item_video_img"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorTextBlack_2"
         android:textSize="18sp"
         tools:text="功夫瑜伽 终极版预告片"/>
 
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:textColor="@color/secondaryText_2"
+        android:textColor="@color/colorTextBlack_3"
         android:textSize="16sp"
         tools:text="1:30"/>
 </RelativeLayout>

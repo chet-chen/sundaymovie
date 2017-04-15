@@ -6,10 +6,9 @@
     <color name="colorAccent_2">#FCC928</color>
     <color name="colorAccent_3">#00E676</color>
     <color name="secondaryBG">#F1F1F1</color>
-    <color name="secondaryText">#D1D1D1</color>
-    <color name="secondaryText_2">#9C9C9C</color>
     <color name="searchToolBarBG">#FAFAFA</color>
-    <color name="colorStatusBar">#3c000000</color>
+    <color name="listBG">#EEEEEE</color>
+    <color name="colorStatusBar">#28000000</color>
     <color name="colorRecyclerViewBG_Line">#DBDBDB</color>
     <color name="colorTextWhite_1">#fff</color>
     <color name="colorTextWhite_2">#deffffff</color>
@@ -20,4 +19,5 @@
     <color name="colorTextBlack_2">#de000000</color>
     <color name="colorTextBlack_3">#8a000000</color>
     <color name="colorTextBlack_4">#42000000</color>
+    <color name="bg">#fff</color>
 </resources>

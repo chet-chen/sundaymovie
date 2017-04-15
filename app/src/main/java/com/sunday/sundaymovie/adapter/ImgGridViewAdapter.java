@@ -21,13 +21,15 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class ImgAllGridViewAdapter extends BaseAdapter {
+public class ImgGridViewAdapter extends BaseAdapter {
     private List<String> mList;
     private Context mContext;
+    private int mColumn;
 
-    public ImgAllGridViewAdapter(List<String> list, Context context) {
+    public ImgGridViewAdapter(List<String> list, Context context, int column) {
         mList = list;
         mContext = context;
+        mColumn = column;
     }
 
     @Override
@@ -51,7 +53,7 @@ public class ImgAllGridViewAdapter extends BaseAdapter {
         if (convertView == null) {
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT
-                    , (parent.getWidth() - PixelUtil.dip2px(mContext, 8)) / 3));
+                    , (parent.getWidth() - PixelUtil.dip2px(mContext, 8)) / mColumn));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         } else {
             imageView = (ImageView) convertView;

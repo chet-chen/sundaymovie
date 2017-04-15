@@ -11,23 +11,23 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.PersonActivity;
-import com.sunday.sundaymovie.model.Movie;
+import com.sunday.sundaymovie.model.Person;
 
 import java.util.List;
 
 /**
- * Created by agentchen on 2017/2/22.
+ * Created by agentchen on 2017/4/13.
  * Email agentchen97@gmail.com
  */
 
-public class RecyclerActorAdapter extends RecyclerView.Adapter {
+public class RecyclerPersonAdapter extends RecyclerView.Adapter {
     private static final int TYPE_ITEM = 1;
     private static final int TYPE_HEADER = 2;
     private static final int TYPE_FOOT = 3;
-    private List<Movie.BasicBean.ActorsBean> mList;
+    private List<Person.RelationPersonsBean> mList;
     private Context mContext;
 
-    public RecyclerActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
+    public RecyclerPersonAdapter(List<Person.RelationPersonsBean> list, Context context) {
         super();
         mList = list;
         mContext = context;
@@ -39,15 +39,15 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
             case TYPE_ITEM:
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.item_movie_recycler, parent, false);
-                return new RecyclerActorItemViewHolder(view);
+                return new RecyclerPersonAdapter.RecyclerActorItemViewHolder(view);
             case TYPE_HEADER:
                 View header = LayoutInflater.from(mContext)
                         .inflate(R.layout.item_movie_recycler_header, parent, false);
-                return new RecyclerActorItemEmptyVH(header);
+                return new RecyclerPersonAdapter.RecyclerActorItemEmptyVH(header);
             case TYPE_FOOT:
                 View foot = LayoutInflater.from(mContext)
                         .inflate(R.layout.item_movie_recycler_foow, parent, false);
-                return new RecyclerActorItemEmptyVH(foot);
+                return new RecyclerPersonAdapter.RecyclerActorItemEmptyVH(foot);
             default:
                 throw new RuntimeException("type is error");
         }
@@ -56,7 +56,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == TYPE_ITEM) {
-            ((RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position - 1));
+            ((RecyclerPersonAdapter.RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position - 1));
         }
     }
 
@@ -81,7 +81,7 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
     }
 
     private class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Movie.BasicBean.ActorsBean mBean;
+        private Person.RelationPersonsBean mBean;
         ImageView mImageViewActorImg;
         TextView mTextViewActorName;
         TextView mTextViewActorRoleName;
@@ -93,19 +93,19 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
             mTextViewActorRoleName = (TextView) itemView.findViewById(R.id.tv_actors_role_name);
         }
 
-        void bindActorsBean(Movie.BasicBean.ActorsBean bean) {
+        void bindActorsBean(Person.RelationPersonsBean bean) {
             mBean = bean;
-            Glide.with(mContext).load(mBean.getImg())
+            Glide.with(mContext).load(mBean.getRCover())
                     .placeholder(R.drawable.img_load)
                     .into(mImageViewActorImg);
-            mTextViewActorName.setText(mBean.getName());
-            mTextViewActorRoleName.setText(mBean.getRoleName());
+            mTextViewActorName.setText(mBean.getRNameCn());
+            mTextViewActorRoleName.setText(mBean.getRelation());
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            PersonActivity.startMe(mContext, mBean.getActorId(), mBean.getName());
+            PersonActivity.startMe(mContext, mBean.getRPersonId(), mBean.getRNameCn());
         }
     }
 

@@ -29,7 +29,7 @@
         android:layout_height="56dp"
         android:layout_centerInParent="true"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_pause_white_48dp"/>
+        android:src="@drawable/ic_pause_white_56dp"/>
 
     <LinearLayout
         android:id="@+id/media_controller_bottom"

@@ -30,35 +30,23 @@ import java.util.List;
 
 public class MovieDetailActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private int mMovieId = 99547;
+    private OkManager mOkManager;
     private Movie mMovie;
     private SwipeRefreshLayout mRefreshLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
     private RecyclerView mRecyclerView;
 
-    private ImageView mIVTopBgImg;
-    private ImageView mIVMainImg;
-    private ImageView mIVMovieVideoImg;
-    private TextView mTVMovieName;
-    private TextView mTVMovieENName;
-    private TextView mTVIs3D;
-    private TextView mTVOverallRating;
-    private TextView mTVMovieType;
-    private TextView mTVMovieDirectorName;
-    private TextView mTVMovieDateAndArea;
-    private TextView mTVMovieMins;
-    private TextView mTVMovieBoxOffice;
+    private ImageView mIVTopBgImg, mIVMainImg, mIVMovieVideoImg;
+    private TextView mTVMovieName, mTVMovieENName, mTVIs3D, mTVOverallRating, mTVMovieType, mTVMovieDirectorName, mTVMovieDateAndArea, mTVMovieMins, mTVMovieBoxOffice, mTVMovieVideoTitle, mBtnAllImage, mBtnAllVideo;
     private ExpandableTextView mTVMovieStory;
-    private TextView mTVMovieVideoTitle;
-    private TextView mBtnAllImage;
-    private TextView mBtnAllVideo;
-
     private ImageView[] mIVMovieImgs = new ImageView[4];
     private ArrayList<String> mImgsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mOkManager = OkManager.getInstance();
         mRefreshLayout.setOnRefreshListener(this);
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
@@ -154,7 +142,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         } else {
             mRatingBar.setVisibility(View.GONE);
             mTVOverallRating.setText("暂无评分");
-            mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
+            mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         }
         mTVMovieType.setText(StringFormatUtil.getMovieType(mMovie.getBasic().getType()));
         mTVMovieDirectorName.setText(String.format("导演: %s", mMovie.getBasic().getDirector().getName()));
@@ -271,7 +259,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onRefresh() {
-        OkManager.getInstance().asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
+        mOkManager.asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
                 mRefreshLayout.setRefreshing(false);

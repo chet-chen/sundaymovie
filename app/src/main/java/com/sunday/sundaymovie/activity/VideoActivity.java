@@ -78,6 +78,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
                     mSeekBar.setSecondaryProgress(percent);
                 }
             });
+
             mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
@@ -192,10 +193,10 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
             case R.id.btn_play_video:
                 if (mMediaPlayer.isPlaying()) {
                     mMediaPlayer.pause();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_48dp));
+                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_56dp));
                 } else {
                     mMediaPlayer.start();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_48dp));
+                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_56dp));
                     timerImmersion();
                 }
                 break;

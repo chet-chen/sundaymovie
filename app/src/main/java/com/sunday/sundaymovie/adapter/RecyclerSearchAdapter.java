@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.activity.PersonActivity;
 import com.sunday.sundaymovie.model.Search;
 import com.sunday.sundaymovie.model.SearchMovie;
 import com.sunday.sundaymovie.model.SearchPerson;
@@ -77,7 +78,11 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
                     SearchMovie sm = (SearchMovie) mSearch;
                     mTitle.setText(sm.getMovieTitle());
                     mT1.setText(sm.getGenreTypes());
-                    mT2.setText(String.format("%s 分", sm.getMovieRating()));
+                    if (sm.getMovieRating() == null || sm.getMovieRating().isEmpty()) {
+                        mT2.setText("暂无评分");
+                    } else {
+                        mT2.setText(String.format("%s ★", sm.getMovieRating()));
+                    }
                     itemView.setOnClickListener(this);
                     break;
                 case SearchResult.TYPE_PERSON:
@@ -85,6 +90,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
                     mTitle.setText(sp.getPersonTitle());
                     mT1.setText(sp.getPersonFilmography());
                     mT2.setText(sp.getBirth());
+                    itemView.setOnClickListener(this);
                     break;
                 default:
                     break;
@@ -95,6 +101,8 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
         public void onClick(View v) {
             if (type == SearchResult.TYPE_MOVIE) {
                 MovieDetailActivity.startMe(mContext, ((SearchMovie) mSearch).getMovieId());
+            } else if (type == SearchResult.TYPE_PERSON) {
+                PersonActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId(), ((SearchPerson) mSearch).getPersonTitle());
             }
         }
     }

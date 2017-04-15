@@ -31,4 +31,9 @@
     <string name="download">下载管理</string>
     <string name="settings">设置</string>
     <string name="net_error">网络异常，下拉刷新重试</string>
+    <string name="hot_movie">热映电影</string>
+    <string name="person_info">个人简介</string>
+    <string name="exprience">个人经历</string>
+    <string name="relation_persons">相关影人</string>
+    <string name="show_more">查看更多</string>
 </resources>

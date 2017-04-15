@@ -13,28 +13,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <FrameLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/searchToolBarBG"
-                app:navigationIcon="@drawable/ic_arrow_back_black_24dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/searchToolBarBG"
+            app:navigationIcon="@drawable/ic_arrow_back_black_24dp">
 
             <android.support.v7.widget.SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginStart="?attr/actionBarSize"
+                android:layout_height="match_parent"
                 app:iconifiedByDefault="false"
                 app:queryBackground="@null"
                 app:queryHint="@string/search_hint"
                 app:searchIcon="@null"
                 />
-        </FrameLayout>
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <TextView
@@ -52,14 +47,14 @@
         android:id="@+id/lv_search_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="8dp"
-        android:paddingStart="8dp"/>
+        android:paddingEnd="16dp"
+        android:paddingStart="16dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/secondaryText"
+        android:background="@color/listBG"
         android:scrollbars="vertical"/>
 
 </LinearLayout>

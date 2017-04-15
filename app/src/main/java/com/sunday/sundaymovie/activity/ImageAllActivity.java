@@ -8,9 +8,9 @@ import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.ImgAllGridViewAdapter;
-import com.sunday.sundaymovie.net.Api;
+import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.model.ImageAll;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 
@@ -68,7 +68,7 @@ public class ImageAllActivity extends BaseActivity {
     }
 
     private void modelToView() {
-        mGridView.setAdapter(new ImgAllGridViewAdapter(getImgUrls(), this));
+        mGridView.setAdapter(new ImgGridViewAdapter(getImgUrls(), this, 3));
     }
 
     private List<String> getImgUrls() {

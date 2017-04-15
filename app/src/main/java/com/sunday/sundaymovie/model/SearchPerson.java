@@ -46,7 +46,7 @@ public class SearchPerson extends Search {
     }
 
     public String getPersonFilmography() {
-        return personFilmography.substring(3);
+        return personFilmography == null ? null : personFilmography.substring(3);
     }
 
     public void setPersonFilmography(String personFilmography) {

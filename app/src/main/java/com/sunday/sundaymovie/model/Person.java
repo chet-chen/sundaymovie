@@ -1,5 +1,8 @@
 package com.sunday.sundaymovie.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
@@ -257,7 +260,7 @@ public class Person {
         }
     }
 
-    public static class ExpriencesBean {
+    public static class ExpriencesBean implements Parcelable {
 
         /**
          * content : 1978年，以武师身份进入电影圈的成龙，接到了吴思远的邀请，主演袁和平导演的动作片《蛇形刁手》。从这部影片开始，成龙走上了他大银幕上的功夫巨星之路。虽然本片的剧情较弱，但是剧中袁小田与成龙间的动作设计现在看来依旧是极为精彩。之后成龙再次和导演袁和平合作了《醉拳》一片，延续了其谐趣功夫的戏路。
@@ -301,6 +304,44 @@ public class Person {
 
         public void setYear(int year) {
             this.year = year;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(year);
+            dest.writeString(img);
+            dest.writeString(title);
+            dest.writeString(content);
+        }
+
+        public static final Parcelable.Creator<ExpriencesBean> CREATOR = new Parcelable.ClassLoaderCreator<ExpriencesBean>() {
+
+            @Override
+            public ExpriencesBean createFromParcel(Parcel source) {
+                return new ExpriencesBean(source);
+            }
+
+            @Override
+            public ExpriencesBean[] newArray(int size) {
+                return new ExpriencesBean[size];
+            }
+
+            @Override
+            public ExpriencesBean createFromParcel(Parcel source, ClassLoader loader) {
+                return new ExpriencesBean(source);
+            }
+        };
+
+        private ExpriencesBean(Parcel in) {
+            year = in.readInt();
+            img = in.readString();
+            title = in.readString();
+            content = in.readString();
         }
     }
 

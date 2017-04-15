@@ -60,8 +60,8 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_movie_img);
-            mTVMovieTCN = (TextView) itemView.findViewById(R.id.tv_movie_title);
+            mImageView = (ImageView) itemView.findViewById(R.id.iv_hot_movie_img);
+            mTVMovieTCN = (TextView) itemView.findViewById(R.id.tv_movie_t);
             mTVMovieTEN = (TextView) itemView.findViewById(R.id.tv_movie_t_en);
             mTVMovieRating = (TextView) itemView.findViewById(R.id.tv_rating);
             mTVMovieType = (TextView) itemView.findViewById(R.id.tv_movie_type);

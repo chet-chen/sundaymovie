@@ -40,9 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 
@@ -63,7 +61,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white"
+                android:background="@color/bg"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
@@ -93,7 +91,7 @@
                             android:id="@+id/tv_movie_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
+                            android:textColor="@color/colorTextBlack_1"
                             android:textSize="20sp"
                             tools:text="盗梦空间"/>
 
@@ -102,7 +100,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
-                            android:textColor="@color/secondaryText_2"
+                            android:textColor="@color/colorTextBlack_4"
                             tools:text="Inception"/>
 
                         <TextView
@@ -139,7 +137,7 @@
                                 android:id="@+id/tv_overall_rating"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@android:color/secondary_text_light"
+                                android:textColor="@color/colorTextBlack_2"
                                 android:textSize="14sp"
                                 tools:text="9.1"/>
                         </LinearLayout>
@@ -196,7 +194,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="4dp"
-                        android:textColor="@android:color/secondary_text_light"
+                        android:textColor="@color/colorTextBlack_2"
                         android:textSize="16sp"/>
 
                     <ImageButton
@@ -215,7 +213,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/photo"
-                    android:textColor="@color/secondaryText_2"/>
+                    android:textColor="@color/colorTextBlack_3"/>
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
@@ -273,7 +271,7 @@
                             android:ems="1"
                             android:gravity="center_vertical|end"
                             android:text="@string/all_img"
-                            android:textColor="@android:color/white"
+                            android:textColor="@color/colorTextWhite_1"
                             android:textSize="18sp"/>
                     </LinearLayout>
                 </HorizontalScrollView>
@@ -286,7 +284,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/video"
-                    android:textColor="@color/secondaryText_2"/>
+                    android:textColor="@color/colorTextBlack_3"/>
 
                 <LinearLayout
                     android:id="@+id/layout_movie_video"
@@ -338,7 +336,7 @@
                         android:ems="1"
                         android:gravity="center_vertical|end"
                         android:text="@string/all_video"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/colorTextWhite_1"
                         android:textSize="18sp"/>
                 </LinearLayout>
 
@@ -349,7 +347,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="@string/actor"
-                    android:textColor="@color/secondaryText_2"/>
+                    android:textColor="@color/colorTextBlack_3"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recycler_actor"

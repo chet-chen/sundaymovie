@@ -2,35 +2,27 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.sunday.sundaymovie.activity.ImageAllActivity">
+    android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/image_all_toolbar"
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextAppearance="@style/CollapsingText"
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
-    <!--注意：gridview要实现第一行距离顶部有距离，先设置paddingTop，设置clipToPadding为false-->
-    <GridView
-        android:id="@+id/image_all_grid_view"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_expriences"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:horizontalSpacing="4dp"
-        android:numColumns="3"
-        android:paddingEnd="4dp"
-        android:paddingStart="4dp"
-        android:paddingTop="4dp"
-        android:verticalSpacing="4dp"/>
+        android:scrollbars="vertical"
+        android:layout_height="wrap_content"
+        android:background="@color/colorRecyclerViewBG_Line"/>
 </LinearLayout>
