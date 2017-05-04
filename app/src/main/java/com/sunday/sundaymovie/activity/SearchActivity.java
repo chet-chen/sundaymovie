@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -21,22 +23,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.RecyclerSearchAdapter;
+import com.sunday.sundaymovie.adapter.SearchAdapter;
 import com.sunday.sundaymovie.model.SearchResult;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.SearchCallBack;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class SearchActivity extends BaseActivity {
-    private static final String TAG = "SearchActivity";
     int activityCloseExitAnimation;
+    private OkManager mOkManager;
     private String query;
     private SearchView mSearchView;
-    private ListView mListView;
+    private ListView mListViewHistory;
     private ArrayAdapter<String> mHistoryAdapter;
     private TextView mTextView, mTVSearchNull;
     private RecyclerView mRecyclerView;
@@ -49,23 +52,23 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         final List<String> history = getSearchHistory();
         mHistoryAdapter = new ArrayAdapter<>(this, R.layout.item_search_history, history);
-        mListView.setAdapter(mHistoryAdapter);
-
-        mTextView = (TextView) LayoutInflater.from(this).inflate(R.layout.clean_search_history, mListView, false);
+        mListViewHistory.setAdapter(mHistoryAdapter);
+        mOkManager = OkManager.getInstance();
+        mTextView = (TextView) LayoutInflater.from(this).inflate(R.layout.clean_search_history, mListViewHistory, false);
 
         mTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mHistoryAdapter.clear();
-                mListView.removeFooterView(mTextView);
+                mListViewHistory.removeFooterView(mTextView);
                 mHistoryAdapter.notifyDataSetChanged();
                 cleanSearchHistory();
             }
         });
         if (mHistoryAdapter.getCount() != 0) {
-            mListView.addFooterView(mTextView);
+            mListViewHistory.addFooterView(mTextView);
         }
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListViewHistory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position < history.size()) {
@@ -110,15 +113,16 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initView(Context context) {
+        flymeSetStatusBarLightMode(getWindow(), true);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setTitle(null);
         mSearchView = (SearchView) findViewById(R.id.search_view);
-        mListView = (ListView) findViewById(R.id.lv_search_history);
+        mListViewHistory = (ListView) findViewById(R.id.lv_search_history);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_search);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mProgressBar = new ProgressBar(this);
     }
 
     @Override
@@ -135,31 +139,33 @@ public class SearchActivity extends BaseActivity {
 
     private void doMySearch(String query) {
         if (!isSearching) {
-            mListView.addHeaderView(mProgressBar);
-        }
-        OkManager.getInstance().asyncGet(Api.getSearchUrl(query), new SearchCallBack() {
-            @Override
-            public void onResponse(SearchResult response) {
-                mListView.removeHeaderView(mProgressBar);
-                mSearchResult = response;
-                modelToView();
-                mListView.setVisibility(View.GONE);
-                isSearching = false;
-            }
+            isSearching = true;
+            mProgressBar.setVisibility(View.VISIBLE);
+            mOkManager.asyncGet(Api.getSearchUrl(query), new SearchCallBack() {
+                @Override
+                public void onResponse(SearchResult response) {
+                    mProgressBar.setVisibility(View.GONE);
+                    mSearchResult = response;
+                    if (mSearchResult != null) {
+                        modelToView();
+                    }
+                    mListViewHistory.setVisibility(View.GONE);
+                    isSearching = false;
+                }
 
-            @Override
-            public void onError(Exception e) {
-                mListView.removeHeaderView(mProgressBar);
-                Toast.makeText(SearchActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                isSearching = false;
-            }
-        });
-        isSearching = true;
+                @Override
+                public void onError(Exception e) {
+                    mProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(SearchActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    isSearching = false;
+                }
+            });
+        }
     }
 
     private void modelToView() {
         mRecyclerView.setAdapter(
-                new RecyclerSearchAdapter(this, mSearchResult.getList(), mSearchResult.getType()));
+                new SearchAdapter(this, mSearchResult.getList(), mSearchResult.getType()));
         if (mSearchResult.getList().size() == 0) {
             if (mTVSearchNull == null) {
                 mTVSearchNull = (TextView) findViewById(R.id.tv_search_null);
@@ -204,6 +210,35 @@ public class SearchActivity extends BaseActivity {
             list.add((String) o);
         }
         return list;
+    }
+
+    //针对flyme设置light状态栏
+    public boolean flymeSetStatusBarLightMode(Window window, boolean dark) {
+        boolean result = false;
+        if (window != null) {
+            try {
+                WindowManager.LayoutParams lp = window.getAttributes();
+                Field darkFlag = WindowManager.LayoutParams.class
+                        .getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
+                Field meizuFlags = WindowManager.LayoutParams.class
+                        .getDeclaredField("meizuFlags");
+                darkFlag.setAccessible(true);
+                meizuFlags.setAccessible(true);
+                int bit = darkFlag.getInt(null);
+                int value = meizuFlags.getInt(lp);
+                if (dark) {
+                    value |= bit;
+                } else {
+                    value &= ~bit;
+                }
+                meizuFlags.setInt(lp, value);
+                window.setAttributes(lp);
+                result = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
 }

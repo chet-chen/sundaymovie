@@ -10,6 +10,8 @@
 
     <style name="SearchActivityTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/AnimSearchActivity</item>
+        <item name="colorPrimary">#F5F5F5</item>
+        <item name="colorPrimaryDark">#DBDBDB</item>
     </style>
 
     <style name="AnimSearchActivity" parent="@android:style/Animation.Activity">

@@ -143,6 +143,7 @@
                 </com.ms.square.android.expandabletextview.ExpandableTextView>
 
                 <TextView
+                    android:id="@+id/tv_hint_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="16dp"
@@ -174,88 +175,82 @@
                     android:text="@string/hot_movie"
                     android:textColor="@color/colorTextBlack_3"/>
 
-                <FrameLayout
+                <RelativeLayout
                     android:id="@+id/hot_movie_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
-                    android:foreground="?attr/selectableItemBackground">
+                    android:background="@drawable/bg_white_ripple"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:paddingEnd="8dp">
 
-                    <RelativeLayout
+                    <ImageView
+                        android:id="@+id/iv_hot_movie_img"
+                        android:layout_width="70dp"
+                        android:layout_height="100dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/img_load"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_t"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:foreground="?attr/selectableItemBackground">
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_toEndOf="@id/iv_hot_movie_img"
+                        android:textColor="@color/colorTextBlack_2"
+                        android:textSize="16sp"
+                        tools:text="金刚：骷髅岛"/>
 
-                        <ImageView
-                            android:id="@+id/iv_hot_movie_img"
-                            android:layout_width="70dp"
-                            android:layout_height="100dp"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
+                    <TextView
+                        android:id="@+id/tv_movie_t_en"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/tv_movie_t"
+                        android:layout_below="@id/tv_movie_t"
+                        android:textColor="@color/colorTextBlack_4"
+                        android:textSize="12sp"
+                        tools:text="Kong: Skull Island"/>
 
-                        <TextView
-                            android:id="@+id/tv_movie_t"
+                    <TextView
+                        android:id="@+id/tv_movie_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/tv_movie_t"
+                        android:layout_below="@id/tv_movie_t_en"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/colorTextBlack_2"
+                        android:textSize="14sp"
+                        tools:text="动作 / 冒险 / 奇幻"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignStart="@id/tv_movie_t"
+                        android:layout_below="@id/tv_movie_type"
+                        android:gravity="bottom"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/rb_rating"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@id/iv_hot_movie_img"
-                            android:layout_marginStart="8dp"
-                            android:layout_toEndOf="@id/iv_hot_movie_img"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="16sp"
-                            tools:text="金刚：骷髅岛"/>
+                            android:layout_marginBottom="2dp"
+                            android:layout_marginEnd="4dp"
+                            android:isIndicator="true"
+                            android:numStars="5"/>
 
                         <TextView
-                            android:id="@+id/tv_movie_t_en"
+                            android:id="@+id/tv_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignStart="@id/tv_movie_t"
-                            android:layout_below="@id/tv_movie_t"
-                            android:textColor="@color/colorTextBlack_4"
-                            android:textSize="12sp"
-                            tools:text="Kong: Skull Island"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_type"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@id/tv_movie_t"
-                            android:layout_below="@id/tv_movie_t_en"
-                            android:layout_marginTop="4dp"
                             android:textColor="@color/colorTextBlack_2"
                             android:textSize="14sp"
-                            tools:text="动作 / 冒险 / 奇幻"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignStart="@id/tv_movie_t"
-                            android:layout_below="@id/tv_movie_type"
-                            android:gravity="bottom"
-                            android:orientation="horizontal">
-
-                            <RatingBar
-                                android:id="@+id/rb_rating"
-                                style="@style/Widget.AppCompat.RatingBar.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginBottom="2dp"
-                                android:layout_marginEnd="4dp"
-                                android:isIndicator="true"
-                                android:numStars="5"/>
-
-                            <TextView
-                                android:id="@+id/tv_rating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorTextBlack_2"
-                                android:textSize="14sp"
-                                tools:text="7.3"/>
-                        </LinearLayout>
-                    </RelativeLayout>
-                </FrameLayout>
-
+                            tools:text="7.3"/>
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/exprience_group"
@@ -276,6 +271,7 @@
 
                     <Button
                         android:id="@+id/btn_show_more"
+                        style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
@@ -299,6 +295,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:scrollbars="none"/>
             </LinearLayout>
         </ScrollView>

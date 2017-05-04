@@ -20,14 +20,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class RecyclerActorAdapter extends RecyclerView.Adapter {
-    private static final int TYPE_ITEM = 1;
-    private static final int TYPE_HEADER = 2;
-    private static final int TYPE_FOOT = 3;
+public class ActorAdapter extends RecyclerView.Adapter {
     private List<Movie.BasicBean.ActorsBean> mList;
     private Context mContext;
 
-    public RecyclerActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
+    public ActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
         super();
         mList = list;
         mContext = context;
@@ -35,49 +32,19 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case TYPE_ITEM:
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.item_movie_recycler, parent, false);
-                return new RecyclerActorItemViewHolder(view);
-            case TYPE_HEADER:
-                View header = LayoutInflater.from(mContext)
-                        .inflate(R.layout.item_movie_recycler_header, parent, false);
-                return new RecyclerActorItemEmptyVH(header);
-            case TYPE_FOOT:
-                View foot = LayoutInflater.from(mContext)
-                        .inflate(R.layout.item_movie_recycler_foow, parent, false);
-                return new RecyclerActorItemEmptyVH(foot);
-            default:
-                throw new RuntimeException("type is error");
-        }
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_actor_recycler, parent, false);
+        return new RecyclerActorItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (getItemViewType(position) == TYPE_ITEM) {
-            ((RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position - 1));
-        }
+        ((RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return getBasicItemCount() + 2;
-    }
-
-    private int getBasicItemCount() {
         return mList == null ? 0 : mList.size();
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        }
-        if (position == mList.size() + 1) {
-            return TYPE_FOOT;
-        }
-        return TYPE_ITEM;
     }
 
     private class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -106,12 +73,6 @@ public class RecyclerActorAdapter extends RecyclerView.Adapter {
         @Override
         public void onClick(View v) {
             PersonActivity.startMe(mContext, mBean.getActorId(), mBean.getName());
-        }
-    }
-
-    private class RecyclerActorItemEmptyVH extends RecyclerView.ViewHolder {
-        RecyclerActorItemEmptyVH(View itemView) {
-            super(itemView);
         }
     }
 }

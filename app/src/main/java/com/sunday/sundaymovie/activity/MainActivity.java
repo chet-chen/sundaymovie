@@ -20,8 +20,6 @@ import com.sunday.sundaymovie.adapter.MainPagerAdapter;
 import com.sunday.sundaymovie.fragment.ComingFragment;
 import com.sunday.sundaymovie.fragment.ShowTimeFragment;
 
-import static com.sunday.sundaymovie.R.id.drawer_layout;
-
 public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
@@ -53,7 +51,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         setTitle("首页");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mDrawerLayout = (DrawerLayout) findViewById(drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mViewPager = (ViewPager) findViewById(R.id.view_pager);

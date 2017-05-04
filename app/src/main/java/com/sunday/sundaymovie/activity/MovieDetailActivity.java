@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.RecyclerActorAdapter;
+import com.sunday.sundaymovie.adapter.ActorAdapter;
 import com.sunday.sundaymovie.model.Movie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
@@ -121,6 +121,11 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private void modelToView() {
         List<Movie.BasicBean.StageImgBean.ListBean> imgs = mMovie.getBasic().getStageImg().getList();
         if (imgs.size() != 0) {
+            /*Glide.with(Activity activity) 内部有这样的代码：
+             * if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && activity.isDestroyed())
+             *   throw new IllegalArgumentException("You cannot start a load for a destroyed activity");
+             * 所以在with之前destroy了Activity就会抛异常,这里加上判断来解决这个问题
+             */
             if (!this.isFinishing()) {
                 Glide.with(this)
                         .load(imgs.get(0).getImgUrl())
@@ -207,7 +212,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         ab.setName(directorBean.getName());
         ab.setRoleName("导演");
         list.add(0, ab);
-        mRecyclerView.setAdapter(new RecyclerActorAdapter(list, this));
+        mRecyclerView.setAdapter(new ActorAdapter(list, this));
     }
 
     public static void startMe(Context context, int movieId) {
@@ -235,7 +240,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                         , mMovie.getBasic().getVideo().getTitle());
                 break;
             case R.id.btn_all_img:
-                ImageAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
+                PhotoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
                 break;
             case R.id.btn_all_video:
                 VideoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());

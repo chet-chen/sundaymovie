@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
-import com.sunday.sundaymovie.adapter.RecyclerPersonAdapter;
+import com.sunday.sundaymovie.adapter.PersonAdapter;
 import com.sunday.sundaymovie.model.Person;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
@@ -126,11 +126,16 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
         } else {
             mExpandableTextView.setText(mPerson.getContent());
         }
-        List<String> imgs = new ArrayList<>();
-        for (Person.ImagesBean imagesBean : mPerson.getImages()) {
-            imgs.add(imagesBean.getImage());
+        if (mPerson.getImages().size() > 0) {
+            List<String> imgs = new ArrayList<>();
+            for (Person.ImagesBean imagesBean : mPerson.getImages()) {
+                imgs.add(imagesBean.getImage());
+            }
+            mGridView.setAdapter(new ImgGridViewAdapter(imgs, this, 2));
+        } else {
+            mGridView.setVisibility(View.GONE);
+            findViewById(R.id.tv_hint_img).setVisibility(View.GONE);
         }
-        mGridView.setAdapter(new ImgGridViewAdapter(imgs, this, 2));
         Person.HotMovieBean hotMovieBean = mPerson.getHotMovie();
         if (hotMovieBean.getMovieId() == 0) {
             mHotMovieGroup.setVisibility(View.GONE);
@@ -174,7 +179,7 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
             findViewById(R.id.tv_hint_relation).setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.GONE);
         } else {
-            mRecyclerView.setAdapter(new RecyclerPersonAdapter(mPerson.getRelationPersons(), this));
+            mRecyclerView.setAdapter(new PersonAdapter(mPerson.getRelationPersons(), this));
         }
         setTop();
     }

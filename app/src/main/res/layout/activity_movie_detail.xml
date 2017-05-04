@@ -64,7 +64,7 @@
                 android:background="@color/bg"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:paddingBottom="8dp"
+                android:paddingBottom="20dp"
                 android:paddingTop="8dp">
 
                 <LinearLayout
@@ -354,6 +354,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="4dp"
+                    android:clipToPadding="false"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp"
                     android:scrollbars="none"/>
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>

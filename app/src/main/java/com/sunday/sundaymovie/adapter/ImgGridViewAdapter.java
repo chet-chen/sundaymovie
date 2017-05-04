@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +57,7 @@ public class ImgGridViewAdapter extends BaseAdapter {
         } else {
             imageView = (ImageView) convertView;
         }
-        Glide.with((Activity) mContext)
+        Glide.with(mContext)
                 .load(mList.get(position))
                 .placeholder(R.drawable.img_load)
                 .into(imageView);

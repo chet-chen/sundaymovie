@@ -37,7 +37,7 @@ public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.Vi
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.bindExprience(mList.get(position));
+        holder.bindExpriences(mList.get(position));
     }
 
     @Override
@@ -57,7 +57,7 @@ public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.Vi
             mImageView = (ImageView) itemView.findViewById(R.id.iv_expriences_img);
         }
 
-        void bindExprience(Person.ExpriencesBean bean) {
+        void bindExpriences(Person.ExpriencesBean bean) {
             mBean = bean;
             Glide.with(mContext)
                     .load(mBean.getImg())

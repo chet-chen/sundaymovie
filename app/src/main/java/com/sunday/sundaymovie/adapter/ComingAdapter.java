@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,7 +68,7 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
 
         void bindMovie(ComingMovie movie) {
             mMovie = movie;
-            Glide.with((Activity) mContext)
+            Glide.with(mContext)
                     .load(mMovie.getImage())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);

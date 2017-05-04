@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -25,12 +24,12 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAdapter.ViewHolder> {
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context mContext;
     private List<Search> mSearches;
     private int mType;
 
-    public RecyclerSearchAdapter(Context context, List<Search> list, int type) {
+    public SearchAdapter(Context context, List<Search> list, int type) {
         super();
         mContext = context;
         mSearches = list;
@@ -39,7 +38,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.search_movie_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_search, parent, false);
         return new ViewHolder(view);
     }
 
@@ -69,7 +68,7 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
 
         void bindSearchMovie(Search movie, int type) {
             mSearch = movie;
-            Glide.with((Activity) mContext).load(mSearch.getCover())
+            Glide.with(mContext).load(mSearch.getCover())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
             this.type = type;
@@ -88,7 +87,14 @@ public class RecyclerSearchAdapter extends RecyclerView.Adapter<RecyclerSearchAd
                 case SearchResult.TYPE_PERSON:
                     SearchPerson sp = (SearchPerson) mSearch;
                     mTitle.setText(sp.getPersonTitle());
-                    mT1.setText(sp.getPersonFilmography());
+                    if (sp.getPersonFilmography() == null || sp.getPersonFilmography().isEmpty()) {
+                        mT1.setVisibility(View.GONE);
+                    } else {
+                        if (mT1.getVisibility() == View.GONE) {
+                            mT1.setVisibility(View.VISIBLE);
+                        }
+                        mT1.setText(sp.getPersonFilmography());
+                    }
                     mT2.setText(sp.getBirth());
                     itemView.setOnClickListener(this);
                     break;

@@ -17,7 +17,7 @@ import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageAllActivity extends BaseActivity {
+public class PhotoAllActivity extends BaseActivity {
     private GridView mGridView;
     private int mMovieId;
     private String mTitle;
@@ -49,7 +49,7 @@ public class ImageAllActivity extends BaseActivity {
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_image_all);
+        setContentView(R.layout.activity_photo_all);
         Toolbar toolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
         setSupportActionBar(toolbar);
         mGridView = (GridView) findViewById(R.id.image_all_grid_view);
@@ -80,7 +80,7 @@ public class ImageAllActivity extends BaseActivity {
     }
 
     public static void startMe(Context context, int movieId, String movieName) {
-        Intent intent = new Intent(context, ImageAllActivity.class);
+        Intent intent = new Intent(context, PhotoAllActivity.class);
         intent.putExtra("movieId", movieId);
         intent.putExtra("title", movieName);
         context.startActivity(intent);

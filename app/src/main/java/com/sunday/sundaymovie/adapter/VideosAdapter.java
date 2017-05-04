@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,11 +21,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAdapter.VideosViewHolder> {
+public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosViewHolder> {
     private List<VideoAll.Video> mList;
     private Context mContext;
 
-    public RecyclerVideosAdapter(List<VideoAll.Video> list, Context context) {
+    public VideosAdapter(List<VideoAll.Video> list, Context context) {
         super();
         mList = list;
         mContext = context;
@@ -34,7 +33,7 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
 
     @Override
     public VideosViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.videos_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_video, parent, false);
         return new VideosViewHolder(view);
     }
 
@@ -63,7 +62,7 @@ public class RecyclerVideosAdapter extends RecyclerView.Adapter<RecyclerVideosAd
 
         void bindVideo(VideoAll.Video video) {
             mVideo = video;
-            Glide.with((Activity) mContext).load(mVideo.getImage())
+            Glide.with(mContext).load(mVideo.getImage())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
             mTVTitle.setText(mVideo.getTitle());

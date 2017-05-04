@@ -14,7 +14,7 @@
 
     <ImageView
         android:id="@+id/item_video_img"
-        android:layout_width="160dp"
+        android:layout_width="146dp"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         tools:src="@drawable/img_load"/>

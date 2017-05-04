@@ -79,7 +79,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
                             .inflate(R.layout.net_error, mFrameLayout, false);
                     mFrameLayout.addView(mNetErrorView);
                 }
-                Snackbar.make(mRefreshLayout, "网络异常,下拉重试", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mRefreshLayout.getRootView(), "网络异常,下拉重试", Snackbar.LENGTH_SHORT).show();
                 if (mRefreshLayout.isRefreshing()) {
                     mRefreshLayout.setRefreshing(false);
                 }

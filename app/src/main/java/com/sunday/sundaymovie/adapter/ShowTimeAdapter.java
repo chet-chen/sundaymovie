@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,7 +71,7 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
 
         void bindMsBean(ShowTimeMovies.MsBean msBean) {
             mMsBean = msBean;
-            Glide.with((Activity) mContext).load(mMsBean.getImg())
+            Glide.with(mContext).load(mMsBean.getImg())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
             mTVMovieTCN.setText(mMsBean.getTCn());
@@ -81,10 +80,14 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
             mTVMovieDN.setText(String.format("导演: %s", mMsBean.getDN()));
             mTVMovieN.setText(String.format("主演: %s, %s", mMsBean.getAN1(), mMsBean.getAN2()));
             if (msBean.getR() > 0) {
-                mRatingBar.setVisibility(View.VISIBLE);
+                if (mRatingBar.getVisibility() == View.GONE) {
+                    mRatingBar.setVisibility(View.VISIBLE);
+                }
+                mTVMovieRating.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack_2));
                 mTVMovieRating.setText(String.valueOf(mMsBean.getR()));
                 mRatingBar.setRating((float) mMsBean.getR() / 2);
             } else {
+                mTVMovieRating.setTextColor(mContext.getResources().getColor(R.color.colorTextBlack_4));
                 mRatingBar.setVisibility(View.GONE);
                 mTVMovieRating.setText("暂无评分");
             }

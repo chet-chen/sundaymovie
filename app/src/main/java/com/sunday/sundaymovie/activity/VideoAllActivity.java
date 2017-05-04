@@ -9,7 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.RecyclerVideosAdapter;
+import com.sunday.sundaymovie.adapter.VideosAdapter;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.listener.OnScrollEndListener;
 import com.sunday.sundaymovie.model.VideoAll;
@@ -29,7 +29,7 @@ public class VideoAllActivity extends BaseActivity {
     private List<VideoAll.Video> mVideos;
 
     private RecyclerView mRecyclerView;
-    private RecyclerVideosAdapter mAdapter;
+    private VideosAdapter mAdapter;
     private OnScrollEndListener mOnScrollEndListener;
 
     @Override
@@ -107,7 +107,7 @@ public class VideoAllActivity extends BaseActivity {
 
     private void modelToView() {
         mVideos = mVideoAll.getVideoList();
-        mAdapter = new RecyclerVideosAdapter(mVideos, this);
+        mAdapter = new VideosAdapter(mVideos, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnScrollListener(mOnScrollEndListener);
     }
