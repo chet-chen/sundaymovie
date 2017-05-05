@@ -3,15 +3,18 @@ package com.sunday.sundaymovie.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.PersonCallBack;
 import com.sunday.sundaymovie.widget.MyGridView;
+import com.sunday.sundaymovie.widget.MyScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +39,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class PersonActivity extends BaseActivity implements View.OnClickListener {
     private int mId;
-    private String mTitle;
     private OkManager mOkManager;
+    private boolean isTitleHide = true;
     private Person mPerson;
-    private SwipeRefreshLayout mRefreshLayout;
     private GridView mGridView;
     private Button mBtnShowMore;
     private RecyclerView mRecyclerView;
@@ -49,31 +52,44 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
     private View mHotMovieGroup;
     private RatingBar mRatingBar;
     private TextView mTVNameCn, mTVNameEn, mTVAddress, mTVBirth, mTVProfession, mTVHotMovieNameCn, mTVHotMovieNameEn, mTVHotMovieType, mTVHotMovieRating, mTVExpriencesTitle, mTVExpriencesContent;
+    private Toolbar mToolbar;
+    private View mTitleView;
+    private MyScrollView mScrollView;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(mTitle);
         mOkManager = OkManager.getInstance();
-        mRefreshLayout.setOnRefreshListener(this);
-
-        mRefreshLayout.setRefreshing(true);
-        onRefresh();
+        mTitleView = getToolbarTitle();
+        mTitleView.setVisibility(View.INVISIBLE);
+        mScrollView.setOnScrollChangedListener(new MyScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                if (t - oldt > 0) {
+                    if (t > 100 && isTitleHide) {
+                        showTitle();
+                    }
+                } else {
+                    if (t < 100 && mTitleView.getVisibility() == View.VISIBLE) {
+                        hideTitle();
+                    }
+                }
+            }
+        });
+        getData();
     }
 
     @Override
     protected void initParams(Bundle bundle) {
         mId = bundle.getInt("id");
-        mTitle = bundle.getString("title");
     }
 
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_person);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(toolbar);
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolbar);
         mGridView = (MyGridView) findViewById(R.id.grid_view_img);
         mBtnShowMore = (Button) findViewById(R.id.btn_show_more);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_relation_persons);
@@ -97,6 +113,8 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
         mTVExpriencesContent = (TextView) findViewById(R.id.tv_expriences_content);
         mRatingBar = (RatingBar) findViewById(R.id.rb_rating);
         mHotMovieGroup = findViewById(R.id.hot_movie_group);
+        mScrollView = (MyScrollView) findViewById(R.id.scroll_view);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     @Override
@@ -112,6 +130,7 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
     }
 
     private void modelToView() {
+        setTitle(mPerson.getNameCn());
         if (!this.isFinishing()) {
             Glide.with(this).load(mPerson.getImage()).placeholder(R.drawable.img_load).into(mIVMainImg);
         }
@@ -181,15 +200,29 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
         } else {
             mRecyclerView.setAdapter(new PersonAdapter(mPerson.getRelationPersons(), this));
         }
-        setTop();
     }
 
-    @Override
-    public void onRefresh() {
+    public void getData() {
         mOkManager.asyncGet(Api.getPersonUrl(mId), new PersonCallBack() {
             @Override
             public void onResponse(Person response) {
-                mRefreshLayout.setRefreshing(false);
+                AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+                animation.setDuration(300L);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        ((FrameLayout) findViewById(R.id.frame_layout_root)).removeView(mProgressBar);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                mProgressBar.startAnimation(animation);
                 mPerson = response;
                 if (mPerson == null) {
                     finish();
@@ -199,17 +232,17 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
 
             @Override
             public void onError(Exception e) {
-                mRefreshLayout.setRefreshing(false);
                 e.printStackTrace();
                 Toast.makeText(PersonActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
+        setTop();
     }
 
-    public static void startMe(Context context, int id, String title) {
+    public static void startMe(Context context, int id) {
         Intent intent = new Intent(context, PersonActivity.class);
         intent.putExtra("id", id);
-        intent.putExtra("title", title);
         context.startActivity(intent);
     }
 
@@ -235,5 +268,58 @@ public class PersonActivity extends BaseActivity implements SwipeRefreshLayout.O
         mTVNameCn.setFocusable(true);
         mTVNameCn.setFocusableInTouchMode(true);
         mTVNameCn.requestFocus();
+    }
+
+    private View getToolbarTitle() {
+        int count = mToolbar.getChildCount();
+        for (int i = 0; i < count; i++) {
+            View child = mToolbar.getChildAt(i);
+            if (child instanceof TextView) {
+                return child;
+            }
+        }
+        return new View(this);
+    }
+
+    private void showTitle() {
+        isTitleHide = false;
+        AlphaAnimation animation = new AlphaAnimation(0f, 1f);
+        animation.setDuration(500L);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                mTitleView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        mTitleView.startAnimation(animation);
+    }
+
+    private void hideTitle() {
+        isTitleHide = true;
+        AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+        animation.setDuration(500L);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mTitleView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        mTitleView.startAnimation(animation);
     }
 }

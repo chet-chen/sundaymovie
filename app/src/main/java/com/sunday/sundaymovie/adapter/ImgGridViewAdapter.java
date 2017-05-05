@@ -48,7 +48,7 @@ public class ImgGridViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ImageView imageView;
+        final ImageView imageView;
         if (convertView == null) {
             imageView = new ImageView(mContext);
             imageView.setLayoutParams(new GridView.LayoutParams(GridView.LayoutParams.MATCH_PARENT
@@ -65,6 +65,7 @@ public class ImgGridViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 PhotoActivity.startMe(mContext, (ArrayList<String>) mList, position);
+
             }
         });
         return imageView;

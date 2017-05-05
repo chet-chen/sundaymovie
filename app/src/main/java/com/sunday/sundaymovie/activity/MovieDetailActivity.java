@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +30,10 @@ import com.sunday.sundaymovie.util.StringFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieDetailActivity extends BaseActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
+public class MovieDetailActivity extends BaseActivity implements View.OnClickListener {
     private int mMovieId = 99547;
     private OkManager mOkManager;
     private Movie mMovie;
-    private SwipeRefreshLayout mRefreshLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
     private RecyclerView mRecyclerView;
@@ -42,16 +43,15 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private ExpandableTextView mTVMovieStory;
     private ImageView[] mIVMovieImgs = new ImageView[4];
     private ArrayList<String> mImgsList;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOkManager = OkManager.getInstance();
-        mRefreshLayout.setOnRefreshListener(this);
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
-        mRefreshLayout.setRefreshing(true);
-        onRefresh();
+        getData();
     }
 
     @Override
@@ -64,8 +64,6 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_movie_detail);
-        mRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout);
-        mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
@@ -104,6 +102,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     @Override
@@ -262,12 +261,27 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onRefresh() {
+    public void getData() {
         mOkManager.asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
-                mRefreshLayout.setRefreshing(false);
+                AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+                animation.setDuration(300L);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        mProgressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                mProgressBar.startAnimation(animation);
                 mMovie = response;
                 if (mMovie == null) {
                     finish();
@@ -277,9 +291,9 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onError(Exception e) {
-                mRefreshLayout.setRefreshing(false);
                 e.printStackTrace();
                 Toast.makeText(MovieDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
         setTop();

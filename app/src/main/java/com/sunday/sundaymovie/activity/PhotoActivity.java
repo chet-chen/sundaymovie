@@ -22,7 +22,8 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewPager.setAdapter(new PhotoViewPagerAdapter(this, mImgURLs));
+        PhotoViewPagerAdapter pagerAdapter = new PhotoViewPagerAdapter(this, mImgURLs);
+        mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(startPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -31,14 +32,14 @@ public class PhotoActivity extends BaseActivity {
 
             @Override
             public void onPageSelected(int position) {
-                upDatePositionHint(position);
+                setPositionHint(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-        upDatePositionHint(startPosition);
+        setPositionHint(startPosition);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class PhotoActivity extends BaseActivity {
         mTextView = (TextView) findViewById(R.id.tv_photo_position_hint);
     }
 
-    private void upDatePositionHint(int position) {
+    private void setPositionHint(int position) {
         mTextView.setText(position + 1 + " / " + mImgURLs.size());
     }
 

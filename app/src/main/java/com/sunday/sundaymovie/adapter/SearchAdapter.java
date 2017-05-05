@@ -108,7 +108,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
             if (type == SearchResult.TYPE_MOVIE) {
                 MovieDetailActivity.startMe(mContext, ((SearchMovie) mSearch).getMovieId());
             } else if (type == SearchResult.TYPE_PERSON) {
-                PersonActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId(), ((SearchPerson) mSearch).getPersonTitle());
+                PersonActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId());
             }
         }
     }

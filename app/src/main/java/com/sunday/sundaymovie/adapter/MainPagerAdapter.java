@@ -3,6 +3,7 @@ package com.sunday.sundaymovie.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import com.sunday.sundaymovie.fragment.ComingFragment;
 import com.sunday.sundaymovie.fragment.ShowTimeFragment;

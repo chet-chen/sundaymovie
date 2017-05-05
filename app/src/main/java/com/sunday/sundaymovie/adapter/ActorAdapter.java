@@ -72,7 +72,7 @@ public class ActorAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            PersonActivity.startMe(mContext, mBean.getActorId(), mBean.getName());
+            PersonActivity.startMe(mContext, mBean.getActorId());
         }
     }
 }

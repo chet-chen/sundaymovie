@@ -46,319 +46,319 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/refresh_layout"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bg"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="20dp"
-                android:paddingTop="8dp">
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_main_img"
+                    android:layout_width="130dp"
+                    android:layout_height="186dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/img_load"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_movie_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextBlack_1"
+                        android:textSize="20sp"
+                        tools:text="盗梦空间"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_en_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:textColor="@color/colorTextBlack_4"
+                        tools:text="Inception"/>
+
+                    <TextView
+                        android:id="@+id/tv_is_3D"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:background="@drawable/text_bg_3d_false"
+                        android:gravity="center"
+                        android:paddingEnd="5dp"
+                        android:paddingStart="5dp"
+                        android:text="@string/_3d"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/rb_overall_rating"
+                            style="@style/Widget.AppCompat.RatingBar.Small"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="6dp"
+                            android:isIndicator="true"
+                            android:numStars="5"
+                            tools:rating="4.55"/>
+
+                        <TextView
+                            android:id="@+id/tv_overall_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/colorTextBlack_2"
+                            android:textSize="14sp"
+                            tools:text="9.1"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_movie_type"
+                        style="@style/BaseInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="动作/冒险/科幻/惊悚"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_director_name"
+                        style="@style/BaseInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="导演: 克里斯托弗·诺兰"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_release_date_and_area"
+                        style="@style/BaseInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="上映日期: 2010-9-1(中国)"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_mins"
+                        style="@style/BaseInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="时长: 148分钟"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_box_office"
+                        style="@style/BaseInfoTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="累计票房: 4.43亿元"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/tv_movie_story"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:animAlphaStart="1"
+                app:maxCollapsedLines="4">
+
+                <TextView
+                    android:id="@id/expandable_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/colorTextBlack_2"
+                    android:textSize="16sp"/>
+
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:background="@android:color/transparent"
+                    android:paddingTop="8dp"/>
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/photo"
+                android:textColor="@color/colorTextBlack_3"/>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginTop="4dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/movie_detail_img_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingEnd="16dp"
+                    android:paddingStart="16dp">
 
                     <ImageView
-                        android:id="@+id/iv_main_img"
-                        android:layout_width="130dp"
-                        android:layout_height="186dp"
+                        android:id="@+id/iv_movie_img_1"
+                        android:layout_width="154dp"
+                        android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         tools:src="@drawable/img_load"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_movie_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextBlack_1"
-                            android:textSize="20sp"
-                            tools:text="盗梦空间"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_en_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:textColor="@color/colorTextBlack_4"
-                            tools:text="Inception"/>
-
-                        <TextView
-                            android:id="@+id/tv_is_3D"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="4dp"
-                            android:background="@drawable/text_bg_3d_false"
-                            android:gravity="center"
-                            android:paddingEnd="5dp"
-                            android:paddingStart="5dp"
-                            android:text="@string/_3d"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp"
-                            android:textStyle="bold"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <RatingBar
-                                android:id="@+id/rb_overall_rating"
-                                style="@style/Widget.AppCompat.RatingBar.Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="6dp"
-                                android:isIndicator="true"
-                                android:numStars="5"
-                                tools:rating="4.55"/>
-
-                            <TextView
-                                android:id="@+id/tv_overall_rating"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/colorTextBlack_2"
-                                android:textSize="14sp"
-                                tools:text="9.1"/>
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/tv_movie_type"
-                            style="@style/BaseInfoTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="动作/冒险/科幻/惊悚"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_director_name"
-                            style="@style/BaseInfoTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="导演: 克里斯托弗·诺兰"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_release_date_and_area"
-                            style="@style/BaseInfoTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="上映日期: 2010-9-1(中国)"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_mins"
-                            style="@style/BaseInfoTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="时长: 148分钟"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_box_office"
-                            style="@style/BaseInfoTextView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            tools:text="累计票房: 4.43亿元"/>
-                    </LinearLayout>
-                </LinearLayout>
-
-                <com.ms.square.android.expandabletextview.ExpandableTextView
-                    android:id="@+id/tv_movie_story"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    app:animAlphaStart="1"
-                    app:maxCollapsedLines="4">
-
-                    <TextView
-                        android:id="@id/expandable_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="4dp"
-                        android:textColor="@color/colorTextBlack_2"
-                        android:textSize="16sp"/>
-
-                    <ImageButton
-                        android:id="@id/expand_collapse"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:background="@android:color/transparent"
-                        android:paddingTop="8dp"/>
-                </com.ms.square.android.expandabletextview.ExpandableTextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/photo"
-                    android:textColor="@color/colorTextBlack_3"/>
-
-                <HorizontalScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:layout_marginTop="4dp"
-                    android:scrollbars="none">
-
-                    <LinearLayout
-                        android:id="@+id/movie_detail_img_parent"
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/iv_movie_img_2"
+                        android:layout_width="154dp"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:paddingEnd="16dp"
-                        android:paddingStart="16dp">
+                        android:layout_marginStart="4dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/img_load"/>
 
-                        <ImageView
-                            android:id="@+id/iv_movie_img_1"
-                            android:layout_width="154dp"
-                            android:layout_height="match_parent"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
+                    <ImageView
+                        android:id="@+id/iv_movie_img_3"
+                        android:layout_width="154dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/img_load"/>
 
-                        <ImageView
-                            android:id="@+id/iv_movie_img_2"
-                            android:layout_width="154dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4dp"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
-
-                        <ImageView
-                            android:id="@+id/iv_movie_img_3"
-                            android:layout_width="154dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4dp"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
-
-                        <ImageView
-                            android:id="@+id/iv_movie_img_4"
-                            android:layout_width="154dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4dp"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
-
-                        <TextView
-                            android:id="@+id/btn_all_img"
-                            android:layout_width="56dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/bg_ripple"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
-                            android:ems="1"
-                            android:gravity="center_vertical|end"
-                            android:text="@string/all_img"
-                            android:textColor="@color/colorTextWhite_1"
-                            android:textSize="18sp"/>
-                    </LinearLayout>
-                </HorizontalScrollView>
-
-                <TextView
-                    android:id="@+id/final_video_str"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/video"
-                    android:textColor="@color/colorTextBlack_3"/>
-
-                <LinearLayout
-                    android:id="@+id/layout_movie_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
-
-                    <FrameLayout
-                        android:id="@+id/fl_movie_video"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:id="@+id/iv_movie_video_img"
-                            android:layout_width="224dp"
-                            android:layout_height="126dp"
-                            android:scaleType="centerCrop"
-                            tools:src="@drawable/img_load"/>
-
-                        <ImageView
-                            android:layout_width="36dp"
-                            android:layout_height="36dp"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_play_arrow_white_24dp"/>
-
-                        <TextView
-                            android:id="@+id/tv_movie_video_title"
-                            android:layout_width="152dp"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|start"
-                            android:layout_margin="4dp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:textColor="@android:color/white"
-                            android:textSize="14sp"
-                            tools:text="@string/demo_video_name"/>
-                    </FrameLayout>
+                    <ImageView
+                        android:id="@+id/iv_movie_img_4"
+                        android:layout_width="154dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="4dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/img_load"/>
 
                     <TextView
-                        android:id="@+id/btn_all_video"
+                        android:id="@+id/btn_all_img"
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
                         android:background="@drawable/bg_ripple"
+                        android:clickable="true"
                         android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
                         android:ems="1"
                         android:gravity="center_vertical|end"
-                        android:text="@string/all_video"
+                        android:text="@string/all_img"
                         android:textColor="@color/colorTextWhite_1"
                         android:textSize="18sp"/>
                 </LinearLayout>
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/final_video_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/video"
+                android:textColor="@color/colorTextBlack_3"/>
+
+            <LinearLayout
+                android:id="@+id/layout_movie_video"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/fl_movie_video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/iv_movie_video_img"
+                        android:layout_width="224dp"
+                        android:layout_height="126dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@drawable/img_load"/>
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_play_arrow_white_24dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_movie_video_title"
+                        android:layout_width="152dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|start"
+                        android:layout_margin="4dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        tools:text="@string/demo_video_name"/>
+                </FrameLayout>
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:text="@string/actor"
-                    android:textColor="@color/colorTextBlack_3"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_actor"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="4dp"
-                    android:clipToPadding="false"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:scrollbars="none"/>
+                    android:id="@+id/btn_all_video"
+                    android:layout_width="56dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:background="@drawable/bg_ripple"
+                    android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
+                    android:ems="1"
+                    android:gravity="center_vertical|end"
+                    android:text="@string/all_video"
+                    android:textColor="@color/colorTextWhite_1"
+                    android:textSize="18sp"/>
             </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/actor"
+                android:textColor="@color/colorTextBlack_3"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_actor"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="4dp"
+                android:clipToPadding="false"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:scrollbars="none"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="150dp"/>
 </android.support.design.widget.CoordinatorLayout>

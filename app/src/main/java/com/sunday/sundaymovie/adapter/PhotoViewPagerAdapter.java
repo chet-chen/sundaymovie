@@ -33,14 +33,14 @@ public class PhotoViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.photo_view_pager_item, container, false);
-        final ImageView imageView = (ImageView) view.findViewById(R.id.iv_view_pager_item);
+        final ImageView view = (ImageView) LayoutInflater
+                .from(mContext).inflate(R.layout.photo_view_pager_item, container, false);
         Glide.with(mContext).load(mList.get(position)).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource
                     , GlideAnimation<? super GlideDrawable> glideAnimation) {
-                imageView.setImageDrawable(resource);
-                new PhotoViewAttacher(imageView);
+                view.setImageDrawable(resource);
+                new PhotoViewAttacher(view);
             }
         });
         container.addView(view);

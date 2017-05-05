@@ -72,7 +72,7 @@ public class PersonAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            PersonActivity.startMe(mContext, mBean.getRPersonId(), mBean.getRNameCn());
+            PersonActivity.startMe(mContext, mBean.getRPersonId());
         }
     }
 }
