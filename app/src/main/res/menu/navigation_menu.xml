@@ -10,10 +10,6 @@
         android:icon="@drawable/ic_stars_black_24dp"
         android:title="@string/star"/>
     <item
-        android:id="@+id/menu_download"
-        android:icon="@drawable/ic_file_download_black_24dp"
-        android:title="@string/download"/>
-    <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/settings"/>

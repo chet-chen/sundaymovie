@@ -2,12 +2,14 @@ package com.sunday.sundaymovie.activity;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.view.SurfaceHolder;
@@ -17,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -26,8 +29,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class VideoActivity extends BaseActivity implements MediaPlayer.OnCompletionListener, View.OnClickListener {
-    private String url;
-    private String title;
+    private String mUrl;
+    private String mTitle;
 
     private int duration;
     private boolean isImmersion = true;
@@ -39,16 +42,16 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     private MediaPlayer mMediaPlayer;
 
     private SurfaceView mSurfaceView;
-    private TextView mCurrentTimeTextView, mTotalTimeTextView, mMovieVideoTitle;
+    private TextView mCurrentTimeTextView, mTotalTimeTextView, mTVTitle;
     private ProgressBar mProgressBar;
     private SeekBar mSeekBar;
-    private ImageButton mImageButton;
+    private ImageButton mButtonPlay, mButtonDownload, mButtonBack;
     private View mMediaControllerBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mMovieVideoTitle.setText(title);
+        mTVTitle.setText(mTitle);
         mMediaPlayer = new MediaPlayer();
         mSurfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
@@ -70,7 +73,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         try {
             mMediaPlayer.setWakeMode(getApplicationContext(), PowerManager.FULL_WAKE_LOCK);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mMediaPlayer.setDataSource(getApplicationContext(), Uri.parse(url));
+            mMediaPlayer.setDataSource(getApplicationContext(), Uri.parse(mUrl));
             mMediaPlayer.setOnCompletionListener(VideoActivity.this);
             mMediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                 @Override
@@ -88,7 +91,8 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
                     mp.start();
                     timerImmersion();
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    alphaUnShowAnim(mMovieVideoTitle);
+                    alphaUnShowAnim(mTVTitle);
+                    alphaUnShowAnim(mButtonBack);
                     mSurfaceView.setOnClickListener(VideoActivity.this);
                     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
@@ -113,14 +117,16 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         } catch (IOException e) {
             e.printStackTrace();
         }
-        mImageButton.setOnClickListener(this);
+        mButtonPlay.setOnClickListener(this);
+        mButtonDownload.setOnClickListener(this);
+        mButtonBack.setOnClickListener(this);
     }
 
     @Override
     protected void initParams(Bundle bundle) {
         if (bundle != null) {
-            url = bundle.getString("url");
-            title = bundle.getString("title");
+            mUrl = bundle.getString("mUrl");
+            mTitle = bundle.getString("mTitle");
         }
         isFullScreen = true;
         isAllowScreenRotate = true;
@@ -131,21 +137,23 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         setContentView(R.layout.activity_video);
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_view_video);
         mSeekBar = (SeekBar) findViewById(R.id.media_controller_seek_bar);
-        mImageButton = (ImageButton) findViewById(R.id.btn_play_video);
+        mButtonPlay = (ImageButton) findViewById(R.id.btn_play_video);
+        mButtonDownload = (ImageButton) findViewById(R.id.btn_download_video);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_video_load);
         mCurrentTimeTextView = (TextView) findViewById(R.id.current);
         mTotalTimeTextView = (TextView) findViewById(R.id.total);
         mMediaControllerBottom = findViewById(R.id.media_controller_bottom);
-        mMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
+        mTVTitle = (TextView) findViewById(R.id.tv_movie_video_title);
+        mButtonBack = (ImageButton) findViewById(R.id.btn_back);
 
-        mImageButton.setVisibility(View.INVISIBLE);
+        mButtonPlay.setVisibility(View.INVISIBLE);
         mMediaControllerBottom.setVisibility(View.INVISIBLE);
     }
 
     public static void startMe(Context context, String url, String title) {
         Intent intent = new Intent(context, VideoActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
+        intent.putExtra("mUrl", url);
+        intent.putExtra("mTitle", title);
         context.startActivity(intent);
     }
 
@@ -162,14 +170,14 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     @Override
     protected void onRestart() {
         super.onRestart();
-        mImageButton.callOnClick();
+        mButtonPlay.callOnClick();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         if (mMediaPlayer.isPlaying()) {
-            mImageButton.callOnClick();
+            mButtonPlay.callOnClick();
         }
     }
 
@@ -187,18 +195,31 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_back:
+                onBackPressed();
+                break;
             case R.id.surface_view_video:
                 immersionSwitch();
                 break;
             case R.id.btn_play_video:
                 if (mMediaPlayer.isPlaying()) {
                     mMediaPlayer.pause();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_56dp));
+                    mButtonPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_56dp));
                 } else {
                     mMediaPlayer.start();
-                    mImageButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_56dp));
+                    mButtonPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_56dp));
                     timerImmersion();
                 }
+                break;
+            case R.id.btn_download_video:
+                DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                Uri uri = Uri.parse(mUrl);
+                DownloadManager.Request request = new DownloadManager.Request(uri)
+                        .setTitle(mTitle)
+                        .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
+                        .setDestinationInExternalPublicDir(Environment.DIRECTORY_MOVIES, mTitle + ".mp4");
+                downloadManager.enqueue(request);
+                Toast.makeText(this, "开始下载", Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
@@ -244,13 +265,15 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
 
     private void immersionSwitch() {
         if (!isImmersion) {
-            alphaUnShowAnim(mMovieVideoTitle);
-            alphaUnShowAnim(mImageButton);
+            alphaUnShowAnim(mButtonBack);
+            alphaUnShowAnim(mTVTitle);
+            alphaUnShowAnim(mButtonPlay);
             alphaUnShowAnim(mMediaControllerBottom);
             isImmersion = true;
         } else {
-            alphaShowAnim(mMovieVideoTitle);
-            alphaShowAnim(mImageButton);
+            alphaShowAnim(mButtonBack);
+            alphaShowAnim(mTVTitle);
+            alphaShowAnim(mButtonPlay);
             alphaShowAnim(mMediaControllerBottom);
             isImmersion = false;
             timerImmersion();

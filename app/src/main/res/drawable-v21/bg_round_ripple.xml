@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-        android:color="@color/colorTextBlack_4">
-    <item android:drawable="@color/colorRecyclerViewBG_Line"/>
+        android:color="@color/colorTextWhite_3">
 </ripple>

@@ -76,7 +76,7 @@
                     tools:src="@drawable/img_load"/>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:orientation="vertical">
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextBlack_1"
-                        android:textSize="20sp"
+                        android:textSize="18sp"
                         tools:text="盗梦空间"/>
 
                     <TextView
@@ -188,7 +188,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lineSpacingExtra="4dp"
-                    android:textColor="@color/colorTextBlack_2"
+                    android:textColor="@color/colorTextBlack_2.5"
                     android:textSize="16sp"/>
 
                 <ImageButton
@@ -201,13 +201,9 @@
             </com.ms.square.android.expandabletextview.ExpandableTextView>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/photo"
-                android:textColor="@color/colorTextBlack_3"/>
+                android:id="@+id/tv_hint_img"
+                style="@style/TextViewHintStyle"
+                android:text="@string/photo"/>
 
             <HorizontalScrollView
                 android:layout_width="match_parent"
@@ -255,11 +251,11 @@
                         tools:src="@drawable/img_load"/>
 
                     <TextView
-                        android:id="@+id/btn_all_img"
+                        android:id="@+id/tv_btn_all_img"
                         android:layout_width="56dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_ripple"
+                        android:background="@drawable/bg_black_ripple"
                         android:clickable="true"
                         android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
                         android:ems="1"
@@ -271,14 +267,9 @@
             </HorizontalScrollView>
 
             <TextView
-                android:id="@+id/final_video_str"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/video"
-                android:textColor="@color/colorTextBlack_3"/>
+                android:id="@+id/tv_hint_video"
+                style="@style/TextViewHintStyle"
+                android:text="@string/video"/>
 
             <LinearLayout
                 android:id="@+id/layout_movie_video"
@@ -305,6 +296,7 @@
                         android:layout_width="36dp"
                         android:layout_height="36dp"
                         android:layout_gravity="center"
+                        android:scaleType="centerCrop"
                         android:src="@drawable/ic_play_arrow_white_24dp"/>
 
                     <TextView
@@ -325,7 +317,7 @@
                     android:layout_width="56dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
-                    android:background="@drawable/bg_ripple"
+                    android:background="@drawable/bg_black_ripple"
                     android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
                     android:ems="1"
                     android:gravity="center_vertical|end"
@@ -335,13 +327,8 @@
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/actor"
-                android:textColor="@color/colorTextBlack_3"/>
+                style="@style/TextViewHintStyle"
+                android:text="@string/actor"/>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler_actor"

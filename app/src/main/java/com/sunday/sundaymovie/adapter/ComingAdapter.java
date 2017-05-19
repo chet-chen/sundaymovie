@@ -1,6 +1,7 @@
 package com.sunday.sundaymovie.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,11 +73,16 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
                     .load(mMovie.getImage())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
+            mTVTitle.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             mTVTitle.setText(mMovie.getTitle());
             mTVDate.setText(mMovie.getReleaseDate());
             mTVType.setText(mMovie.getType());
-            mTVDirecto.setText(String.format("导演: %s", mMovie.getDirector()));
-            mTVActor.setText(String.format("主演: %s, %s", mMovie.getActor1(), movie.getActor2()));
+            if (!mMovie.getDirector().isEmpty()) {
+                mTVDirecto.setText(String.format("导演: %s", mMovie.getDirector()));
+            }
+            if (!mMovie.getActor1().isEmpty()) {
+                mTVActor.setText(String.format("主演: %s, %s", mMovie.getActor1(), movie.getActor2()));
+            }
             itemView.setOnClickListener(this);
         }
 

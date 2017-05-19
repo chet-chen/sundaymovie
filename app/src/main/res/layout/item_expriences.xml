@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:textColor="@color/colorTextBlack_1"
+        android:textColor="@color/colorTextBlack_2"
         android:textSize="18sp"
         tools:text="1978年  一举成名《蛇形刁手》"/>
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:lineSpacingExtra="4dp"
-        android:textColor="@color/colorTextBlack_2"
+        android:textColor="@color/colorTextBlack_2.5"
         android:textSize="16sp"
         tools:text="1978年，以武师身份进入电影圈的成龙，接到了吴思远的邀请，主演袁和平导演的动作片《蛇形刁手》。从这部影片开始，成龙走上了他大银幕上的功夫巨星之路。虽然本片的剧情较弱，但是剧中袁小田与成龙间的动作设计现在看来依旧是极为精彩。之后成龙再次和导演袁和平合作了《醉拳》一片，延续了其谐趣功夫的戏路。"/>
 

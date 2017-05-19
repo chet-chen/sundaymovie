@@ -86,18 +86,13 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mTVMovieStory = (ExpandableTextView) findViewById(R.id.tv_movie_story);
         mTVMovieDateAndArea = (TextView) findViewById(R.id.tv_movie_release_date_and_area);
         mTVMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
-        mBtnAllImage = (TextView) findViewById(R.id.btn_all_img);
+        mBtnAllImage = (TextView) findViewById(R.id.tv_btn_all_img);
         mBtnAllVideo = (TextView) findViewById(R.id.btn_all_video);
-
         mRatingBar = (RatingBar) findViewById(R.id.rb_overall_rating);
-//        ((LayerDrawable) mRatingBar.getProgressDrawable()).getDrawable(2)
-//                .setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
-
         mIVMovieImgs = new ImageView[]{(ImageView) findViewById(R.id.iv_movie_img_1)
                 , (ImageView) findViewById(R.id.iv_movie_img_2)
                 , (ImageView) findViewById(R.id.iv_movie_img_3)
                 , (ImageView) findViewById(R.id.iv_movie_img_4)};
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_actor);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -125,17 +120,21 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
              *   throw new IllegalArgumentException("You cannot start a load for a destroyed activity");
              * 所以在with之前destroy了Activity就会抛异常,这里加上判断来解决这个问题
              */
-            if (!this.isFinishing()) {
+            try {
                 Glide.with(this)
                         .load(imgs.get(0).getImgUrl())
                         .into(mIVTopBgImg);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
         }
-        if (!this.isFinishing()) {
+        try {
             Glide.with(this)
                     .load(mMovie.getBasic().getImg())
                     .placeholder(R.drawable.img_load)
                     .into(mIVMainImg);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
         mCollapsingToolbarLayout.setTitle(mMovie.getBasic().getName());
         mTVMovieName.setText(mMovie.getBasic().getName());
@@ -152,8 +151,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mTVMovieDirectorName.setText(String.format("导演: %s", mMovie.getBasic().getDirector().getName()));
         mTVMovieDateAndArea.setText(StringFormatUtil.getMovieReleaseText(
                 mMovie.getBasic().getReleaseDate(), mMovie.getBasic().getReleaseArea()));
-        String movieMin;
-        movieMin = mMovie.getBasic().getMins();
+        String movieMin = mMovie.getBasic().getMins();
         if (movieMin.isEmpty()) {
             mTVMovieMins.setVisibility(View.GONE);
         } else {
@@ -164,34 +162,36 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
         if (mMovie.getBasic().isIs3D()) {
             mTVIs3D.setBackground(getResources().getDrawable(R.drawable.text_bg_3d_true));
-        } else {
-            mTVIs3D.setBackground(getResources().getDrawable(R.drawable.text_bg_3d_false));
         }
 //        如果此电影没有视频，则去除视频相关view
         if (mMovie.getBasic().getVideo().getCount() == 0) {
-            findViewById(R.id.final_video_str).setVisibility(View.GONE);
+            findViewById(R.id.tv_hint_video).setVisibility(View.GONE);
             findViewById(R.id.layout_movie_video).setVisibility(View.GONE);
         } else {
             mTVMovieVideoTitle.setText(mMovie.getBasic().getVideo().getTitle());
-            if (!this.isFinishing()) {
+            try {
                 Glide.with(this)
                         .load(mMovie.getBasic().getVideo().getImg())
                         .placeholder(R.drawable.img_load)
                         .into(mIVMovieVideoImg);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
             mIVMovieVideoImg.setOnClickListener(this);
         }
 
         List<Movie.BasicBean.StageImgBean.ListBean> listBean = mMovie.getBasic().getStageImg().getList();
         mImgsList = new ArrayList<>(4);
-        if (!this.isFinishing()) {
-            for (int i = 0; i < listBean.size() && i < 4; i++) {
+        for (int i = 0; i < listBean.size() && i < 4; i++) {
+            try {
                 Glide.with(this)
                         .load(listBean.get(i).getImgUrl())
                         .placeholder(R.drawable.img_load)
                         .into(mIVMovieImgs[i]);
-                mImgsList.add(listBean.get(i).getImgUrl());
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
+            mImgsList.add(listBean.get(i).getImgUrl());
         }
         if (listBean.size() < 4) {
             for (int i = 3; i >= listBean.size(); i--) {
@@ -238,7 +238,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                         , mMovie.getBasic().getVideo().getHightUrl()
                         , mMovie.getBasic().getVideo().getTitle());
                 break;
-            case R.id.btn_all_img:
+            case R.id.tv_btn_all_img:
                 PhotoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
                 break;
             case R.id.btn_all_video:

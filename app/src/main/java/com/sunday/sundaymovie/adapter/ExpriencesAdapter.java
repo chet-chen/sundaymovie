@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
+import com.sunday.sundaymovie.activity.PhotoActivity;
 import com.sunday.sundaymovie.model.Person;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +47,7 @@ public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.Vi
         return mList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Person.ExpriencesBean mBean;
         private TextView mTVExpriencesTitle, mTVExpriencesContent;
         private ImageView mImageView;
@@ -65,6 +67,16 @@ public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.Vi
                     .into(mImageView);
             mTVExpriencesTitle.setText(String.format("%d年 %s", mBean.getYear(), mBean.getTitle()));
             mTVExpriencesContent.setText(mBean.getContent());
+            mImageView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            ArrayList<String> imgUrls = new ArrayList<>(mList.size());
+            for (Person.ExpriencesBean bean : mList) {
+                imgUrls.add(bean.getImg());
+            }
+            PhotoActivity.startMe(mContext, imgUrls, getAdapterPosition());
         }
     }
 }

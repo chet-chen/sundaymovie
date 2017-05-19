@@ -1,6 +1,7 @@
 package com.sunday.sundaymovie.adapter;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -74,6 +75,7 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
             Glide.with(mContext).load(mMsBean.getImg())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
+            mTVMovieTCN.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
             mTVMovieTCN.setText(mMsBean.getTCn());
             mTVMovieTEN.setText(mMsBean.getTEn());
             mTVMovieType.setText(mMsBean.getMovieType());
