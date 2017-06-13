@@ -34,7 +34,6 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("首页");
         mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -133,7 +132,13 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
         mDrawerLayout.closeDrawer(Gravity.START);
         switch (item.getItemId()) {
             case R.id.menu_stars:
-                StarsActivity.startMe(MainActivity.this);
+                StarsActivity.startMe(this);
+                break;
+            case R.id.menu_settings:
+                SettingsActivity.startMe(this);
+                break;
+            case R.id.menu_about:
+                AboutActivity.startMe(this);
                 break;
         }
         return true;

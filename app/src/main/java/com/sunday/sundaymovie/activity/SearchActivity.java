@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -81,12 +82,13 @@ public class SearchActivity extends BaseActivity {
             public boolean onQueryTextSubmit(String query) {
                 doMySearch(query);
                 saveSearchHistory(query);
+                mSearchView.clearFocus();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                return true;
             }
         });
         if (!"".equals(query)) {

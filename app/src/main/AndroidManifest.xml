@@ -32,7 +32,15 @@
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".activity.VideoAllActivity"/>
-        <activity android:name=".activity.StarsActivity">
+        <activity
+            android:name=".activity.StarsActivity"
+            android:label="@string/stars"/>
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:label="@string/settings"/>
+        <activity
+            android:name=".activity.AboutActivity"
+            android:label="@string/about">
         </activity>
     </application>
 

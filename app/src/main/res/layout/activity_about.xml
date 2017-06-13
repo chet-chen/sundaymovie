@@ -6,28 +6,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sunday.sundaymovie.activity.PhotoAllActivity">
+    tools:context="com.sunday.sundaymovie.activity.AboutActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/image_all_toolbar"
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
-    <!--注意：gridview要实现第一行距离顶部有距离，先设置paddingTop，设置clipToPadding为false-->
-    <GridView
-        android:id="@+id/image_all_grid_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:gravity="center"
-        android:horizontalSpacing="4dp"
-        android:numColumns="3"
-        android:padding="4dp"
-        android:verticalSpacing="4dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:autoLink="web"
+        android:text="@string/github_link"
+        android:textIsSelectable="true"
+        android:textSize="16sp"/>
 </LinearLayout>

@@ -25,7 +25,7 @@
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:navigationIcon="@drawable/ic_menu_white_24dp"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:titleTextAppearance="@style/CollapsingText"
+                app:title="@string/main_title"
                 app:titleTextColor="@android:color/white"/>
 
             <android.support.design.widget.TabLayout
