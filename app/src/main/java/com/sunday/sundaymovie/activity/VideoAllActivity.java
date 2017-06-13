@@ -7,6 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.VideosAdapter;
@@ -31,6 +38,7 @@ public class VideoAllActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
     private VideosAdapter mAdapter;
     private OnScrollEndListener mOnScrollEndListener;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +48,31 @@ public class VideoAllActivity extends BaseActivity {
         mOkManager.asyncGet(Api.getVideoAllUrl(id, pageCount), new VideoAllCallBack() {
             @Override
             public void onResponse(VideoAll response) {
+                AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+                animation.setDuration(300L);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                mProgressBar.startAnimation(animation);
                 mVideoAll = response;
                 modelToView();
             }
 
             @Override
             public void onError(Exception e) {
-                finish();
+                Toast.makeText(VideoAllActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
         mOnScrollEndListener = new OnScrollEndListener() {
@@ -91,6 +117,7 @@ public class VideoAllActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_videos);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     @Override

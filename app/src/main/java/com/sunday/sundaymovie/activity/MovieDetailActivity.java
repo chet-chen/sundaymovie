@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,14 @@ import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ActorAdapter;
+import com.sunday.sundaymovie.db.StarsTableHelper;
 import com.sunday.sundaymovie.model.Movie;
+import com.sunday.sundaymovie.model.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.MovieCallBack;
 import com.sunday.sundaymovie.util.StringFormatUtil;
+import com.sunday.sundaymovie.widget.FollowButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,14 +48,19 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private ImageView[] mIVMovieImgs = new ImageView[4];
     private ArrayList<String> mImgsList;
     private ProgressBar mProgressBar;
+    private FollowButton mFollowButton;
+    private StarsTableHelper helper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOkManager = OkManager.getInstance();
+        helper = new StarsTableHelper(this);
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
+        mFollowButton.setOnClickListener(this);
         getData();
+        mFollowButton.setFollowed(helper.queryIsExist(mMovieId));
     }
 
     @Override
@@ -83,6 +92,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mTVMovieBoxOffice = (TextView) findViewById(R.id.tv_movie_box_office);
         mTVMovieMins = (TextView) findViewById(R.id.tv_movie_mins);
         mTVOverallRating = (TextView) findViewById(R.id.tv_overall_rating);
+        mFollowButton = (FollowButton) findViewById(R.id.btn_follow);
         mTVMovieStory = (ExpandableTextView) findViewById(R.id.tv_movie_story);
         mTVMovieDateAndArea = (TextView) findViewById(R.id.tv_movie_release_date_and_area);
         mTVMovieVideoTitle = (TextView) findViewById(R.id.tv_movie_video_title);
@@ -256,6 +266,13 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.iv_movie_img_4:
                 PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 3);
                 break;
+            case R.id.btn_follow:
+                if (mFollowButton.getFollowed()) {
+                    helper.insert(new StarsMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg()));
+                } else {
+                    helper.delete(mMovieId);
+                }
+                break;
             default:
                 break;
         }
@@ -274,7 +291,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        mProgressBar.setVisibility(View.GONE);
+                        ((CoordinatorLayout) mProgressBar.getParent()).removeView(mProgressBar);
                     }
 
                     @Override
@@ -299,4 +316,9 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         setTop();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        helper.close();
+    }
 }

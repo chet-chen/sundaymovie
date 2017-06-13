@@ -91,7 +91,7 @@ public class FollowButton extends FrameLayout {
         followTv.setGravity(17);
         followTv.setSingleLine();
         followTv.setBackgroundColor(getResources().getColor(R.color.secondaryBG));
-        followTv.setTextColor(getResources().getColor(R.color.colorRecyclerViewBG_Line));
+        followTv.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         addView(this.followTv);
 
         setFollowed(false, false);
@@ -100,6 +100,10 @@ public class FollowButton extends FrameLayout {
     public void setFollowed(boolean followed) {
         isFollowed = followed;
         setFollowed(isFollowed, false);
+    }
+
+    public boolean getFollowed() {
+        return isFollowed;
     }
 
     protected void setFollowed(boolean isFollowed, boolean needAnimate) {
@@ -149,4 +153,5 @@ public class FollowButton extends FrameLayout {
         canvas.restoreToCount(i);
         return bool2;
     }
+
 }

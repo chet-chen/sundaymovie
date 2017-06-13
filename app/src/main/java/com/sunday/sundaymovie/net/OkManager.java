@@ -101,10 +101,4 @@ public class OkManager {
             }
         });
     }
-
-    public Call createCall(String url) throws IOException {
-        Request request = new Request.Builder().url(url).build();
-        return client.newCall(request);
-    }
-
 }

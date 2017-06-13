@@ -3,6 +3,7 @@ package com.sunday.sundaymovie.activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("首页");
         mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
@@ -48,7 +50,6 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_main);
-        setTitle("首页");
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -130,6 +131,11 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         mDrawerLayout.closeDrawer(Gravity.START);
+        switch (item.getItemId()) {
+            case R.id.menu_stars:
+                StarsActivity.startMe(MainActivity.this);
+                break;
+        }
         return true;
     }
 }

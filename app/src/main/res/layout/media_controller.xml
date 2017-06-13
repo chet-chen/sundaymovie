@@ -5,7 +5,7 @@
     android:id="@+id/media_controller_all"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent">
+    android:background="@color/colorTextBlack_4">
 
     <ImageButton
         android:id="@+id/btn_back"

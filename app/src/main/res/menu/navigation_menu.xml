@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:title="@string/home"/>
     <item
-        android:id="@+id/menu_star"
+        android:id="@+id/menu_stars"
         android:icon="@drawable/ic_stars_black_24dp"
-        android:title="@string/star"/>
+        android:title="@string/stars"/>
     <item
         android:id="@+id/menu_settings"
         android:icon="@drawable/ic_settings_black_24dp"

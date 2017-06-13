@@ -17,6 +17,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +34,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     private String mTitle;
 
     private int duration;
-    private boolean isImmersion = true;
+    private boolean isImmersion = true, first = true;
 
     private Handler mHandler = new Handler();
     private TimerImmerRunnable mRunnable = new TimerImmerRunnable();
@@ -47,6 +48,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
     private SeekBar mSeekBar;
     private ImageButton mButtonPlay, mButtonDownload, mButtonBack;
     private View mMediaControllerBottom;
+    private RelativeLayout mRelativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +93,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
                     mp.start();
                     timerImmersion();
                     mProgressBar.setVisibility(View.INVISIBLE);
-                    alphaUnShowAnim(mTVTitle);
-                    alphaUnShowAnim(mButtonBack);
+                    alphaUnShowAnim(mRelativeLayout);
                     mSurfaceView.setOnClickListener(VideoActivity.this);
                     mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                         @Override
@@ -145,6 +146,7 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
         mMediaControllerBottom = findViewById(R.id.media_controller_bottom);
         mTVTitle = (TextView) findViewById(R.id.tv_movie_video_title);
         mButtonBack = (ImageButton) findViewById(R.id.btn_back);
+        mRelativeLayout = (RelativeLayout) findViewById(R.id.media_controller_all);
 
         mButtonPlay.setVisibility(View.INVISIBLE);
         mMediaControllerBottom.setVisibility(View.INVISIBLE);
@@ -265,16 +267,18 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
 
     private void immersionSwitch() {
         if (!isImmersion) {
-            alphaUnShowAnim(mButtonBack);
-            alphaUnShowAnim(mTVTitle);
-            alphaUnShowAnim(mButtonPlay);
-            alphaUnShowAnim(mMediaControllerBottom);
+            alphaUnShowAnim(mRelativeLayout);
+//            alphaUnShowAnim(mButtonBack);
+//            alphaUnShowAnim(mTVTitle);
+//            alphaUnShowAnim(mButtonPlay);
+//            alphaUnShowAnim(mMediaControllerBottom);
             isImmersion = true;
         } else {
-            alphaShowAnim(mButtonBack);
-            alphaShowAnim(mTVTitle);
-            alphaShowAnim(mButtonPlay);
-            alphaShowAnim(mMediaControllerBottom);
+            alphaShowAnim(mRelativeLayout);
+//            alphaShowAnim(mButtonBack);
+//            alphaShowAnim(mTVTitle);
+//            alphaShowAnim(mButtonPlay);
+//            alphaShowAnim(mMediaControllerBottom);
             isImmersion = false;
             timerImmersion();
         }
@@ -311,6 +315,11 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
             @Override
             public void onAnimationEnd(Animator animation) {
                 view.setVisibility(View.INVISIBLE);
+                if (first) {
+                    mButtonPlay.setVisibility(View.VISIBLE);
+                    mMediaControllerBottom.setVisibility(View.VISIBLE);
+                    first = false;
+                }
             }
 
             @Override

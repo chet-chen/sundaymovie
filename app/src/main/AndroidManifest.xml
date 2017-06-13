@@ -24,8 +24,7 @@
             android:name=".activity.SearchActivity"
             android:theme="@style/SearchActivityTheme">
         </activity>
-        <activity
-            android:name=".activity.PhotoActivity"/>
+        <activity android:name=".activity.PhotoActivity"/>
         <activity android:name=".activity.PhotoAllActivity"/>
         <activity android:name=".activity.PersonActivity"/>
         <activity android:name=".activity.ExpriencesActivity"/>
@@ -33,7 +32,8 @@
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".activity.VideoAllActivity"/>
-
+        <activity android:name=".activity.StarsActivity">
+        </activity>
     </application>
 
 </manifest>

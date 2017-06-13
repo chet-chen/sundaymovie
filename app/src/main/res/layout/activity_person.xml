@@ -20,269 +20,263 @@
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/frame_layout_root"
+    <ProgressBar
+        android:id="@+id/progress_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="150dp"/>
 
-        <com.sunday.sundaymovie.widget.MyScrollView
-            android:id="@+id/scroll_view"
+    <com.sunday.sundaymovie.widget.MyScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:orientation="vertical">
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/iv_main_img"
-                        android:layout_width="120dp"
-                        android:layout_height="160dp"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="8dp">
-
-                        <TextView
-                            android:id="@+id/tv_name_cn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextBlack_1"
-                            android:textSize="18sp"
-                            tools:text="成龙"/>
-
-                        <TextView
-                            android:id="@+id/tv_name_en"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_name_cn"
-                            android:textColor="@color/colorTextBlack_4"
-                            android:textSize="14sp"
-                            tools:text="Jackie Chan"/>
-
-                        <TextView
-                            android:id="@+id/tv_address_s"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_name_en"
-                            android:layout_marginTop="8dp"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="16sp"
-                            tools:text="中国 香港"/>
-
-                        <TextView
-                            android:id="@+id/tv_profession_s"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_address_s"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="16sp"
-                            tools:text="演员 | 制作人 | 导演"/>
-
-                        <TextView
-                            android:id="@+id/tv_birth_s"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/tv_profession_s"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="16sp"
-                            tools:text="生日: 1954-4-7"/>
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_hint_content"
-                    style="@style/TextViewHintStyle"
-                    android:text="@string/person_info"/>
-
-                <com.ms.square.android.expandabletextview.ExpandableTextView
-                    android:id="@+id/expandable"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    app:animAlphaStart="1"
-                    app:maxCollapsedLines="5">
-
-                    <TextView
-                        android:id="@id/expandable_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="4dp"
-                        android:textColor="@color/colorTextBlack_2.5"
-                        android:textSize="16sp"/>
-
-                    <ImageButton
-                        android:id="@id/expand_collapse"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|bottom"
-                        android:background="@android:color/transparent"
-                        android:paddingTop="8dp"/>
-                </com.ms.square.android.expandabletextview.ExpandableTextView>
-
-                <TextView
-                    android:id="@+id/tv_hint_img"
-                    style="@style/TextViewHintStyle"
-                    android:text="@string/photo"/>
-
-                <com.sunday.sundaymovie.widget.MyGridView
-                    android:id="@+id/grid_view_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:gravity="center"
-                    android:horizontalSpacing="4dp"
-                    android:numColumns="2"
-                    android:verticalSpacing="4dp"/>
-
-
-                <TextView
-                    android:id="@+id/tv_hint_hot"
-                    style="@style/TextViewHintStyle"
-                    android:text="@string/hot_movie"/>
+                <ImageView
+                    android:id="@+id/iv_main_img"
+                    android:layout_width="120dp"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/img_load"/>
 
                 <RelativeLayout
-                    android:id="@+id/hot_movie_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:background="@drawable/bg_white_ripple"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:paddingEnd="8dp">
-
-                    <ImageView
-                        android:id="@+id/iv_hot_movie_img"
-                        android:layout_width="70dp"
-                        android:layout_height="100dp"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp">
 
                     <TextView
-                        android:id="@+id/tv_movie_t"
+                        android:id="@+id/tv_name_cn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
+                        android:textColor="@color/colorTextBlack_1"
+                        android:textSize="18sp"
+                        tools:text="成龙"/>
+
+                    <TextView
+                        android:id="@+id/tv_name_en"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_name_cn"
+                        android:textColor="@color/colorTextBlack_4"
+                        android:textSize="14sp"
+                        tools:text="Jackie Chan"/>
+
+                    <TextView
+                        android:id="@+id/tv_address_s"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_name_en"
                         android:layout_marginTop="8dp"
-                        android:layout_toEndOf="@id/iv_hot_movie_img"
                         android:textColor="@color/colorTextBlack_2"
                         android:textSize="16sp"
-                        tools:text="金刚：骷髅岛"/>
+                        tools:text="中国 香港"/>
 
                     <TextView
-                        android:id="@+id/tv_movie_t_en"
+                        android:id="@+id/tv_profession_s"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignStart="@id/tv_movie_t"
-                        android:layout_below="@id/tv_movie_t"
-                        android:textColor="@color/colorTextBlack_4"
-                        android:textSize="12sp"
-                        tools:text="Kong: Skull Island"/>
-
-                    <TextView
-                        android:id="@+id/tv_movie_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignStart="@id/tv_movie_t"
-                        android:layout_below="@id/tv_movie_t_en"
-                        android:layout_marginTop="4dp"
+                        android:layout_below="@id/tv_address_s"
                         android:textColor="@color/colorTextBlack_2"
-                        android:textSize="14sp"
-                        tools:text="动作 / 冒险 / 奇幻"/>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignStart="@id/tv_movie_t"
-                        android:layout_below="@id/tv_movie_type"
-                        android:gravity="bottom"
-                        android:orientation="horizontal">
-
-                        <RatingBar
-                            android:id="@+id/rb_rating"
-                            style="@style/Widget.AppCompat.RatingBar.Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="2dp"
-                            android:layout_marginEnd="4dp"
-                            android:isIndicator="true"
-                            android:numStars="5"/>
-
-                        <TextView
-                            android:id="@+id/tv_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="14sp"
-                            tools:text="7.3"/>
-                    </LinearLayout>
-                </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/exprience_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                        android:textSize="16sp"
+                        tools:text="演员 | 制作人 | 导演"/>
 
                     <TextView
-                        style="@style/TextViewHintStyle"
-                        android:text="@string/exprience"/>
-
-                    <include layout="@layout/item_expriences"/>
-
-                    <Button
-                        android:id="@+id/btn_show_more"
-                        android:layout_width="match_parent"
+                        android:id="@+id/tv_birth_s"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="16dp"
-                        android:layout_marginStart="16dp"
-                        android:background="@drawable/bg_black_ripple"
-                        android:text="@string/show_more"
-                        android:textColor="@color/colorTextWhite_1"/>
-                </LinearLayout>
+                        android:layout_below="@id/tv_profession_s"
+                        android:textColor="@color/colorTextBlack_2"
+                        android:textSize="16sp"
+                        tools:text="生日: 1954-4-7"/>
+
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_hint_content"
+                style="@style/TextViewHintStyle"
+                android:text="@string/person_info"/>
+
+            <com.ms.square.android.expandabletextview.ExpandableTextView
+                android:id="@+id/expandable"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                app:animAlphaStart="1"
+                app:maxCollapsedLines="5">
 
                 <TextView
-                    android:id="@+id/tv_hint_relation"
-                    style="@style/TextViewHintStyle"
-                    android:text="@string/relation_persons"/>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rv_relation_persons"
+                    android:id="@id/expandable_text"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="4dp"
-                    android:clipToPadding="false"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp"
-                    android:scrollbars="none"/>
-            </LinearLayout>
-        </com.sunday.sundaymovie.widget.MyScrollView>
+                    android:layout_height="wrap_content"
+                    android:lineSpacingExtra="4dp"
+                    android:textColor="@color/colorTextBlack_2.5"
+                    android:textSize="16sp"/>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:padding="150dp"/>
-    </FrameLayout>
+                <ImageButton
+                    android:id="@id/expand_collapse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center|bottom"
+                    android:background="@android:color/transparent"
+                    android:paddingTop="8dp"/>
+            </com.ms.square.android.expandabletextview.ExpandableTextView>
+
+            <TextView
+                android:id="@+id/tv_hint_img"
+                style="@style/TextViewHintStyle"
+                android:text="@string/photo"/>
+
+            <com.sunday.sundaymovie.widget.MyGridView
+                android:id="@+id/grid_view_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:horizontalSpacing="4dp"
+                android:numColumns="2"
+                android:verticalSpacing="4dp"/>
+
+
+            <TextView
+                android:id="@+id/tv_hint_hot"
+                style="@style/TextViewHintStyle"
+                android:text="@string/hot_movie"/>
+
+            <RelativeLayout
+                android:id="@+id/hot_movie_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_white_ripple"
+                android:foreground="?attr/selectableItemBackground"
+                android:paddingEnd="8dp">
+
+                <ImageView
+                    android:id="@+id/iv_hot_movie_img"
+                    android:layout_width="70dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/img_load"/>
+
+                <TextView
+                    android:id="@+id/tv_movie_t"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_toEndOf="@id/iv_hot_movie_img"
+                    android:textColor="@color/colorTextBlack_2"
+                    android:textSize="16sp"
+                    tools:text="金刚：骷髅岛"/>
+
+                <TextView
+                    android:id="@+id/tv_movie_t_en"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_t"
+                    android:layout_below="@id/tv_movie_t"
+                    android:textColor="@color/colorTextBlack_4"
+                    android:textSize="12sp"
+                    tools:text="Kong: Skull Island"/>
+
+                <TextView
+                    android:id="@+id/tv_movie_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_t"
+                    android:layout_below="@id/tv_movie_t_en"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/colorTextBlack_2"
+                    android:textSize="14sp"
+                    tools:text="动作 / 冒险 / 奇幻"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_t"
+                    android:layout_below="@id/tv_movie_type"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/rb_rating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="4dp"
+                        android:isIndicator="true"
+                        android:numStars="5"/>
+
+                    <TextView
+                        android:id="@+id/tv_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextBlack_2"
+                        android:textSize="14sp"
+                        tools:text="7.3"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/exprience_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewHintStyle"
+                    android:text="@string/exprience"/>
+
+                <include layout="@layout/item_expriences"/>
+
+                <Button
+                    android:id="@+id/btn_show_more"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/bg_black_ripple"
+                    android:text="@string/show_more"
+                    android:textColor="@color/colorTextWhite_1"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_hint_relation"
+                style="@style/TextViewHintStyle"
+                android:text="@string/relation_persons"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_relation_persons"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="4dp"
+                android:clipToPadding="false"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:scrollbars="none"/>
+        </LinearLayout>
+    </com.sunday.sundaymovie.widget.MyScrollView>
 </LinearLayout>

@@ -111,31 +111,6 @@
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <RatingBar
-                            android:id="@+id/rb_overall_rating"
-                            style="@style/Widget.AppCompat.RatingBar.Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
-                            android:isIndicator="true"
-                            android:numStars="5"
-                            tools:rating="4.55"/>
-
-                        <TextView
-                            android:id="@+id/tv_overall_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/colorTextBlack_2"
-                            android:textSize="14sp"
-                            tools:text="9.1"/>
-                    </LinearLayout>
-
                     <TextView
                         android:id="@+id/tv_movie_type"
                         style="@style/BaseInfoTextView"
@@ -171,6 +146,47 @@
                         android:layout_height="wrap_content"
                         tools:text="累计票房: 4.43亿元"/>
                 </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RatingBar
+                        android:id="@+id/rb_overall_rating"
+                        style="@style/Widget.AppCompat.RatingBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        tools:rating="4.55"/>
+
+                    <TextView
+                        android:id="@+id/tv_overall_rating"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorTextBlack_2"
+                        android:textSize="16sp"
+                        tools:text="9.1"/>
+                </LinearLayout>
+
+                <com.sunday.sundaymovie.widget.FollowButton
+                    android:id="@+id/btn_follow"
+                    android:layout_width="76dp"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="20dp"/>
             </LinearLayout>
 
             <com.ms.square.android.expandabletextview.ExpandableTextView
@@ -292,13 +308,6 @@
                         android:scaleType="centerCrop"
                         tools:src="@drawable/img_load"/>
 
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_gravity="center"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/ic_play_arrow_white_24dp"/>
-
                     <TextView
                         android:id="@+id/tv_movie_video_title"
                         android:layout_width="152dp"
@@ -310,6 +319,13 @@
                         android:textColor="@android:color/white"
                         android:textSize="14sp"
                         tools:text="@string/demo_video_name"/>
+
+                    <ImageView
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_play_arrow_white_24dp"/>
                 </FrameLayout>
 
                 <TextView

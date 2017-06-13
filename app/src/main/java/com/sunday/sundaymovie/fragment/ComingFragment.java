@@ -94,6 +94,9 @@ public class ComingFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     public void smoothScrollToTop() {
         if (mAdapter != null && mAdapter.getItemCount() > 0) {
+            if (((LinearLayoutManager) mRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() > 5) {
+                mRecyclerView.scrollToPosition(5);
+            }
             mRecyclerView.smoothScrollToPosition(0);
         }
     }

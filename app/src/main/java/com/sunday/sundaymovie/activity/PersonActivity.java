@@ -11,9 +11,9 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -215,7 +215,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        ((FrameLayout) findViewById(R.id.frame_layout_root)).removeView(mProgressBar);
+                        ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
                     }
 
                     @Override
