@@ -60,13 +60,15 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 mCheckBox.setChecked(!mCheckBox.isChecked());
                 break;
             case R.id.btn_clean_cache:
-                mGlideCacheUtil.cleanDiskCache(this);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mTVImgCacheSize.setText(mGlideCacheUtil.getChcheSize(getApplicationContext()));
-                    }
-                }, 200);
+                if (mCheckBox.isChecked()) {
+                    mGlideCacheUtil.cleanDiskCache(this);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            mTVImgCacheSize.setText(mGlideCacheUtil.getChcheSize(getApplicationContext()));
+                        }
+                    }, 200);
+                }
                 break;
             default:
                 break;

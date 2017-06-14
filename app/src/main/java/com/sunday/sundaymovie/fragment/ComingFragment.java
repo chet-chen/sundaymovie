@@ -108,8 +108,7 @@ public class ComingFragment extends Fragment implements SwipeRefreshLayout.OnRef
             mAdapter = new ComingAdapter(getActivity(), mComingMovies.getMoviecomings());
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.refresh(mComingMovies.getMoviecomings());
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged(mComingMovies.getMoviecomings());
         }
     }
 }

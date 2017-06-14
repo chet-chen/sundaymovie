@@ -94,8 +94,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
             mAdapter = new ShowTimeAdapter(getActivity(), mShowTimeMovies.getMs());
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.refresh(mShowTimeMovies.getMs());
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged(mShowTimeMovies.getMs());
         }
     }
 

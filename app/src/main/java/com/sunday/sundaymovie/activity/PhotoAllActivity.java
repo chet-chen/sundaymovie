@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
@@ -22,6 +26,7 @@ public class PhotoAllActivity extends BaseActivity {
     private int mMovieId;
     private String mTitle;
     private ImageAll mImageAll;
+    private ProgressBar mProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,23 @@ public class PhotoAllActivity extends BaseActivity {
         OkManager.getInstance().asyncGet(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
             @Override
             public void onResponse(ImageAll response) {
+                AlphaAnimation animation = new AlphaAnimation(1f, 0f);
+                animation.setDuration(300L);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+                });
+                mProgressBar.startAnimation(animation);
                 mImageAll = response;
                 modelToView();
             }
@@ -53,6 +75,7 @@ public class PhotoAllActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
         setSupportActionBar(toolbar);
         mGridView = (GridView) findViewById(R.id.image_all_grid_view);
+        mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
     }
 
     @Override
@@ -68,7 +91,9 @@ public class PhotoAllActivity extends BaseActivity {
     }
 
     private void modelToView() {
-        mGridView.setAdapter(new ImgGridViewAdapter(getImgUrls(), this, 3));
+        ImgGridViewAdapter adapter = new ImgGridViewAdapter(getImgUrls(), this, 3);
+        mGridView.setAdapter(adapter);
+        setTitle(mTitle + "  " + adapter.getCount() + "张");
     }
 
     private List<String> getImgUrls() {

@@ -41,7 +41,7 @@ public class OkManager {
         return mOkManager;
     }
 
-    public void asyncPost(String url, Map<String, String> params, final CallBack<Object> callBack) {
+    public <T> void asyncPost(String url, Map<String, String> params, final CallBack<T> callBack) {
         FormBody.Builder formBuilder = new FormBody.Builder();
         if (params != null && !params.isEmpty()) {
             for (Map.Entry<String, String> entry : params.entrySet()) {
@@ -64,18 +64,18 @@ public class OkManager {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final Object object = callBack.parseResponse(response);
+                final T t = callBack.parseResponse(response);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onResponse(object);
+                        callBack.onResponse(t);
                     }
                 });
             }
         });
     }
 
-    public void asyncGet(String url, final CallBack callBack) {
+    public <T> void asyncGet(String url, final CallBack<T> callBack) {
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -91,13 +91,29 @@ public class OkManager {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final Object object = callBack.parseResponse(response);
+                final T t = callBack.parseResponse(response);
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onResponse(object);
+                        callBack.onResponse(t);
                     }
                 });
+            }
+        });
+    }
+
+    public <T> void asyncGetThread(String url, final CallBack<T> callBack) {
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                e.printStackTrace();
+                callBack.onError(e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                callBack.onResponse(callBack.parseResponse(response));
             }
         });
     }

@@ -19,6 +19,13 @@
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:padding="150dp"/>
     <!--注意：gridview要实现第一行距离顶部有距离，先设置paddingTop，设置clipToPadding为false-->
     <GridView
         android:id="@+id/image_all_grid_view"

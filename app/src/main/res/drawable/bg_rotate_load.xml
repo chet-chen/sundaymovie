@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:drawable="@drawable/ic_refresh_wirte_24dp"
+    tools:targetApi="lollipop">
+    <target
+        android:name="rotate"
+        android:animation="@animator/rotate_load"/>
+</animated-vector>

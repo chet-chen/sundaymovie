@@ -2,10 +2,8 @@ package com.sunday.sundaymovie.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,10 +11,6 @@ import android.view.MenuItem;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.StarsMovieAdapter;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.StarsMovie;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StarsActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
@@ -38,8 +32,7 @@ public class StarsActivity extends BaseActivity {
             mAdapter = new StarsMovieAdapter(this, mHelper.queryAll());
             mRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.refresh(mHelper.queryAll());
-            mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged(mHelper.queryAll());
         }
     }
 

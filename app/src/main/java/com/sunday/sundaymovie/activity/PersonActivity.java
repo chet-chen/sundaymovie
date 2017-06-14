@@ -91,6 +91,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
         mGridView = (MyGridView) findViewById(R.id.grid_view_img);
+        /*
+        *问题 activity启动，不处在最顶部
+        *原因 ScrollView 中嵌套其他可滑动View,如 GridView、RecyclerView 等
+        *解决 设置子View setFocusable(false)
+        */
+        mGridView.setFocusable(false);
         mBtnShowMore = (Button) findViewById(R.id.btn_show_more);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_relation_persons);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -160,11 +166,13 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             mHotMovieGroup.setVisibility(View.GONE);
             findViewById(R.id.tv_hint_hot).setVisibility(View.GONE);
         } else {
-            if (!this.isFinishing()) {
+            try {
                 Glide.with(this)
                         .load(hotMovieBean.getMovieCover())
                         .placeholder(R.drawable.img_load)
                         .into(mIVHotMovieImg);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
             mTVHotMovieNameCn.setText(hotMovieBean.getMovieTitleCn());
             mTVHotMovieNameEn.setText(hotMovieBean.getMovieTitleEn());
@@ -184,11 +192,13 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             findViewById(R.id.exprience_group).setVisibility(View.GONE);
         } else {
             Person.ExpriencesBean expriencesBean = mExpriences.get(0);
-            if (!this.isFinishing()) {
+            try {
                 Glide.with(this)
                         .load(expriencesBean.getImg())
                         .placeholder(R.drawable.img_load)
                         .into(mIVExpriences);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
             }
             mTVExpriencesTitle.setText(String.format("%d年 %s", expriencesBean.getYear(), expriencesBean.getTitle()));
             mTVExpriencesContent.setText(expriencesBean.getContent());
@@ -237,7 +247,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 onBackPressed();
             }
         });
-        setTop();
     }
 
     public static void startMe(Context context, int id) {
@@ -258,16 +267,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
-    }
-
-    private void setTop() {
-        /*
-        * 问题 activity启动，不处在最顶部
-        * 解决 获取最顶部view焦点
-        */
-        mTVNameCn.setFocusable(true);
-        mTVNameCn.setFocusableInTouchMode(true);
-        mTVNameCn.requestFocus();
     }
 
     private View getToolbarTitle() {

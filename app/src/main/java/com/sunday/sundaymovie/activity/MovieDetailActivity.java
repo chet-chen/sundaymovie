@@ -23,10 +23,12 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ActorAdapter;
 import com.sunday.sundaymovie.db.StarsTableHelper;
+import com.sunday.sundaymovie.model.ImageAll;
 import com.sunday.sundaymovie.model.Movie;
 import com.sunday.sundaymovie.model.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
+import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import com.sunday.sundaymovie.net.callback.MovieCallBack;
 import com.sunday.sundaymovie.util.StringFormatUtil;
 import com.sunday.sundaymovie.widget.FollowButton;
@@ -104,6 +106,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 , (ImageView) findViewById(R.id.iv_movie_img_3)
                 , (ImageView) findViewById(R.id.iv_movie_img_4)};
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_actor);
+        mRecyclerView.setFocusable(false);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -230,16 +233,6 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         context.startActivity(intent);
     }
 
-    private void setTop() {
-        /*
-        * 问题 activity启动，不处在最顶部
-        * 解决 获取最顶部view焦点
-        */
-        mTVMovieName.setFocusable(true);
-        mTVMovieName.setFocusableInTouchMode(true);
-        mTVMovieName.requestFocus();
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -255,16 +248,16 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 VideoAllActivity.startMe(MovieDetailActivity.this, mMovieId, mMovie.getBasic().getName());
                 break;
             case R.id.iv_movie_img_1:
-                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 0);
+                imgClick(0);
                 break;
             case R.id.iv_movie_img_2:
-                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 1);
+                imgClick(1);
                 break;
             case R.id.iv_movie_img_3:
-                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 2);
+                imgClick(2);
                 break;
             case R.id.iv_movie_img_4:
-                PhotoActivity.startMe(MovieDetailActivity.this, mImgsList, 3);
+                imgClick(3);
                 break;
             case R.id.btn_follow:
                 if (mFollowButton.getFollowed()) {
@@ -278,7 +271,28 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         }
     }
 
-    public void getData() {
+    private void imgClick(final int index) {
+        PhotoActivity.startMe(this, mImgsList, index);
+        if (mImgsList.size() <= 4) {
+            mOkManager.asyncGetThread(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
+                @Override
+                public void onResponse(ImageAll response) {
+                    for (ImageAll.Image image : response.getImages()) {
+                        mImgsList.add(image.getImage());
+                    }
+                    PhotoActivity.dataChange(MovieDetailActivity.this, mImgsList);
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+            });
+        }
+
+    }
+
+    private void getData() {
         mOkManager.asyncGet(Api.getMovieUrl(mMovieId), new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
@@ -313,7 +327,6 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 onBackPressed();
             }
         });
-        setTop();
     }
 
     @Override

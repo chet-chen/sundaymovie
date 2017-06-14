@@ -1,6 +1,7 @@
 package com.sunday.sundaymovie.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Animatable;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,21 +36,29 @@ public class PhotoViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         final ImageView view = (ImageView) LayoutInflater
                 .from(mContext).inflate(R.layout.photo_view_pager_item, container, false);
+        container.addView(view);
+        ((Animatable) view.getDrawable()).start();
         Glide.with(mContext).load(mList.get(position)).into(new SimpleTarget<GlideDrawable>() {
             @Override
             public void onResourceReady(GlideDrawable resource
                     , GlideAnimation<? super GlideDrawable> glideAnimation) {
+                view.clearAnimation();
+                view.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 view.setImageDrawable(resource);
                 new PhotoViewAttacher(view);
             }
         });
-        container.addView(view);
         return view;
     }
 
     @Override
     public int getCount() {
         return mList.size();
+    }
+
+    public void notifyDataSetChanged(List<String> list) {
+        mList = list;
+        notifyDataSetChanged();
     }
 
     @Override

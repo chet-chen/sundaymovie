@@ -1,7 +1,9 @@
 package com.sunday.sundaymovie.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -9,12 +11,9 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
-import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,18 +31,25 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class PhotoActivity extends BaseActivity implements View.OnClickListener {
+    public static final String ACTION_DATA_CHANGE = "com.sunday.sundaymovie.ACTION_DATA_CHANGE";
     int startPosition;
     private ViewPager mViewPager;
     private TextView mTextView;
     private ImageButton mButtonDownloadImg;
     private List<String> mImgURLs;
     private CoordinatorLayout mCoordinatorLayout;
+    private PhotoViewPagerAdapter mPagerAdapter;
+    private DataChangeReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PhotoViewPagerAdapter pagerAdapter = new PhotoViewPagerAdapter(this, mImgURLs);
-        mViewPager.setAdapter(pagerAdapter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_DATA_CHANGE);
+        mReceiver = new DataChangeReceiver();
+        registerReceiver(mReceiver, intentFilter);
+        mPagerAdapter = new PhotoViewPagerAdapter(this, mImgURLs);
+        mViewPager.setAdapter(mPagerAdapter);
         mViewPager.setCurrentItem(startPosition);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -65,11 +71,11 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initParams(Bundle bundle) {
+        isFullScreen = true;
         if (bundle != null) {
             mImgURLs = bundle.getStringArrayList("imgURLs");
             startPosition = bundle.getInt("position");
         }
-        isFullScreen = true;
     }
 
     @Override
@@ -92,10 +98,17 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
         context.startActivity(intent);
     }
 
+    public static void dataChange(Context context, ArrayList<String> list) {
+        Intent intent = new Intent(ACTION_DATA_CHANGE);
+        intent.putStringArrayListExtra("imgURLs", list);
+        context.sendBroadcast(intent);
+    }
+
     @Override
     protected void onDestroy() {
-        mViewPager.clearOnPageChangeListeners();
         super.onDestroy();
+        mViewPager.clearOnPageChangeListeners();
+        unregisterReceiver(mReceiver);
     }
 
     @Override
@@ -162,6 +175,16 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
                     }
                 }
             }
+        }
+    }
+
+    class DataChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mImgURLs = intent.getExtras().getStringArrayList("imgURLs");
+            mPagerAdapter.notifyDataSetChanged(mImgURLs);
+            setPositionHint(mViewPager.getCurrentItem());
         }
     }
 }

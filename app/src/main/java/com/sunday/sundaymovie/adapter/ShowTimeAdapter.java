@@ -38,8 +38,9 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    public void refresh(List<ShowTimeMovies.MsBean> msBeans) {
+    public void notifyDataSetChanged(List<ShowTimeMovies.MsBean> msBeans) {
         mMsBeans = msBeans;
+        notifyDataSetChanged();
     }
 
     @Override

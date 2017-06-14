@@ -48,8 +48,9 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
         return mMovies.size();
     }
 
-    public void refresh(List<ComingMovie> movies) {
+    public void notifyDataSetChanged(List<ComingMovie> movies) {
         mMovies = movies;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

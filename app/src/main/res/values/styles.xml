@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="SearchActivityTheme" parent="AppTheme">
         <item name="android:windowAnimationStyle">@style/AnimSearchActivity</item>
         <item name="colorPrimary">#F5F5F5</item>

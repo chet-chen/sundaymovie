@@ -46,8 +46,9 @@ public class StarsMovieAdapter extends RecyclerView.Adapter<StarsMovieAdapter.Vi
         return mList.size();
     }
 
-    public void refresh(List<StarsMovie> list) {
+    public void notifyDataSetChanged(List<StarsMovie> list) {
         mList = list;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
