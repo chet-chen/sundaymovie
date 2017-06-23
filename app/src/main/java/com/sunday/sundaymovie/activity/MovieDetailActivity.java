@@ -62,7 +62,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
         mBtnAllVideo.setOnClickListener(this);
         mFollowButton.setOnClickListener(this);
         getData();
-        mFollowButton.setFollowed(helper.queryIsExist(mMovieId));
+        mFollowButton.setFollowed(helper.queryIsExist(mMovieId), false);
     }
 
     @Override

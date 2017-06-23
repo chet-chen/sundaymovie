@@ -1,12 +1,10 @@
 <resources>
     <string name="app_name">SundayMovie</string>
     <string name="main_title">首页</string>
-    <string name="un_follow">收藏</string>
-    <string name="follow">已收藏</string>
     <string name="test_text">简介: </string>
     <string name="hello">Hello</string>
     <string name="search">搜索</string>
-    <string name="grade">收藏</string>
+    <string name="star">收藏</string>
     <string name="feedback">反馈意见</string>
     <string name="about">关于</string>
     <string name="navigation_drawer_open">open</string>
@@ -39,5 +37,6 @@
     <string name="title_activity_settings">设置</string>
     <string name="img_cache">图片缓存</string>
     <string name="clean_cache">清除数据</string>
-    <string name="github_link">https://github.com/agentchen/sundaymovie</string>
+    <string name="about_text">此应用开源于：https://github.com/agentchen/sundaymovie\n\n
+        声明：此应用数据均来自 Mtime时光网(http://www.mtime.com)，原作公司拥有所有权利。</string>
 </resources>

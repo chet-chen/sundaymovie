@@ -3,7 +3,9 @@ package com.sunday.sundaymovie.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,9 +14,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.db.StarsTableHelper;
 import com.sunday.sundaymovie.model.ComingMovie;
 
 import java.util.List;
+
+import static com.sunday.sundaymovie.adapter.ShowTimeAdapter.ID_STAR;
+import static com.sunday.sundaymovie.adapter.ShowTimeAdapter.ID_UN_STAR;
 
 /**
  * Created by agentchen on 2017/3/29.
@@ -22,6 +28,8 @@ import java.util.List;
  */
 
 public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
+    public static final int GROUP_COMING = 2;
+    private int contextMenuPosition;
     private Context mContext;
     private List<ComingMovie> mMovies;
 
@@ -53,7 +61,11 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public int getContextMenuPosition() {
+        return contextMenuPosition;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnCreateContextMenuListener {
         private ComingMovie mMovie;
         private ImageView mImageView;
         private TextView mTVTitle, mTVDate, mTVType, mTVDirecto, mTVActor;
@@ -85,11 +97,30 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
                 mTVActor.setText(String.format("主演: %s, %s", mMovie.getActor1(), movie.getActor2()));
             }
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         @Override
         public void onClick(View v) {
             MovieDetailActivity.startMe(mContext, mMovie.getId());
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            StarsTableHelper helper = new StarsTableHelper(mContext);
+            if (helper.queryIsExist(mMovie.getId())) {
+                menu.add(GROUP_COMING, ID_UN_STAR, Menu.NONE, "取消收藏");
+            } else {
+                menu.add(GROUP_COMING, ID_STAR, Menu.NONE, "收藏");
+            }
+            helper.close();
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            contextMenuPosition = getAdapterPosition();
+            return false;
         }
     }
 }

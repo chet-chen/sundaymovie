@@ -8,14 +8,17 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
-import com.sunday.sundaymovie.net.Api;
+import com.sunday.sundaymovie.db.StarsTableHelper;
 import com.sunday.sundaymovie.model.ShowTimeMovies;
+import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
 
@@ -56,6 +59,32 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
         return view;
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getGroupId() != ShowTimeAdapter.GROUP_SHOW_TIME) {
+            return false;
+        }
+        StarsTableHelper helper = new StarsTableHelper(getContext());
+        ShowTimeMovies.MsBean msBean = mShowTimeMovies.getMs().get(mAdapter.getContextMenuPosition());
+        String hint;
+        switch (item.getItemId()) {
+            case ShowTimeAdapter.ID_STAR:
+                StarsMovie starsMovie = new StarsMovie(msBean.getId(), msBean.getTCn(), msBean.getImg());
+                helper.insert(starsMovie);
+                hint = "已收藏";
+                break;
+            case ShowTimeAdapter.ID_UN_STAR:
+                helper.delete(msBean.getId());
+                hint = "已取消收藏";
+                break;
+            default:
+                return super.onContextItemSelected(item);
+        }
+        helper.close();
+        Snackbar.make(mRefreshLayout, hint, Snackbar.LENGTH_SHORT).show();
+        return true;
+    }
+
     public void getDataFromInternet() {
         mOkManager.asyncGet(Api.SHOW_TIME, new ShowTimeCallBack() {
             @Override
@@ -79,7 +108,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
                             .inflate(R.layout.net_error, mFrameLayout, false);
                     mFrameLayout.addView(mNetErrorView);
                 }
-                Snackbar.make(mRefreshLayout.getRootView(), "网络异常,下拉重试", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mRefreshLayout, "网络异常,下拉重试", Snackbar.LENGTH_SHORT).show();
                 if (mRefreshLayout.isRefreshing()) {
                     mRefreshLayout.setRefreshing(false);
                 }

@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:autoLink="web"
-        android:text="@string/github_link"
+        android:text="@string/about_text"
         android:textIsSelectable="true"
         android:textSize="16sp"/>
 </LinearLayout>

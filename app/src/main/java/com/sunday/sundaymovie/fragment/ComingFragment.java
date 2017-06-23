@@ -8,12 +8,18 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ComingAdapter;
+import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
+import com.sunday.sundaymovie.db.StarsTableHelper;
+import com.sunday.sundaymovie.model.ComingMovie;
+import com.sunday.sundaymovie.model.ShowTimeMovies;
+import com.sunday.sundaymovie.model.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.model.ComingMovies;
 import com.sunday.sundaymovie.net.OkManager;
@@ -59,6 +65,32 @@ public class ComingFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onRefresh() {
         getDataFromInternet();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (item.getGroupId() != ComingAdapter.GROUP_COMING) {
+            return false;
+        }
+        StarsTableHelper helper = new StarsTableHelper(getContext());
+        ComingMovie comingMovie = mComingMovies.getMoviecomings().get(mAdapter.getContextMenuPosition());
+        String hint;
+        switch (item.getItemId()) {
+            case ShowTimeAdapter.ID_STAR:
+                StarsMovie starsMovie = new StarsMovie(comingMovie.getId(), comingMovie.getTitle(), comingMovie.getImage());
+                helper.insert(starsMovie);
+                hint = "已收藏";
+                break;
+            case ShowTimeAdapter.ID_UN_STAR:
+                helper.delete(comingMovie.getId());
+                hint = "已取消收藏";
+                break;
+            default:
+                return super.onContextItemSelected(item);
+        }
+        helper.close();
+        Snackbar.make(mRefreshLayout, hint, Snackbar.LENGTH_SHORT).show();
+        return true;
     }
 
     private void getDataFromInternet() {

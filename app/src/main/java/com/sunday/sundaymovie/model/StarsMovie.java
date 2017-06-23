@@ -10,6 +10,10 @@ public class StarsMovie {
     private String name;
     private String img;
 
+    public StarsMovie() {
+        super();
+    }
+
     public StarsMovie(int id, String name, String img) {
         this.id = id;
         this.name = name;

@@ -1,16 +1,22 @@
 package com.sunday.sundaymovie.activity;
 
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -18,6 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.sunday.sundaymovie.BuildConfig;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.PhotoViewPagerAdapter;
 import com.sunday.sundaymovie.widget.HackyViewPager;
@@ -151,7 +158,17 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
                         public void onClick(View v) {
                             Intent intent = new Intent();
                             intent.setAction(Intent.ACTION_VIEW);
-                            intent.setDataAndType(Uri.fromFile(file), "image/*");
+                            Uri uri;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                ContentValues contentValues = new ContentValues(1);
+                                contentValues.put(MediaStore.Images.Media.DATA, file.getAbsolutePath());
+                                uri = getApplicationContext().getContentResolver()
+                                        .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                            } else {
+                                uri = Uri.fromFile(file);
+                            }
+                            intent.setDataAndType(uri, "image/*");
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
                         }
                     }).show();

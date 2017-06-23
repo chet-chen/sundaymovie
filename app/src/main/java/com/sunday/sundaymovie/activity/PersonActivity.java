@@ -205,8 +205,9 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
         mBtnShowMore.setOnClickListener(this);
         if (mPerson.getRelationPersons().size() == 0) {
-            findViewById(R.id.tv_hint_relation).setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.GONE);
+            LinearLayout parent = (LinearLayout) mRecyclerView.getParent();
+            parent.removeView(findViewById(R.id.tv_hint_relation));
+            parent.removeView(mRecyclerView);
         } else {
             mRecyclerView.setAdapter(new PersonAdapter(mPerson.getRelationPersons(), this));
         }

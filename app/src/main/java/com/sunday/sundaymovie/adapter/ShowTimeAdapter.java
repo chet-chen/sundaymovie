@@ -3,7 +3,9 @@ package com.sunday.sundaymovie.adapter;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.db.StarsTableHelper;
 import com.sunday.sundaymovie.model.ShowTimeMovies;
 
 import java.util.List;
@@ -23,6 +26,10 @@ import java.util.List;
  */
 
 public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
+    public static final int GROUP_SHOW_TIME = 1;
+    public static final int ID_STAR = 1;
+    public static final int ID_UN_STAR = 2;
+    private int contextMenuPosition;
     private Context mContext;
     private List<ShowTimeMovies.MsBean> mMsBeans;
 
@@ -43,6 +50,10 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public int getContextMenuPosition() {
+        return contextMenuPosition;
+    }
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.bindMsBean(mMsBeans.get(position));
@@ -53,7 +64,13 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         return mMsBeans.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, View.OnLongClickListener {
         private ShowTimeMovies.MsBean mMsBean;
         private ImageView mImageView;
         private TextView mTVMovieTCN, mTVMovieTEN, mTVMovieRating, mTVMovieType, mTVMovieDN, mTVMovieN;
@@ -95,11 +112,36 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
                 mTVMovieRating.setText("暂无评分");
             }
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            MovieDetailActivity.startMe(mContext, mMsBean.getId());
+            switch (v.getId()) {
+                case R.id.item_root:
+                    MovieDetailActivity.startMe(mContext, mMsBean.getId());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            StarsTableHelper helper = new StarsTableHelper(mContext);
+            if (helper.queryIsExist(mMsBean.getId())) {
+                menu.add(GROUP_SHOW_TIME, ID_UN_STAR, Menu.NONE, "取消收藏");
+            } else {
+                menu.add(GROUP_SHOW_TIME, ID_STAR, Menu.NONE, "收藏");
+            }
+            helper.close();
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            contextMenuPosition = getAdapterPosition();
+            return false;
         }
     }
 }
