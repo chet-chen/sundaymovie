@@ -44,7 +44,7 @@
                 android:layout_marginEnd="10dp"
                 android:background="@drawable/bg_round_ripple"
                 android:padding="6dp"
-                android:src="@drawable/ic_file_download_white_24dp"/>
+                app:srcCompat="@drawable/ic_file_download_white_24dp"/>
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
 </FrameLayout>

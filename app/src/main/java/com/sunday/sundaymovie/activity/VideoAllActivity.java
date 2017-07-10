@@ -7,19 +7,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.VideosAdapter;
-import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.listener.OnScrollEndListener;
 import com.sunday.sundaymovie.model.VideoAll;
+import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.VideoAllCallBack;
 
@@ -72,7 +70,7 @@ public class VideoAllActivity extends BaseActivity {
             @Override
             public void onError(Exception e) {
                 Toast.makeText(VideoAllActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                finish();
             }
         });
         mOnScrollEndListener = new OnScrollEndListener() {
@@ -124,7 +122,7 @@ public class VideoAllActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 break;
             default:
                 break;
@@ -148,7 +146,7 @@ public class VideoAllActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mRecyclerView.removeOnScrollListener(mOnScrollEndListener);
+        super.onDestroy();
     }
 }

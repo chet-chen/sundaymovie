@@ -117,7 +117,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 break;
             default:
                 break;
@@ -261,7 +261,8 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_follow:
                 if (mFollowButton.getFollowed()) {
-                    helper.insert(new StarsMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg()));
+                    helper.insert(new StarsMovie(mMovieId, mMovie.getBasic().getName()
+                            , mMovie.getBasic().getImg()));
                 } else {
                     helper.delete(mMovieId);
                 }
@@ -274,7 +275,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private void imgClick(final int index) {
         PhotoActivity.startMe(this, mImgsList, index);
         if (mImgsList.size() <= 4) {
-            mOkManager.asyncGetThread(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
+            mOkManager.asyncThreadGet(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
                 @Override
                 public void onResponse(ImageAll response) {
                     for (ImageAll.Image image : response.getImages()) {
@@ -285,7 +286,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
                 @Override
                 public void onError(Exception e) {
-
+                    e.printStackTrace();
                 }
             });
         }
@@ -324,14 +325,14 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
             public void onError(Exception e) {
                 e.printStackTrace();
                 Toast.makeText(MovieDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                finish();
             }
         });
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         helper.close();
+        super.onDestroy();
     }
 }

@@ -113,9 +113,9 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mViewPager.clearOnPageChangeListeners();
         unregisterReceiver(mReceiver);
+        super.onDestroy();
     }
 
     @Override
@@ -199,9 +199,12 @@ public class PhotoActivity extends BaseActivity implements View.OnClickListener 
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            mImgURLs = intent.getExtras().getStringArrayList("imgURLs");
-            mPagerAdapter.notifyDataSetChanged(mImgURLs);
-            setPositionHint(mViewPager.getCurrentItem());
+            String action = intent.getAction();
+            if (ACTION_DATA_CHANGE.equals(action)) {
+                mImgURLs = intent.getExtras().getStringArrayList("imgURLs");
+                mPagerAdapter.notifyDataSetChanged(mImgURLs);
+                setPositionHint(mViewPager.getCurrentItem());
+            }
         }
     }
 }

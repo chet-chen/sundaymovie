@@ -8,10 +8,8 @@ import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -24,20 +22,19 @@ import com.sunday.sundaymovie.R;
  */
 
 public class FollowButton extends FrameLayout {
-    protected boolean isFollowed;
-    private String followText = "已收藏";
-    private String unFollowText = "收藏";
-    private TextView followTv;
-    private TextView unFollowTv;
-    float actionUpX;
-    float actionUpY;
-    float revealRadius = 1080;
-    private Path path = new Path();
-    private ValueAnimator animator;
-    private float downY;
-    private int touchSlop;
-    private Drawable foreTr;
-    private Drawable foreBl;
+    protected boolean mIsFollowed;
+    private String mFollowText = "已收藏";
+    private String mUnFollowText = "收藏";
+    private TextView mFollowTv;
+    private TextView mUnFollowTv;
+    float mActionUpX;
+    float mActionUpY;
+    float mRevealRadius;
+    private boolean mIsFirstDraw = true;
+    private Path mPath = new Path();
+    private ValueAnimator mAnimator;
+    private Drawable mTransparent;
+    private Drawable mAlphaBlack;
 
     public FollowButton(Context paramContext) {
         super(paramContext);
@@ -56,40 +53,41 @@ public class FollowButton extends FrameLayout {
 
     private boolean isValidClick(float x, float y) {
         return x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight()
-                && (animator == null || !animator.isRunning());
+                && (mAnimator == null || !mAnimator.isRunning());
     }
 
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return event.getAction() == MotionEvent.ACTION_DOWN;
+        return event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE;
     }
 
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (isValidClick(event.getX(), event.getY())) {
-                    downY = event.getY();
-                    setForeground(foreBl);
-                    return true;
+                if (mAnimator == null || !mAnimator.isRunning()) {
+                    setForeground(mAlphaBlack);
+                    mIsFirstDraw = false;
                 }
-                return false;
+                return true;
             case MotionEvent.ACTION_MOVE:
                 int x = (int) event.getX();
                 int y = (int) event.getY();
-                return Math.abs(event.getY() - downY) < touchSlop &&
-                        (x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight());
+                if (!(x >= 0 && x <= getWidth() && y >= 0 && y <= getHeight())) {
+                    setForeground(mTransparent);
+                }
+                return true;
             case MotionEvent.ACTION_UP:
                 if (isValidClick(event.getX(), event.getY())) {
-                    setForeground(foreTr);
-                    actionUpX = event.getX();
-                    actionUpY = event.getY();
-                    revealRadius = 0;
-                    setFollowed(!isFollowed, true);
+                    setForeground(mTransparent);
+                    mActionUpX = event.getX();
+                    mActionUpY = event.getY();
+                    mRevealRadius = 0;
+                    setFollowed(!mIsFollowed, true);
                     callOnClick();
                     return true;
                 }
                 return false;
             case MotionEvent.ACTION_CANCEL:
-                setForeground(foreTr);
+                setForeground(mTransparent);
                 return true;
             default:
                 return false;
@@ -97,61 +95,64 @@ public class FollowButton extends FrameLayout {
     }
 
     private void init() {
-        touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        foreTr = new ColorDrawable(getResources().getColor(android.R.color.transparent));
-        foreBl = new ColorDrawable(getResources().getColor(R.color.colorTextBlack_4));
-        unFollowTv = new TextView(getContext());
-        unFollowTv.setText(unFollowText);
-        unFollowTv.setGravity(17);
-        unFollowTv.setSingleLine();
-        unFollowTv.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        unFollowTv.setTextColor(Color.WHITE);
-        addView(this.unFollowTv);
-        followTv = new TextView(getContext());
-        followTv.setText(followText);
-        followTv.setGravity(17);
-        followTv.setSingleLine();
-        followTv.setBackgroundColor(getResources().getColor(R.color.secondaryBG));
-        followTv.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
-        addView(this.followTv);
+        mTransparent = new ColorDrawable(getResources().getColor(android.R.color.transparent));
+        mAlphaBlack = new ColorDrawable(getResources().getColor(R.color.colorTextBlack_4));
+        mUnFollowTv = new TextView(getContext());
+        mUnFollowTv.setText(mUnFollowText);
+        mUnFollowTv.setGravity(17);
+        mUnFollowTv.setSingleLine();
+        mUnFollowTv.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        mUnFollowTv.setTextColor(Color.WHITE);
+        addView(this.mUnFollowTv);
+        mFollowTv = new TextView(getContext());
+        mFollowTv.setText(mFollowText);
+        mFollowTv.setGravity(17);
+        mFollowTv.setSingleLine();
+        mFollowTv.setBackgroundColor(getResources().getColor(R.color.secondaryBG));
+        mFollowTv.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
+        addView(this.mFollowTv);
         setFollowed(false, false);
     }
 
     public void setText(String followText, String unFollowText) {
-        this.followText = followText;
-        this.unFollowText = unFollowText;
+        this.mFollowText = followText;
+        this.mUnFollowText = unFollowText;
     }
 
     public boolean getFollowed() {
-        return isFollowed;
+        return mIsFollowed;
     }
 
     public void setFollowed(boolean isFollowed, boolean needAnimate) {
-        this.isFollowed = isFollowed;
+        this.mIsFollowed = isFollowed;
         if (isFollowed) {
-            followTv.bringToFront();
+            mFollowTv.bringToFront();
         } else {
-            unFollowTv.bringToFront();
+            mUnFollowTv.bringToFront();
         }
         if (needAnimate) {
-            animator = ValueAnimator.ofFloat(0.0F, (float) Math.hypot(getMeasuredWidth(), getMeasuredHeight()));
-            animator.setDuration(400L);
-            animator.setInterpolator(new AccelerateDecelerateInterpolator());
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            mAnimator = ValueAnimator.ofFloat(0.0F, (float) Math.hypot(getMeasuredWidth(), getMeasuredHeight()));
+            mAnimator.setDuration(400L);
+            mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
-                    revealRadius = (Float) animation.getAnimatedValue();
+                    mRevealRadius = (Float) animation.getAnimatedValue();
                     invalidate();
                 }
             });
-            animator.start();
+            mAnimator.start();
         }
     }
 
     private boolean drawBackground(View paramView) {
-        if (isFollowed && paramView == unFollowTv) {
+        if (mIsFirstDraw) {
             return true;
-        } else if (!isFollowed && paramView == followTv) {
+        }
+        if (mIsFollowed && paramView == mUnFollowTv) {
+            return true;
+        } else if (!mIsFollowed && paramView == mFollowTv) {
             return true;
         }
         return false;
@@ -162,9 +163,9 @@ public class FollowButton extends FrameLayout {
             return super.drawChild(canvas, paramView, paramLong);
         }
         int i = canvas.save();
-        path.reset();
-        path.addCircle(actionUpX, actionUpY, revealRadius, Path.Direction.CW);
-        canvas.clipPath(this.path);
+        mPath.reset();
+        mPath.addCircle(mActionUpX, mActionUpY, mRevealRadius, Path.Direction.CW);
+        canvas.clipPath(this.mPath);
         boolean bool2 = super.drawChild(canvas, paramView, paramLong);
         canvas.restoreToCount(i);
         return bool2;

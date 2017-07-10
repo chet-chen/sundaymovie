@@ -127,7 +127,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 break;
             default:
                 break;
@@ -245,7 +245,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             public void onError(Exception e) {
                 e.printStackTrace();
                 Toast.makeText(PersonActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
-                onBackPressed();
+                finish();
             }
         });
     }

@@ -324,7 +324,7 @@
                         android:layout_height="36dp"
                         android:layout_gravity="center"
                         android:scaleType="centerCrop"
-                        android:src="@drawable/ic_play_arrow_white_24dp"/>
+                        app:srcCompat="@drawable/ic_play_arrow_white_24dp"/>
                 </FrameLayout>
 
                 <TextView

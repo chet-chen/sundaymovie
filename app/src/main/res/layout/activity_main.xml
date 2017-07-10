@@ -6,13 +6,13 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="com.sunday.sundaymovie.activity.MainActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:paddingTop="@dimen/status_bar_height">
+        android:background="@color/colorPrimary">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -50,6 +50,7 @@
         android:layout_width="280dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_header"
         app:menu="@menu/navigation_menu">
     </android.support.design.widget.NavigationView>

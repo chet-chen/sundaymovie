@@ -102,7 +102,10 @@ public class OkManager {
         });
     }
 
-    public <T> void asyncGetThread(String url, final CallBack<T> callBack) {
+    /*
+    * 不切换到主线程，请求完成后还会有耗时操作使用此方法
+    * */
+    public <T> void asyncThreadGet(String url, final CallBack<T> callBack) {
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new Callback() {
             @Override

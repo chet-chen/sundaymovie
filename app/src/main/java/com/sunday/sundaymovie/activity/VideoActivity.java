@@ -177,28 +177,28 @@ public class VideoActivity extends BaseActivity implements MediaPlayer.OnComplet
 
     @Override
     protected void onPause() {
-        super.onPause();
         if (mMediaPlayer.isPlaying()) {
             mButtonPlay.callOnClick();
         }
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         cancelProgressTimer();
         mHandler.removeCallbacks(mRunnable);
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
+        super.onDestroy();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_back:
-                onBackPressed();
+                finish();
                 break;
             case R.id.surface_view_video:
                 immersionSwitch();

@@ -135,7 +135,7 @@ public class SearchActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                finish();
                 break;
             default:
                 break;
@@ -192,8 +192,8 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void finish() {
-        super.finish();
         overridePendingTransition(0, activityCloseExitAnimation);
+        super.finish();
     }
 
     private void saveSearchHistory(String history) {
