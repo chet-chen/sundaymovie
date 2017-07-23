@@ -1,9 +1,8 @@
-package com.sunday.sundaymovie.activity;
+package com.sunday.sundaymovie.home;
 
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -14,14 +13,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.MainPagerAdapter;
-import com.sunday.sundaymovie.fragment.ComingFragment;
-import com.sunday.sundaymovie.fragment.ShowTimeFragment;
+import com.sunday.sundaymovie.activity.AboutActivity;
+import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.activity.SearchActivity;
+import com.sunday.sundaymovie.activity.SettingsActivity;
+import com.sunday.sundaymovie.activity.StarsActivity;
 
-public class MainActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
+public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
     private String[] mTitles = new String[]{"正在热映", "即将上映"};
     private TabLayout mTabLayout;
@@ -29,12 +29,12 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
-    private MainPagerAdapter mAdapter;
+    private HomePagerAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new MainPagerAdapter(getSupportFragmentManager(), mTitles);
+        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles, this);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);

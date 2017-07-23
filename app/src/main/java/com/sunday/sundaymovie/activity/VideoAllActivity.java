@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.VideosAdapter;
 import com.sunday.sundaymovie.listener.OnScrollEndListener;
-import com.sunday.sundaymovie.model.VideoAll;
+import com.sunday.sundaymovie.bean.VideoAll;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.VideoAllCallBack;

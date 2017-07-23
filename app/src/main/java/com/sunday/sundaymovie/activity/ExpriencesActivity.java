@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ExpriencesAdapter;
-import com.sunday.sundaymovie.model.Person;
+import com.sunday.sundaymovie.bean.Person;
 
 import java.util.ArrayList;
 

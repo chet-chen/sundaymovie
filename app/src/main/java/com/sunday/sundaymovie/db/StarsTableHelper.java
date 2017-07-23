@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.bean.StarsMovie;
 
 import java.util.ArrayList;
 import java.util.List;

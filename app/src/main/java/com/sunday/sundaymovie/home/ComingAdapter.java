@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.home;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -13,30 +13,29 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.bean.ComingMovie;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ComingMovie;
 
 import java.util.List;
 
-import static com.sunday.sundaymovie.adapter.ShowTimeAdapter.ID_STAR;
-import static com.sunday.sundaymovie.adapter.ShowTimeAdapter.ID_UN_STAR;
-
 /**
- * Created by agentchen on 2017/3/29.
- * Email agentchen97@gmail.com
+ * Created by agentchen on 2017/7/23.
  */
 
-public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
+class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
     public static final int GROUP_COMING = 2;
+    public static final int ID_STAR = 1;
+    public static final int ID_UN_STAR = 2;
     private int contextMenuPosition;
     private Context mContext;
-    private List<ComingMovie> mMovies;
+    private List<ComingMovie> mList;
+    private ItemClickListener mItemListener;
 
-    public ComingAdapter(Context context, List<ComingMovie> movies) {
+    ComingAdapter(Context context, List<ComingMovie> list, ItemClickListener listener) {
         super();
         mContext = context;
-        mMovies = movies;
+        mList = list;
+        mItemListener = listener;
     }
 
     @Override
@@ -47,22 +46,26 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        ComingMovie movie = mMovies.get(position);
+        ComingMovie movie = mList.get(position);
         holder.bindMovie(movie);
     }
 
     @Override
     public int getItemCount() {
-        return mMovies.size();
+        return mList.size();
     }
 
-    public void notifyDataSetChanged(List<ComingMovie> movies) {
-        mMovies = movies;
+    public void replaceData(List<ComingMovie> movies) {
+        mList = movies;
         notifyDataSetChanged();
     }
 
-    public int getContextMenuPosition() {
+    private int getContextMenuPosition() {
         return contextMenuPosition;
+    }
+
+    ComingMovie getSelectedMovie() {
+        return mList.get(getContextMenuPosition());
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnCreateContextMenuListener {
@@ -103,7 +106,7 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
 
         @Override
         public void onClick(View v) {
-            MovieDetailActivity.startMe(mContext, mMovie.getId());
+            mItemListener.onClick(mMovie.getId());
         }
 
         @Override
@@ -123,4 +126,6 @@ public class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder
             return false;
         }
     }
+
+
 }

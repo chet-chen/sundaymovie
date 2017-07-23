@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.home;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -14,9 +14,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.bean.ShowTimeMovies;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ShowTimeMovies;
 
 import java.util.List;
 
@@ -32,11 +31,13 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
     private int contextMenuPosition;
     private Context mContext;
     private List<ShowTimeMovies.MsBean> mMsBeans;
+    private ItemClickListener mItemListener;
 
-    public ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans) {
+    public ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans, ItemClickListener listener) {
         super();
         mContext = context;
         mMsBeans = msBeans;
+        mItemListener = listener;
     }
 
     @Override
@@ -45,9 +46,13 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    public void notifyDataSetChanged(List<ShowTimeMovies.MsBean> msBeans) {
+    public void replaceData(List<ShowTimeMovies.MsBean> msBeans) {
         mMsBeans = msBeans;
         notifyDataSetChanged();
+    }
+
+    public ShowTimeMovies.MsBean getSelectedMovie() {
+        return mMsBeans.get(getContextMenuPosition());
     }
 
     public int getContextMenuPosition() {
@@ -120,7 +125,9 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.item_root:
-                    MovieDetailActivity.startMe(mContext, mMsBean.getId());
+                    if (mItemListener != null) {
+                        mItemListener.onClick(mMsBean.getId());
+                    }
                     break;
                 default:
                     break;
@@ -144,4 +151,5 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
             return false;
         }
     }
+
 }

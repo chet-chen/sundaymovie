@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.PersonActivity;
-import com.sunday.sundaymovie.model.Person;
+import com.sunday.sundaymovie.bean.Person;
 
 import java.util.List;
 

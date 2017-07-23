@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.sunday.sundaymovie.model.ImageAll;
+import com.sunday.sundaymovie.bean.ImageAll;
 
 import java.io.IOException;
 

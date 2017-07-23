@@ -12,10 +12,10 @@ import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
 import com.sunday.sundaymovie.activity.PersonActivity;
-import com.sunday.sundaymovie.model.Search;
-import com.sunday.sundaymovie.model.SearchMovie;
-import com.sunday.sundaymovie.model.SearchPerson;
-import com.sunday.sundaymovie.model.SearchResult;
+import com.sunday.sundaymovie.bean.Search;
+import com.sunday.sundaymovie.bean.SearchMovie;
+import com.sunday.sundaymovie.bean.SearchPerson;
+import com.sunday.sundaymovie.bean.SearchResult;
 
 import java.util.List;
 

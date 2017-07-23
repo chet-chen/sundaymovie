@@ -24,7 +24,7 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.adapter.PersonAdapter;
-import com.sunday.sundaymovie.model.Person;
+import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.PersonCallBack;
