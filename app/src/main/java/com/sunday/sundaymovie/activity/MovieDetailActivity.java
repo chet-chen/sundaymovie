@@ -51,18 +51,18 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
     private ArrayList<String> mImgsList;
     private ProgressBar mProgressBar;
     private FollowButton mFollowButton;
-    private StarsTableHelper helper;
+    private StarsTableHelper mStarsTableHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mOkManager = OkManager.getInstance();
-        helper = new StarsTableHelper(this);
+        mStarsTableHelper = new StarsTableHelper(this);
         mBtnAllImage.setOnClickListener(this);
         mBtnAllVideo.setOnClickListener(this);
         mFollowButton.setOnClickListener(this);
         getData();
-        mFollowButton.setFollowed(helper.queryIsExist(mMovieId), false);
+        mFollowButton.setFollowed(mStarsTableHelper.queryIsExist(mMovieId), false);
     }
 
     @Override
@@ -261,10 +261,10 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.btn_follow:
                 if (mFollowButton.getFollowed()) {
-                    helper.insert(new StarsMovie(mMovieId, mMovie.getBasic().getName()
+                    mStarsTableHelper.insert(new StarsMovie(mMovieId, mMovie.getBasic().getName()
                             , mMovie.getBasic().getImg()));
                 } else {
-                    helper.delete(mMovieId);
+                    mStarsTableHelper.delete(mMovieId);
                 }
                 break;
             default:
@@ -332,7 +332,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void onDestroy() {
-        helper.close();
+        mStarsTableHelper.close();
         super.onDestroy();
     }
 }

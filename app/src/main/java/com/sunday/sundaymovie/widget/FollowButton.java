@@ -65,7 +65,6 @@ public class FollowButton extends FrameLayout {
             case MotionEvent.ACTION_DOWN:
                 if (mAnimator == null || !mAnimator.isRunning()) {
                     setForeground(mAlphaBlack);
-                    mIsFirstDraw = false;
                 }
                 return true;
             case MotionEvent.ACTION_MOVE:
@@ -77,6 +76,7 @@ public class FollowButton extends FrameLayout {
                 return true;
             case MotionEvent.ACTION_UP:
                 if (isValidClick(event.getX(), event.getY())) {
+                    mIsFirstDraw = false;
                     setForeground(mTransparent);
                     mActionUpX = event.getX();
                     mActionUpY = event.getY();

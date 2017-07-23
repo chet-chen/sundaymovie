@@ -18,28 +18,30 @@ import java.util.List;
 public class StarsTableHelper {
     private static final String TABLE_NAME = "stars";
     private DataBaseHelper mHelper;
-    private SQLiteDatabase mDB;
 
     public StarsTableHelper(Context context) {
-        mHelper = new DataBaseHelper(context, "sunday.db", null, 1);
-        mDB = mHelper.getWritableDatabase();
+        mHelper = new DataBaseHelper(context);
     }
 
     public void insert(StarsMovie starsMovie) {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id", starsMovie.getId());
         values.put("name", starsMovie.getName());
         values.put("img", starsMovie.getImg());
-        mDB.insert(TABLE_NAME, null, values);
+        db.insert(TABLE_NAME, null, values);
+        db.close();
     }
 
     public void delete(int id) {
-        mDB.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
     }
 
     public List<StarsMovie> queryAll() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         List<StarsMovie> list = new ArrayList<>();
-        Cursor cursor = mDB.query(TABLE_NAME, null, null, null, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 list.add(new StarsMovie(
@@ -54,15 +56,15 @@ public class StarsTableHelper {
     }
 
     public boolean queryIsExist(int id) {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
         boolean b;
-        Cursor cursor = mDB.query(TABLE_NAME, null, "id=?", new String[]{String.valueOf(id)}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, null, "id=?", new String[]{String.valueOf(id)}, null, null, null);
         b = cursor.moveToFirst();
         cursor.close();
         return b;
     }
 
     public void close() {
-        mDB.close();
         mHelper.close();
     }
 
