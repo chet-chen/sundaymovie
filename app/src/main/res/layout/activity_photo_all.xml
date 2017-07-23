@@ -36,5 +36,7 @@
         android:horizontalSpacing="4dp"
         android:numColumns="3"
         android:padding="4dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
         android:verticalSpacing="4dp"/>
 </LinearLayout>

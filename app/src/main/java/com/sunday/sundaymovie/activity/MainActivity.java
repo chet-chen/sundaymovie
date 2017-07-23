@@ -76,9 +76,6 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     private void toggleSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-            getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
             ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout
                     , mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             mDrawerLayout.addDrawerListener(drawerToggle);
@@ -115,7 +112,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
-            mDrawerLayout.closeDrawer(Gravity.START);
+            mDrawerLayout.closeDrawers();
         } else {
             super.onBackPressed();
         }
@@ -129,7 +126,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        mDrawerLayout.closeDrawer(Gravity.START);
+
         switch (item.getItemId()) {
             case R.id.menu_stars:
                 StarsActivity.startMe(this);
@@ -141,6 +138,7 @@ public class MainActivity extends BaseActivity implements TabLayout.OnTabSelecte
                 AboutActivity.startMe(this);
                 break;
         }
+        mDrawerLayout.closeDrawer(Gravity.START);
         return true;
     }
 }
