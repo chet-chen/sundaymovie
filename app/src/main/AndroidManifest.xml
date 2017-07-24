@@ -12,19 +12,21 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".home.HomeActivity">
+        <activity
+            android:name=".home.HomeActivity"
+            android:theme="@style/AppTheme.TranslucentStatus">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MovieDetailActivity"/>
+        <activity android:name=".moviedetail.MovieDetailActivity"/>
         <activity
             android:name=".activity.SearchActivity"
             android:theme="@style/SearchActivityTheme">
         </activity>
         <activity android:name=".activity.PhotoActivity"/>
-        <activity android:name=".activity.PhotoAllActivity"/>
+        <activity android:name=".activity.AllPhotoActivity"/>
         <activity android:name=".activity.PersonActivity"/>
         <activity android:name=".activity.ExpriencesActivity"/>
         <activity

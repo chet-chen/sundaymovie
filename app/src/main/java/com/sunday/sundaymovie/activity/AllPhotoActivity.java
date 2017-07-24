@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
-import com.sunday.sundaymovie.bean.ImageAll;
+import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
@@ -21,11 +21,11 @@ import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PhotoAllActivity extends BaseActivity {
+public class AllPhotoActivity extends BaseActivity {
     private GridView mGridView;
     private int mMovieId;
     private String mTitle;
-    private ImageAll mImageAll;
+    private AllPhoto mAllPhoto;
     private ProgressBar mProgressBar;
 
     @Override
@@ -34,7 +34,7 @@ public class PhotoAllActivity extends BaseActivity {
         setTitle(mTitle);
         OkManager.getInstance().asyncGet(Api.getImageAllUrl(mMovieId), new ImageAllCallBack() {
             @Override
-            public void onResponse(ImageAll response) {
+            public void onResponse(AllPhoto response) {
                 AlphaAnimation animation = new AlphaAnimation(1f, 0f);
                 animation.setDuration(300L);
                 animation.setAnimationListener(new Animation.AnimationListener() {
@@ -52,7 +52,7 @@ public class PhotoAllActivity extends BaseActivity {
                     }
                 });
                 mProgressBar.startAnimation(animation);
-                mImageAll = response;
+                mAllPhoto = response;
                 modelToView();
             }
 
@@ -97,17 +97,17 @@ public class PhotoAllActivity extends BaseActivity {
     }
 
     private List<String> getImgUrls() {
-        List<String> list = new ArrayList<>(mImageAll.getImages().size());
-        for (ImageAll.Image image : mImageAll.getImages()) {
+        List<String> list = new ArrayList<>(mAllPhoto.getImages().size());
+        for (AllPhoto.Image image : mAllPhoto.getImages()) {
             list.add(image.getImage());
         }
         return list;
     }
 
-    public static void startMe(Context context, int movieId, String movieName) {
-        Intent intent = new Intent(context, PhotoAllActivity.class);
+    public static void startMe(Context context, int movieId, String title) {
+        Intent intent = new Intent(context, AllPhotoActivity.class);
         intent.putExtra("movieId", movieId);
-        intent.putExtra("title", movieName);
+        intent.putExtra("title", title);
         context.startActivity(intent);
     }
 }

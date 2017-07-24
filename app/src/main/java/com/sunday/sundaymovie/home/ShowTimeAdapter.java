@@ -31,9 +31,9 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
     private int contextMenuPosition;
     private Context mContext;
     private List<ShowTimeMovies.MsBean> mMsBeans;
-    private ItemClickListener mItemListener;
+    private ItemListener mItemListener;
 
-    public ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans, ItemClickListener listener) {
+    public ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans, ItemListener listener) {
         super();
         mContext = context;
         mMsBeans = msBeans;

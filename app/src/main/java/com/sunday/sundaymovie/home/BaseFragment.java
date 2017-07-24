@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.MovieDetailActivity;
+import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
 
 import static com.sunday.sundaymovie.R.id.refresh_layout;
 
@@ -20,7 +20,7 @@ import static com.sunday.sundaymovie.R.id.refresh_layout;
  * Created by agentchen on 2017/7/23.
  */
 
-public abstract class BaseFragment<T> extends Fragment implements HomeContract.View<T>, SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
+public abstract class BaseFragment<T> extends Fragment implements HomeContract.View<T>, SwipeRefreshLayout.OnRefreshListener, ItemListener {
     protected HomeContract.Presenter mPresenter;
     protected SwipeRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
@@ -73,7 +73,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     public void showNetError() {
         if (mNetErrorView == null && recyclerEmpty) {
             View root = getView();
-            FrameLayout frameLayout = null;
+            FrameLayout frameLayout;
             if (root != null) {
                 frameLayout = (FrameLayout) root.findViewById(R.id.frame_layout);
                 mNetErrorView = LayoutInflater.from(getActivity())

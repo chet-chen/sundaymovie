@@ -30,6 +30,9 @@ public abstract class SearchCallBack implements CallBack<SearchResult> {
             }
         }
         //此处有bug，搜索super man，responseString可能为空字符串
+        if (responseString.length()<25){
+            return null;
+        }
         String jsonStr = responseString.substring(22, responseString.length() - 3);
         try {
             JSONObject object = new JSONObject(jsonStr).getJSONObject("value");

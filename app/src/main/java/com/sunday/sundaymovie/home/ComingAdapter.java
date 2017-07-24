@@ -29,9 +29,9 @@ class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
     private int contextMenuPosition;
     private Context mContext;
     private List<ComingMovie> mList;
-    private ItemClickListener mItemListener;
+    private ItemListener mItemListener;
 
-    ComingAdapter(Context context, List<ComingMovie> list, ItemClickListener listener) {
+    ComingAdapter(Context context, List<ComingMovie> list, ItemListener listener) {
         super();
         mContext = context;
         mList = list;

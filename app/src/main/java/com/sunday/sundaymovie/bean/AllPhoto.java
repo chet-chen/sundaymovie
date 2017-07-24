@@ -8,11 +8,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  * 此类为一个电影所有照片的集合
  */
-public class ImageAll {
+public class AllPhoto {
 
     private List<Image> images;
 
-    public ImageAll() {
+    public AllPhoto() {
         images = new ArrayList<>();
     }
 

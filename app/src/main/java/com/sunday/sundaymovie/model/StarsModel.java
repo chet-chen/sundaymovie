@@ -28,4 +28,8 @@ public class StarsModel {
     public boolean isExist(int id) {
         return mHelper.queryIsExist(id);
     }
+
+    public void close() {
+        mHelper.close();
+    }
 }

@@ -9,7 +9,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/23.
  */
 
-public class HomeContract {
+interface HomeContract {
     interface View<T> extends BaseView<Presenter> {
         void setRefreshing(boolean refreshing);
 
@@ -29,8 +29,6 @@ public class HomeContract {
     }
 
     interface Presenter extends BasePresenter {
-
-        void start();
 
         void loadMovies();
 

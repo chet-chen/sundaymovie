@@ -150,18 +150,20 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onResponse(SearchResult response) {
                     mProgressBar.setVisibility(View.GONE);
-                    mSearchResult = response;
-                    if (mSearchResult != null) {
+                    if (response != null) {
+                        mSearchResult = response;
                         modelToView();
+                        mListViewHistory.setVisibility(View.GONE);
+                    }else {
+                        onError(null);
                     }
-                    mListViewHistory.setVisibility(View.GONE);
                     isSearching = false;
                 }
 
                 @Override
                 public void onError(Exception e) {
                     mProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(SearchActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, "有点问题", Toast.LENGTH_SHORT).show();
                     isSearching = false;
                 }
             });

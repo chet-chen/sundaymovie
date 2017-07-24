@@ -5,4 +5,5 @@ package com.sunday.sundaymovie.base;
  */
 
 public interface BasePresenter {
+    void start();
 }

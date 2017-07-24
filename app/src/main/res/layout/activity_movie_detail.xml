@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sunday.sundaymovie.activity.MovieDetailActivity">
+    tools:context="com.sunday.sundaymovie.moviedetail.MovieDetailActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_layout"
@@ -50,7 +50,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingTop="8dp">
@@ -215,66 +214,15 @@
                 style="@style/TextViewHintStyle"
                 android:text="@string/photo"/>
 
-            <HorizontalScrollView
-                android:layout_width="match_parent"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_image"
+                android:layout_width="wrap_content"
                 android:layout_height="120dp"
                 android:layout_marginTop="4dp"
-                android:scrollbars="none">
-
-                <LinearLayout
-                    android:id="@+id/movie_detail_img_parent"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:paddingEnd="16dp"
-                    android:paddingStart="16dp">
-
-                    <ImageView
-                        android:id="@+id/iv_movie_img_1"
-                        android:layout_width="154dp"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
-
-                    <ImageView
-                        android:id="@+id/iv_movie_img_2"
-                        android:layout_width="154dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="4dp"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
-
-                    <ImageView
-                        android:id="@+id/iv_movie_img_3"
-                        android:layout_width="154dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="4dp"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
-
-                    <ImageView
-                        android:id="@+id/iv_movie_img_4"
-                        android:layout_width="154dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="4dp"
-                        android:scaleType="centerCrop"
-                        tools:src="@drawable/img_load"/>
-
-                    <TextView
-                        android:id="@+id/tv_btn_all_img"
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="4dp"
-                        android:background="@drawable/bg_black_ripple"
-                        android:clickable="true"
-                        android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
-                        android:ems="1"
-                        android:gravity="center_vertical|end"
-                        android:text="@string/all_img"
-                        android:textColor="@color/colorTextWhite_1"
-                        android:textSize="18sp"/>
-                </LinearLayout>
-            </HorizontalScrollView>
+                android:clipToPadding="false"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:scrollbars="none"/>
 
             <TextView
                 android:id="@+id/tv_hint_video"
@@ -346,7 +294,7 @@
                 android:layout_height="200dp"
                 android:layout_marginTop="4dp"
                 android:clipToPadding="false"
-                android:paddingEnd="16dp"
+                android:paddingEnd="12dp"
                 android:paddingStart="16dp"
                 android:scrollbars="none"/>
         </LinearLayout>
