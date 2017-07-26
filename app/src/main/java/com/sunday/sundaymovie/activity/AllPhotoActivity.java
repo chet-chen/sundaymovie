@@ -57,7 +57,7 @@ public class AllPhotoActivity extends BaseActivity {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 finish();
             }
         });

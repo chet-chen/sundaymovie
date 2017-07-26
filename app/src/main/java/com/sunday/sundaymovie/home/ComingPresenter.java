@@ -30,7 +30,7 @@ public class ComingPresenter extends BasePresenter<ComingMovie> {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 mView.showNetError();
                 mView.setRefreshing(false);
                 mView.snackbar("网络异常,下拉重试");

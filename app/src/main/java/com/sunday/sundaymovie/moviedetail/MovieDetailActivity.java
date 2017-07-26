@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -37,6 +38,7 @@ import java.util.List;
  */
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View, PhotoAdapter.ItemListener, View.OnClickListener {
+    private static final String TAG = "MyMovieDetailActivity";
     private MovieDetailContract.Presenter mPresenter;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
@@ -149,12 +151,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void showVideoImage(String videoImg) {
-        Glide.with(this).load(videoImg).placeholder(R.drawable.img_load).into(mIVMovieVideoImg);
-    }
-
-
-    @Override
     public void showBasicInfo(String movieName, String movieENName, boolean is3D
             , double overallRating, List<String> movieType, String movieDirectorName
             , String releaseDate, String releaseArea, String movieMins, String movieBoxOffice) {
@@ -210,12 +206,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void showPhoto(ArrayList<String> urls, int position) {
+    public void showImage(ArrayList<String> urls, int position) {
         PhotoActivity.startMe(this, urls, position);
     }
 
     @Override
-    public void showPhotoAll(int id, String title) {
+    public void showAllImages(int id, String title) {
         AllPhotoActivity.startMe(this, id, title);
     }
 
@@ -226,21 +222,17 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onImageClick(ArrayList<String> urls, int position) {
-        mPresenter.clickImg(urls, position);
+        mPresenter.clickImage(urls, position);
     }
 
     @Override
     public void onMoreImageClick() {
-        mPresenter.openMoreImage();
-    }
-
-    @Override
-    public void showMoreImage(int movieId, String movieName) {
-        AllPhotoActivity.startMe(this, movieId, movieName);
+        mPresenter.openAllImages();
     }
 
     @Override
     public void showVideo(String url, String title) {
+        Log.d(TAG, "showVideo: " + url + title);
         VideoActivity.startMe(this, url, title);
     }
 
@@ -281,6 +273,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
                 break;
             case R.id.btn_all_video:
                 mPresenter.openAllVideo();
+                break;
+            case R.id.iv_movie_video_img:
+                mPresenter.openVideo();
                 break;
         }
     }

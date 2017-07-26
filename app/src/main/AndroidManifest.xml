@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".activity.PhotoActivity"/>
         <activity android:name=".activity.AllPhotoActivity"/>
-        <activity android:name=".activity.PersonActivity"/>
+        <activity android:name=".person.PersonActivity"/>
         <activity android:name=".activity.ExpriencesActivity"/>
         <activity
             android:name=".activity.VideoActivity"

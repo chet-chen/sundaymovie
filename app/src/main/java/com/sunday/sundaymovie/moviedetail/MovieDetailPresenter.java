@@ -1,6 +1,7 @@
 package com.sunday.sundaymovie.moviedetail;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.bean.Movie;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 
 public class MovieDetailPresenter implements MovieDetailContract.Presenter {
+    private static final String TAG = "MyMovieDetailPresenter";
     private final int mMovieId;
     private final MovieDetailContract.View mView;
     private final MovieDetailModel mDetailModel;
@@ -46,16 +48,15 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
             public void onResponse(Movie response) {
                 mView.hideProgressBar();
                 if (response == null) {
-                    mView.toast("有点问题");
-                    mView.finish();
-                    return;
+                    onError();
+                } else {
+                    mMovie = response;
+                    modelToView();
                 }
-                mMovie = response;
-                modelToView();
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 mView.toast("有点问题");
                 mView.finish();
             }
@@ -63,8 +64,8 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void clickImg(ArrayList<String> urls, int position) {
-        mView.showPhoto(urls, position);
+    public void clickImage(ArrayList<String> urls, int position) {
+        mView.showImage(urls, position);
         if (!updatedImages) {
             updatedImages = true;
             new AllPhotoModel().getAllPhoto(mMovieId, new ImageAllCallBack() {
@@ -80,8 +81,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 }
 
                 @Override
-                public void onError(Exception e) {
-                    e.printStackTrace();
+                public void onError() {
                 }
             });
         }
@@ -99,6 +99,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
                 , mMovie.getBasic().getType(), mMovie.getBasic().getDirector().getName()
                 , mMovie.getBasic().getReleaseDate(), mMovie.getBasic().getReleaseArea()
                 , mMovie.getBasic().getMins(), mMovie.getBoxOffice().getTotalBoxDes());
+        mView.showMovieStory(mMovie.getBasic().getStory());
 //        如果此电影没有视频，则去除视频相关view
         if (mMovie.getBasic().getVideo().getCount() == 0) {
             mView.hideVideoInfo();
@@ -127,8 +128,8 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void openMoreImage() {
-        mView.showPhotoAll(mMovieId, mMovie.getBasic().getName());
+    public void openAllImages() {
+        mView.showAllImages(mMovieId, mMovie.getBasic().getName());
     }
 
     @Override

@@ -10,12 +10,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.PersonActivity;
 import com.sunday.sundaymovie.bean.Search;
 import com.sunday.sundaymovie.bean.SearchMovie;
 import com.sunday.sundaymovie.bean.SearchPerson;
 import com.sunday.sundaymovie.bean.SearchResult;
 import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
+import com.sunday.sundaymovie.person.PersonActivity;
 
 import java.util.List;
 

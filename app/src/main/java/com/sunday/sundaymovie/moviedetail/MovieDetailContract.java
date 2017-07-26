@@ -11,15 +11,13 @@ import java.util.List;
  * Created by agentchen on 2017/7/24.
  */
 
-interface MovieDetailContract {
+public interface MovieDetailContract {
     interface View extends BaseView<Presenter> {
         void hideProgressBar();
 
         void showTopImage(String topImg);
 
         void showMainImage(String mainImg);
-
-        void showVideoImage(String videoImg);
 
         void showBasicInfo(String movieName, String movieENName, boolean is3D, double overallRating
                 , List<String> movieType, String movieDirectorName, String releaseDate, String releaseArea, String movieMins
@@ -35,13 +33,11 @@ interface MovieDetailContract {
 
         void showActor(List<Movie.BasicBean.ActorsBean> list);
 
-        void showPhoto(ArrayList<String> urls, int position);
+        void showImage(ArrayList<String> urls, int position);
 
-        void showPhotoAll(int id, String title);
+        void showAllImages(int id, String title);
 
         void updateImages(ArrayList<String> urls);
-
-        void showMoreImage(int movieId, String movieName);
 
         void showVideo(String url, String title);
 
@@ -57,11 +53,11 @@ interface MovieDetailContract {
     interface Presenter extends BasePresenter {
         void loadMovieDetail();
 
-        void clickImg(ArrayList<String> urls, int position);
+        void clickImage(ArrayList<String> urls, int position);
 
         void modelToView();
 
-        void openMoreImage();
+        void openAllImages();
 
         void openVideo();
 

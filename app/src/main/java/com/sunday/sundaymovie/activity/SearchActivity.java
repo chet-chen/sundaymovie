@@ -154,14 +154,14 @@ public class SearchActivity extends BaseActivity {
                         mSearchResult = response;
                         modelToView();
                         mListViewHistory.setVisibility(View.GONE);
-                    }else {
-                        onError(null);
+                    } else {
+                        onError();
                     }
                     isSearching = false;
                 }
 
                 @Override
-                public void onError(Exception e) {
+                public void onError() {
                     mProgressBar.setVisibility(View.GONE);
                     Toast.makeText(SearchActivity.this, "有点问题", Toast.LENGTH_SHORT).show();
                     isSearching = false;

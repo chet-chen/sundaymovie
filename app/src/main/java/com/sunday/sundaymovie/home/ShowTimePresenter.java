@@ -29,7 +29,7 @@ public class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 mView.showNetError();
                 mView.setRefreshing(false);
                 mView.snackbar("网络异常,下拉重试");
