@@ -54,6 +54,9 @@ public class StringFormatUtil {
     }
 
     public static String getMovieType(List<String> list) {
+        if (list.size() == 0) {
+            return null;
+        }
         StringBuilder sb = new StringBuilder();
         for (String s : list) {
             sb.append(s);

@@ -138,8 +138,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
             case android.R.id.home:
                 finish();
                 break;
-            default:
-                break;
         }
         return true;
     }
@@ -268,7 +266,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     /**
-     * @param rating 若为0则没有评分
+     * @param rating 若小于等于0,则没有评分
      */
     @Override
     public void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType, double rating) {
@@ -280,13 +278,13 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         mTVHotMovieNameCn.setText(nameCn);
         mTVHotMovieNameEn.setText(nameEn);
         mTVHotMovieType.setText(movieType);
-        if (rating == 0) {
+        if (rating > 0) {
+            mTVHotMovieRating.setText(String.valueOf(rating));
+            mRatingBar.setRating((float) rating / 2);
+        } else {
             mRatingBar.setVisibility(View.GONE);
             mTVHotMovieRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
             mTVHotMovieRating.setText("暂无评分");
-        } else {
-            mTVHotMovieRating.setText(String.valueOf(rating));
-            mRatingBar.setRating((float) rating / 2);
         }
         mHotMovieGroup.setOnClickListener(this);
     }

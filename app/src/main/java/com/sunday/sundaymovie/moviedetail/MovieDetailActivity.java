@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -165,7 +166,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             mTVOverallRating.setText("暂无评分");
             mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         }
-        mTVMovieType.setText(StringFormatUtil.getMovieType(movieType));
+        String type = StringFormatUtil.getMovieType(movieType);
+        if (type == null) {
+            mTVMovieType.setVisibility(View.GONE);
+        } else {
+            mTVMovieType.setText(type);
+        }
         mTVMovieDirectorName.setText(String.format("导演: %s", movieDirectorName));
         mTVMovieDateAndArea.setText(StringFormatUtil.getMovieReleaseText(
                 releaseDate, releaseArea));
@@ -278,6 +284,16 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
                 mPresenter.openVideo();
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
     }
 
     @Override

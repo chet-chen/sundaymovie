@@ -31,7 +31,7 @@ public interface PersonContract {
         void hideImages();
 
         /**
-         * @param rating 若为0则没有评分
+         * @param rating 若小于等于0,则没有评分
          */
         void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType, double rating);
 
