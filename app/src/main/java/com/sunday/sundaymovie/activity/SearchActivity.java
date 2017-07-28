@@ -4,7 +4,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -42,7 +41,6 @@ import java.util.Collection;
 import java.util.List;
 
 public class SearchActivity extends BaseActivity implements Animation.AnimationListener {
-    int mActivityCloseExitAnimation;
     private OkManager mOkManager;
     private String mQuery;
     private SearchView mSearchView;
@@ -137,16 +135,6 @@ public class SearchActivity extends BaseActivity implements Animation.AnimationL
         if (bundle != null && bundle.containsKey(SearchManager.QUERY)) {
             mQuery = bundle.getString(SearchManager.QUERY);
         }
-//        使activity退出anim生效
-        TypedArray activityStyle = getTheme().obtainStyledAttributes(
-                new int[]{android.R.attr.windowAnimationStyle});
-        int windowAnimationStyleResId = activityStyle.getResourceId(0, 0);
-        activityStyle.recycle();
-        activityStyle = getTheme().obtainStyledAttributes(windowAnimationStyleResId,
-                new int[]{android.R.attr.activityCloseEnterAnimation,
-                        android.R.attr.activityCloseExitAnimation});
-        mActivityCloseExitAnimation = activityStyle.getResourceId(1, 0);
-        activityStyle.recycle();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
@@ -272,12 +260,6 @@ public class SearchActivity extends BaseActivity implements Animation.AnimationL
             intent.putExtra(SearchManager.QUERY, query);
         }
         context.startActivity(intent);
-    }
-
-    @Override
-    public void finish() {
-        overridePendingTransition(0, mActivityCloseExitAnimation);
-        super.finish();
     }
 
     private void saveSearchHistory(String history) {

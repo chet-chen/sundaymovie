@@ -78,13 +78,13 @@
             android:id="@+id/cv_search_parent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:background="@color/searchToolBarBG">
+            android:layout_margin="8dp">
 
             <ListView
                 android:id="@+id/lv_search_history"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/searchToolBarBG"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"/>
 
