@@ -4,13 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
@@ -102,7 +102,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         mRecyclerActor.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerPhoto = (RecyclerView) findViewById(R.id.recycler_image);
+        mRecyclerPhoto = (RecyclerView) findViewById(R.id.recycler_images);
         mRecyclerPhoto.setFocusable(false);
         mRecyclerPhoto.setLayoutManager(linearLayoutManager2);
         mRecyclerPhoto.setNestedScrollingEnabled(false);
@@ -131,7 +131,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                ((CoordinatorLayout) mProgressBar.getParent()).removeView(mProgressBar);
+                ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
             }
 
             @Override
@@ -153,8 +153,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void showBasicInfo(String movieName, String movieENName, boolean is3D
-            , double overallRating, List<String> movieType, String movieDirectorName
-            , String releaseDate, String releaseArea, String movieMins, String movieBoxOffice) {
+            , double overallRating, String movieDirectorName
+            , String dateAndArea, String movieMins, String movieBoxOffice) {
         mCollapsingToolbarLayout.setTitle(movieName);
         mTVMovieName.setText(movieName);
         mTVMovieENName.setText(movieENName);
@@ -166,15 +166,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             mTVOverallRating.setText("暂无评分");
             mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         }
-        String type = StringFormatUtil.getMovieType(movieType);
-        if (type == null) {
-            mTVMovieType.setVisibility(View.GONE);
-        } else {
-            mTVMovieType.setText(type);
-        }
         mTVMovieDirectorName.setText(String.format("导演: %s", movieDirectorName));
-        mTVMovieDateAndArea.setText(StringFormatUtil.getMovieReleaseText(
-                releaseDate, releaseArea));
+        mTVMovieDateAndArea.setText(dateAndArea);
         if (movieMins.isEmpty()) {
             mTVMovieMins.setVisibility(View.GONE);
         } else {
@@ -184,6 +177,16 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         if (is3D) {
             mTVIs3D.setBackground(getResources().getDrawable(R.drawable.text_bg_3d_true));
         }
+    }
+
+    @Override
+    public void showType(String type) {
+        mTVMovieType.setText(type);
+    }
+
+    @Override
+    public void hideType() {
+        mTVMovieType.setVisibility(View.GONE);
     }
 
     @Override

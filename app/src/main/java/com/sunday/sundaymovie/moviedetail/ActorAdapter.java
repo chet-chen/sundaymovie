@@ -20,11 +20,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class ActorAdapter extends RecyclerView.Adapter {
+class ActorAdapter extends RecyclerView.Adapter {
     private List<Movie.BasicBean.ActorsBean> mList;
     private Context mContext;
 
-    public ActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
+    ActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
         super();
         mList = list;
         mContext = context;

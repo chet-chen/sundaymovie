@@ -13,7 +13,7 @@ interface HomeContract {
     interface View<T> extends BaseView<Presenter> {
         void setRefreshing(boolean refreshing);
 
-        void snackbar(String text);
+        void snackBar(String text);
 
         void showNetError();
 

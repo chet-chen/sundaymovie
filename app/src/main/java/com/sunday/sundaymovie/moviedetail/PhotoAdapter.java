@@ -16,14 +16,14 @@ import java.util.ArrayList;
  * Created by agentchen on 2017/7/24.
  */
 
-public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_IMG = 0;
     private static final int TYPE_BTN = 1;
     private Context mContext;
     private ArrayList<String> mUrls;
     private ItemListener mListener;
 
-    public PhotoAdapter(ArrayList<String> urls, Context context, ItemListener listener) {
+    PhotoAdapter(ArrayList<String> urls, Context context, ItemListener listener) {
         mUrls = urls;
         mContext = context;
         mListener = listener;
@@ -64,10 +64,10 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView mImageView;
 
-        public ImageViewHolder(View itemView) {
+        ImageViewHolder(View itemView) {
             super(itemView);
             mImageView = (ImageView) itemView;
         }
@@ -83,7 +83,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    class BtnViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private class BtnViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         BtnViewHolder(View itemView) {
             super(itemView);

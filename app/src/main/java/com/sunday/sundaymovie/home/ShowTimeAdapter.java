@@ -24,16 +24,16 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
-    public static final int GROUP_SHOW_TIME = 1;
-    public static final int ID_STAR = 1;
-    public static final int ID_UN_STAR = 2;
+class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
+    static final int GROUP_SHOW_TIME = 1;
+    static final int ID_STAR = 1;
+    static final int ID_UN_STAR = 2;
     private int contextMenuPosition;
     private Context mContext;
     private List<ShowTimeMovies.MsBean> mMsBeans;
     private ItemListener mItemListener;
 
-    public ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans, ItemListener listener) {
+    ShowTimeAdapter(Context context, List<ShowTimeMovies.MsBean> msBeans, ItemListener listener) {
         super();
         mContext = context;
         mMsBeans = msBeans;
@@ -46,16 +46,16 @@ public class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHo
         return new ViewHolder(view);
     }
 
-    public void replaceData(List<ShowTimeMovies.MsBean> msBeans) {
+    void replaceData(List<ShowTimeMovies.MsBean> msBeans) {
         mMsBeans = msBeans;
         notifyDataSetChanged();
     }
 
-    public ShowTimeMovies.MsBean getSelectedMovie() {
+    ShowTimeMovies.MsBean getSelectedMovie() {
         return mMsBeans.get(getContextMenuPosition());
     }
 
-    public int getContextMenuPosition() {
+    private int getContextMenuPosition() {
         return contextMenuPosition;
     }
 

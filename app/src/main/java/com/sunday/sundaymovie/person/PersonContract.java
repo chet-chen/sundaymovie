@@ -11,7 +11,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-public interface PersonContract {
+interface PersonContract {
     interface View extends BaseView<Presenter> {
 
         void hideProgressBar();

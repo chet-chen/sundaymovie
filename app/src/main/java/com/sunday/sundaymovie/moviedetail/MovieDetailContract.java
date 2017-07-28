@@ -11,7 +11,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/24.
  */
 
-public interface MovieDetailContract {
+interface MovieDetailContract {
     interface View extends BaseView<Presenter> {
         void hideProgressBar();
 
@@ -20,8 +20,12 @@ public interface MovieDetailContract {
         void showMainImage(String mainImg);
 
         void showBasicInfo(String movieName, String movieENName, boolean is3D, double overallRating
-                , List<String> movieType, String movieDirectorName, String releaseDate, String releaseArea, String movieMins
+                , String movieDirectorName, String dateAndArea, String movieMins
                 , String movieBoxOffice);
+
+        void showType(String type);
+
+        void hideType();
 
         void showMovieStory(String story);
 

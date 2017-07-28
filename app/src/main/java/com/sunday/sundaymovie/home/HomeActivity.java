@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.AboutActivity;
 import com.sunday.sundaymovie.activity.BaseActivity;
-import com.sunday.sundaymovie.activity.SearchActivity;
 import com.sunday.sundaymovie.activity.SettingsActivity;
 import com.sunday.sundaymovie.activity.StarsActivity;
+import com.sunday.sundaymovie.search.SearchActivity;
 
 public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {

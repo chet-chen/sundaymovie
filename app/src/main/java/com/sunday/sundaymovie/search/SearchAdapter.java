@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.search;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -1,7 +1,6 @@
 package com.sunday.sundaymovie.moviedetail;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.bean.Movie;
@@ -18,8 +17,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/24.
  */
 
-public class MovieDetailPresenter implements MovieDetailContract.Presenter {
-    private static final String TAG = "MyMovieDetailPresenter";
+class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final int mMovieId;
     private final MovieDetailContract.View mView;
     private final MovieDetailModel mDetailModel;
@@ -28,7 +26,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private ArrayList<String> mImgsList;
     private boolean updatedImages = false;
 
-    public MovieDetailPresenter(MovieDetailContract.View view, Context context, int movieId) {
+    MovieDetailPresenter(MovieDetailContract.View view, Context context, int movieId) {
         mView = view;
         mMovieId = movieId;
         mDetailModel = new MovieDetailModel();
@@ -96,9 +94,17 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView.showMainImage(mMovie.getBasic().getImg());
         mView.showBasicInfo(mMovie.getBasic().getName(), mMovie.getBasic().getNameEn()
                 , mMovie.getBasic().isIs3D(), mMovie.getBasic().getOverallRating()
-                , mMovie.getBasic().getType(), mMovie.getBasic().getDirector().getName()
-                , mMovie.getBasic().getReleaseDate(), mMovie.getBasic().getReleaseArea()
+                , mMovie.getBasic().getDirector().getName()
+                , mDetailModel.getMovieReleaseText(mMovie.getBasic().getReleaseDate()
+                        , mMovie.getBasic().getReleaseArea())
                 , mMovie.getBasic().getMins(), mMovie.getBoxOffice().getTotalBoxDes());
+        List<String> types = mMovie.getBasic().getType();
+        if (types.size() > 0) {
+            String type = mDetailModel.getMovieType(types);
+            mView.showType(type);
+        } else {
+            mView.hideType();
+        }
         mView.showMovieStory(mMovie.getBasic().getStory());
 //        如果此电影没有视频，则去除视频相关view
         if (mMovie.getBasic().getVideo().getCount() == 0) {
@@ -114,7 +120,7 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         }
         mView.showImages(mImgsList);
 
-        List<Movie.BasicBean.ActorsBean> list = mMovie.getBasic().getActors();
+        List<Movie.BasicBean.ActorsBean> actors = mMovie.getBasic().getActors();
 //        把导演插入到演员list
         Movie.BasicBean.ActorsBean ab = new Movie.BasicBean.ActorsBean();
         Movie.BasicBean.DirectorBean directorBean = mMovie.getBasic().getDirector();
@@ -122,8 +128,8 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
         ab.setImg(directorBean.getImg());
         ab.setName(directorBean.getName());
         ab.setRoleName("导演");
-        list.add(0, ab);
-        mView.showActor(list);
+        actors.add(0, ab);
+        mView.showActor(actors);
         mView.setFollowed(mStarsModel.isExist(mMovieId));
     }
 

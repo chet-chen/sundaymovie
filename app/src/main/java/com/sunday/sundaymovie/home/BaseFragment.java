@@ -65,7 +65,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     }
 
     @Override
-    public void snackbar(String text) {
+    public void snackBar(String text) {
         Snackbar.make(mRefreshLayout, text, Snackbar.LENGTH_SHORT).show();
     }
 

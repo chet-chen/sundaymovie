@@ -11,13 +11,13 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-public class PersonPresenter implements PersonContract.Presenter {
+class PersonPresenter implements PersonContract.Presenter {
     private final PersonContract.View mView;
     private final int mId;
     private final PersonModel mPersonModel;
     private Person mPerson;
 
-    public PersonPresenter(PersonContract.View view, int id) {
+    PersonPresenter(PersonContract.View view, int id) {
         mView = view;
         mId = id;
         mView.setPresenter(this);

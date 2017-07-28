@@ -19,11 +19,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class PersonAdapter extends RecyclerView.Adapter {
+class PersonAdapter extends RecyclerView.Adapter {
     private List<Person.RelationPersonsBean> mList;
     private Context mContext;
 
-    public PersonAdapter(List<Person.RelationPersonsBean> list, Context context) {
+    PersonAdapter(List<Person.RelationPersonsBean> list, Context context) {
         super();
         mList = list;
         mContext = context;

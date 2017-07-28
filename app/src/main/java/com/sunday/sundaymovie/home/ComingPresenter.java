@@ -11,10 +11,10 @@ import com.sunday.sundaymovie.net.callback.ComingCallBack;
  * Created by agentchen on 2017/7/23.
  */
 
-public class ComingPresenter extends BasePresenter<ComingMovie> {
+class ComingPresenter extends BasePresenter<ComingMovie> {
     private ComingModel mComingModel;
 
-    public ComingPresenter(HomeContract.View<ComingMovie> view, Context context) {
+    ComingPresenter(HomeContract.View<ComingMovie> view, Context context) {
         super(view, context);
         mComingModel = new ComingModel();
     }
@@ -33,7 +33,7 @@ public class ComingPresenter extends BasePresenter<ComingMovie> {
             public void onError() {
                 mView.showNetError();
                 mView.setRefreshing(false);
-                mView.snackbar("网络异常,下拉重试");
+                mView.snackBar("网络异常,下拉重试");
             }
         });
     }

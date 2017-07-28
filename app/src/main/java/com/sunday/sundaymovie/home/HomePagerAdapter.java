@@ -10,11 +10,11 @@ import android.support.v4.app.FragmentPagerAdapter;
  * Email agentchen97@gmail.com
  */
 
-public class HomePagerAdapter extends FragmentPagerAdapter {
+class HomePagerAdapter extends FragmentPagerAdapter {
     private String[] mTitles;
     private Context mContext;
 
-    public HomePagerAdapter(FragmentManager fm, String[] titles, Context context) {
+    HomePagerAdapter(FragmentManager fm, String[] titles, Context context) {
         super(fm);
         mTitles = titles;
         mContext = context;

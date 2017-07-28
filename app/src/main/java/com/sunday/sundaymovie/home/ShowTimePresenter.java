@@ -10,10 +10,10 @@ import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
  * Created by agentchen on 2017/7/23.
  */
 
-public class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
+class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
     private ShowTimeModel mShowTimeModel;
 
-    public ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view, Context context) {
+    ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view, Context context) {
         super(view, context);
         mShowTimeModel = new ShowTimeModel();
     }
@@ -32,7 +32,7 @@ public class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
             public void onError() {
                 mView.showNetError();
                 mView.setRefreshing(false);
-                mView.snackbar("网络异常,下拉重试");
+                mView.snackBar("网络异常,下拉重试");
             }
         });
     }

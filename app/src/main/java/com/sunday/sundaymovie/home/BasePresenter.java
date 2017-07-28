@@ -34,13 +34,13 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
     @Override
     public void star(int id, String name, String imageURL) {
         mStarsModel.insertMovie(id, name, imageURL);
-        mView.snackbar("已收藏");
+        mView.snackBar("已收藏");
     }
 
     @Override
     public void unStar(int id) {
         mStarsModel.deleteMovie(id);
-        mView.snackbar("已取消收藏");
+        mView.snackBar("已取消收藏");
     }
 
     @Override

@@ -64,7 +64,7 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
             default:
                 return super.onContextItemSelected(item);
         }
-        snackbar(hint);
+        snackBar(hint);
         return true;
     }
 

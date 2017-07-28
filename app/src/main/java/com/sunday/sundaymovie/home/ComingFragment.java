@@ -65,7 +65,7 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
                 return super.onContextItemSelected(item);
 
         }
-        snackbar(hint);
+        snackBar(hint);
         return true;
     }
 

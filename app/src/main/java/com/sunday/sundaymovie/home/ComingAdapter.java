@@ -23,9 +23,9 @@ import java.util.List;
  */
 
 class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
-    public static final int GROUP_COMING = 2;
-    public static final int ID_STAR = 1;
-    public static final int ID_UN_STAR = 2;
+    static final int GROUP_COMING = 2;
+    static final int ID_STAR = 1;
+    static final int ID_UN_STAR = 2;
     private int contextMenuPosition;
     private Context mContext;
     private List<ComingMovie> mList;
@@ -55,7 +55,7 @@ class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
         return mList.size();
     }
 
-    public void replaceData(List<ComingMovie> movies) {
+    void replaceData(List<ComingMovie> movies) {
         mList = movies;
         notifyDataSetChanged();
     }
