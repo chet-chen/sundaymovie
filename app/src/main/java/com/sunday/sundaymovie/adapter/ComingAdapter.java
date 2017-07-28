@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ComingMovie;
+import com.sunday.sundaymovie.bean.ComingMovie;
 
 import java.util.List;
 

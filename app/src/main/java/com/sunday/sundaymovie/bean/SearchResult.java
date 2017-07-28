@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.model;
+package com.sunday.sundaymovie.bean;
 
 import java.util.ArrayList;
 import java.util.List;

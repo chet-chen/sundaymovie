@@ -17,11 +17,10 @@ import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ComingAdapter;
 import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ComingMovie;
-import com.sunday.sundaymovie.model.ShowTimeMovies;
-import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.bean.ComingMovie;
+import com.sunday.sundaymovie.bean.ComingMovies;
+import com.sunday.sundaymovie.bean.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
-import com.sunday.sundaymovie.model.ComingMovies;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ComingCallBack;
 
@@ -110,7 +109,7 @@ public class ComingFragment extends Fragment implements SwipeRefreshLayout.OnRef
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 if (mNetErrorView == null && recyclerEmpty) {
                     mNetErrorView = LayoutInflater.from(getActivity())
                             .inflate(R.layout.net_error, mFrameLayout, false);

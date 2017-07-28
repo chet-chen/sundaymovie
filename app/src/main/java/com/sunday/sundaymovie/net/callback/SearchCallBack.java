@@ -1,8 +1,8 @@
 package com.sunday.sundaymovie.net.callback;
 
-import com.sunday.sundaymovie.model.SearchMovie;
-import com.sunday.sundaymovie.model.SearchPerson;
-import com.sunday.sundaymovie.model.SearchResult;
+import com.sunday.sundaymovie.bean.SearchMovie;
+import com.sunday.sundaymovie.bean.SearchPerson;
+import com.sunday.sundaymovie.bean.SearchResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;

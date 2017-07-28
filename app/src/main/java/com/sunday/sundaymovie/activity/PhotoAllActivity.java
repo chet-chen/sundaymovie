@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
-import com.sunday.sundaymovie.model.ImageAll;
+import com.sunday.sundaymovie.bean.ImageAll;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
@@ -57,7 +57,7 @@ public class PhotoAllActivity extends BaseActivity {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 finish();
             }
         });

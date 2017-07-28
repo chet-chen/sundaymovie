@@ -16,8 +16,8 @@ import android.widget.FrameLayout;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ShowTimeAdapter;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ShowTimeMovies;
-import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.bean.ShowTimeMovies;
+import com.sunday.sundaymovie.bean.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
@@ -102,7 +102,7 @@ public class ShowTimeFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 if (mNetErrorView == null && recyclerEmpty) {
                     mNetErrorView = LayoutInflater.from(getActivity())
                             .inflate(R.layout.net_error, mFrameLayout, false);

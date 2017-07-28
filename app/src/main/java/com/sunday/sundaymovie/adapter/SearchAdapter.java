@@ -12,10 +12,10 @@ import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
 import com.sunday.sundaymovie.activity.PersonActivity;
-import com.sunday.sundaymovie.model.Search;
-import com.sunday.sundaymovie.model.SearchMovie;
-import com.sunday.sundaymovie.model.SearchPerson;
-import com.sunday.sundaymovie.model.SearchResult;
+import com.sunday.sundaymovie.bean.Search;
+import com.sunday.sundaymovie.bean.SearchMovie;
+import com.sunday.sundaymovie.bean.SearchPerson;
+import com.sunday.sundaymovie.bean.SearchResult;
 
 import java.util.List;
 
@@ -26,13 +26,13 @@ import java.util.List;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context mContext;
-    private List<Search> mSearches;
+    private List<Search> mList;
     private int mType;
 
     public SearchAdapter(Context context, List<Search> list, int type) {
         super();
         mContext = context;
-        mSearches = list;
+        mList = list;
         mType = type;
     }
 
@@ -44,12 +44,18 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        holder.bindSearchMovie(mSearches.get(position), mType);
+        holder.bindSearchMovie(mList.get(position), mType);
     }
 
     @Override
     public int getItemCount() {
-        return mSearches.size();
+        return mList.size();
+    }
+
+    public void replaceData(List<Search> list, int type) {
+        mList = list;
+        mType = type;
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

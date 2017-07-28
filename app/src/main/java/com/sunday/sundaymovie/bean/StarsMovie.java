@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.model;
+package com.sunday.sundaymovie.bean;
 
 /**
  * Created by agentchen on 2017/6/13.

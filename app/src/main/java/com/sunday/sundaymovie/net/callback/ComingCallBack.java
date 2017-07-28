@@ -1,7 +1,7 @@
 package com.sunday.sundaymovie.net.callback;
 
 import com.google.gson.Gson;
-import com.sunday.sundaymovie.model.ComingMovies;
+import com.sunday.sundaymovie.bean.ComingMovies;
 
 import java.io.IOException;
 

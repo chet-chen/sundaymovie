@@ -12,5 +12,5 @@ public interface CallBack<T> {
 
     void onResponse(T response);
 
-    void onError(Exception e);
+    void onError();
 }

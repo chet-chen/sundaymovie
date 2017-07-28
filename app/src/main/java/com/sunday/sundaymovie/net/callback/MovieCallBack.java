@@ -3,7 +3,7 @@ package com.sunday.sundaymovie.net.callback;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sunday.sundaymovie.model.Movie;
+import com.sunday.sundaymovie.bean.Movie;
 
 import java.io.IOException;
 

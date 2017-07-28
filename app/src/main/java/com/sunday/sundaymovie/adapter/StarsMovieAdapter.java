@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.MovieDetailActivity;
-import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.bean.StarsMovie;
 
 import java.util.List;
 

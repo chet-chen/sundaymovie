@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.VideosAdapter;
 import com.sunday.sundaymovie.listener.OnScrollEndListener;
-import com.sunday.sundaymovie.model.VideoAll;
+import com.sunday.sundaymovie.bean.VideoAll;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.VideoAllCallBack;
@@ -68,7 +68,7 @@ public class VideoAllActivity extends BaseActivity {
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError() {
                 Toast.makeText(VideoAllActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -87,8 +87,7 @@ public class VideoAllActivity extends BaseActivity {
                         }
 
                         @Override
-                        public void onError(Exception e) {
-                            e.printStackTrace();
+                        public void onError() {
                             pageCount--;
                             loading = false;
                         }

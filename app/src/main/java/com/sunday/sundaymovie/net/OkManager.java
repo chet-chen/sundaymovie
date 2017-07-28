@@ -57,7 +57,7 @@ public class OkManager {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onError(e);
+                        callBack.onError();
                     }
                 });
             }
@@ -84,7 +84,7 @@ public class OkManager {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        callBack.onError(e);
+                        callBack.onError();
                     }
                 });
             }
@@ -111,7 +111,7 @@ public class OkManager {
             @Override
             public void onFailure(Call call, final IOException e) {
                 e.printStackTrace();
-                callBack.onError(e);
+                callBack.onError();
             }
 
             @Override

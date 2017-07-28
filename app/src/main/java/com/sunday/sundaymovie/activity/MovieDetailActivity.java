@@ -23,9 +23,9 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.adapter.ActorAdapter;
 import com.sunday.sundaymovie.db.StarsTableHelper;
-import com.sunday.sundaymovie.model.ImageAll;
-import com.sunday.sundaymovie.model.Movie;
-import com.sunday.sundaymovie.model.StarsMovie;
+import com.sunday.sundaymovie.bean.ImageAll;
+import com.sunday.sundaymovie.bean.Movie;
+import com.sunday.sundaymovie.bean.StarsMovie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
@@ -285,8 +285,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
                 }
 
                 @Override
-                public void onError(Exception e) {
-                    e.printStackTrace();
+                public void onError() {
                 }
             });
         }
@@ -322,8 +321,7 @@ public class MovieDetailActivity extends BaseActivity implements View.OnClickLis
             }
 
             @Override
-            public void onError(Exception e) {
-                e.printStackTrace();
+            public void onError() {
                 Toast.makeText(MovieDetailActivity.this, "网络异常", Toast.LENGTH_SHORT).show();
                 finish();
             }

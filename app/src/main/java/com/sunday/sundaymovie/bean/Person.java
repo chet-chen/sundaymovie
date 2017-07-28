@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.model;
+package com.sunday.sundaymovie.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
