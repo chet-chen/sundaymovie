@@ -48,9 +48,14 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_show_time);
         mRefreshLayout.setOnRefreshListener(this);
+        if (mPresenter == null) {
+            recreatePresenter();
+        }
         mPresenter.start();
         return root;
     }
+
+    protected abstract void recreatePresenter();
 
     @Override
     public void onRefresh() {

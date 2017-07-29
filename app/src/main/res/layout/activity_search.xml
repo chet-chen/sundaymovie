@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/listBG"
     android:orientation="vertical"
-    tools:context="com.sunday.sundaymovie.activity.SearchActivity">
+    tools:context="com.sunday.sundaymovie.search.SearchActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -79,7 +79,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:background="@color/searchToolBarBG">
+            android:background="@color/searchToolBarBG"
+            android:visibility="invisible">
 
             <ListView
                 android:id="@+id/lv_search_history"

@@ -42,6 +42,11 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     protected void initParams(Bundle bundle) {
 
     }

@@ -247,7 +247,7 @@
 
                 <TextView
                     style="@style/TextViewHintStyle"
-                    android:text="@string/exprience"/>
+                    android:text="@string/expriences"/>
 
                 <include layout="@layout/item_expriences"/>
 

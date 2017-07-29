@@ -19,6 +19,11 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
     private ShowTimeAdapter mAdapter;
 
     @Override
+    protected void recreatePresenter() {
+        new ShowTimePresenter(this, getActivity());
+    }
+
+    @Override
     public void showMovies(List<ShowTimeMovies.MsBean> list) {
         if (mAdapter == null) {
             //在这里setLayoutManager为了解决没网状态下启动Fragment，将不能下拉刷新，原因未知

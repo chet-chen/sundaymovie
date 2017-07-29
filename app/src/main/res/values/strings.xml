@@ -31,7 +31,7 @@
     <string name="net_error">网络异常，下拉刷新重试</string>
     <string name="hot_movie">热映电影</string>
     <string name="person_info">个人简介</string>
-    <string name="exprience">个人经历</string>
+    <string name="expriences">个人经历</string>
     <string name="relation_persons">相关影人</string>
     <string name="show_more">查看更多</string>
     <string name="title_activity_settings">设置</string>
@@ -39,4 +39,5 @@
     <string name="clean_cache">清除数据</string>
     <string name="about_text">声明：此应用数据均来自 Mtime时光网(http://www.mtime.com)，原作公司拥有所有权利。\n\n
     此应用开源于：https://github.com/agentchen/sundaymovie</string>
+    <string name="load_animation">load animation</string>
 </resources>

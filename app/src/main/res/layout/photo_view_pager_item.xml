@@ -6,6 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:contentDescription="@string/load_animation"
     android:scaleType="center"
-    app:srcCompat="@drawable/bg_rotate_load">
-</ImageView>
+    app:srcCompat="@drawable/bg_rotate_load"/>

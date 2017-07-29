@@ -19,6 +19,11 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
     private ComingAdapter mAdapter;
 
     @Override
+    protected void recreatePresenter() {
+        new ComingPresenter(this, getActivity());
+    }
+
+    @Override
     public void showMovies(List<ComingMovie> list) {
         if (mAdapter == null) {
             //在这里setLayoutManager为了解决没网状态下启动Fragment，将不能下拉刷新，原因未知
