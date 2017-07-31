@@ -16,6 +16,7 @@ class PersonPresenter implements PersonContract.Presenter {
     private final int mId;
     private final PersonModel mPersonModel;
     private Person mPerson;
+    private ArrayList<String> mImgs;
 
     PersonPresenter(PersonContract.View view, int id) {
         mView = view;
@@ -63,11 +64,11 @@ class PersonPresenter implements PersonContract.Presenter {
             mView.showContent(mPerson.getContent());
         }
         if (mPerson.getImages().size() > 0) {
-            List<String> imgs = new ArrayList<>();
+            mImgs = new ArrayList<>();
             for (Person.ImagesBean imagesBean : mPerson.getImages()) {
-                imgs.add(imagesBean.getImage());
+                mImgs.add(imagesBean.getImage());
             }
-            mView.showImages(imgs);
+            mView.showImages(mImgs);
         } else {
             mView.hideImages();
         }
@@ -102,5 +103,10 @@ class PersonPresenter implements PersonContract.Presenter {
     @Override
     public void openAllExpriences() {
         mView.showAllExpriences((ArrayList<Person.ExpriencesBean>) mPerson.getExpriences());
+    }
+
+    @Override
+    public void openPhoto(int position) {
+        mView.showPhoto(mImgs, position);
     }
 }

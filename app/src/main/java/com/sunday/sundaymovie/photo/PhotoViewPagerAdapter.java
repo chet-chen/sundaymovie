@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.photo;
 
 import android.content.Context;
 import android.graphics.drawable.Animatable;
@@ -23,11 +23,11 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * Email agentchen97@gmail.com
  */
 
-public class PhotoViewPagerAdapter extends PagerAdapter {
+class PhotoViewPagerAdapter extends PagerAdapter {
     private List<String> mList;
     private Context mContext;
 
-    public PhotoViewPagerAdapter(Context context, List<String> list) {
+    PhotoViewPagerAdapter(Context context, List<String> list) {
         mContext = context;
         mList = list;
     }
@@ -56,7 +56,7 @@ public class PhotoViewPagerAdapter extends PagerAdapter {
         return mList.size();
     }
 
-    public void notifyDataSetChanged(List<String> list) {
+    void replaceData(List<String> list) {
         mList = list;
         notifyDataSetChanged();
     }

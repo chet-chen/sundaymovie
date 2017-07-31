@@ -24,7 +24,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final StarsModel mStarsModel;
     private Movie mMovie;
     private ArrayList<String> mImgsList;
-    private boolean updatedImages = false;
+    private boolean updateImages = true;
 
     MovieDetailPresenter(MovieDetailContract.View view, Context context, int movieId) {
         mView = view;
@@ -62,19 +62,21 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void clickImage(ArrayList<String> urls, int position) {
-        mView.showImage(urls, position);
-        if (!updatedImages) {
-            updatedImages = true;
+    public void openPhoto(int position) {
+        mView.showPhoto(mImgsList, position);
+        if (updateImages) {
+            updateImages = false;
             new AllPhotoModel().getAllPhoto(mMovieId, new ImageAllCallBack() {
                 @Override
                 public void onResponse(AllPhoto response) {
                     if (response != null) {
-                        ArrayList<String> list = new ArrayList<>(mImgsList);
+                        ArrayList<String> list = new ArrayList<>(mImgsList.size() + response.getImages().size());
+                        list.addAll(mImgsList);
                         for (AllPhoto.Image image : response.getImages()) {
                             list.add(image.getImage());
                         }
-                        mView.updateImages(list);
+                        mView.updatePhotos(list);
+                        mImgsList = list;
                     }
                 }
 
@@ -118,7 +120,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         for (int i = 0; i < listBean.size() && i < 4; i++) {
             mImgsList.add(listBean.get(i).getImgUrl());
         }
-        mView.showImages(mImgsList);
+        mView.showPhotos(mImgsList);
 
         List<Movie.BasicBean.ActorsBean> actors = mMovie.getBasic().getActors();
 //        把导演插入到演员list
@@ -134,8 +136,8 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void openAllImages() {
-        mView.showAllImages(mMovieId, mMovie.getBasic().getName());
+    public void openAllPhoto() {
+        mView.showAllPhoto(mMovieId, mMovie.getBasic().getName());
     }
 
     @Override

@@ -25,8 +25,8 @@
             android:name=".search.SearchActivity"
             android:theme="@style/SearchActivityTheme">
         </activity>
-        <activity android:name=".activity.PhotoActivity"/>
-        <activity android:name=".activity.AllPhotoActivity"/>
+        <activity android:name=".photo.PhotoActivity"/>
+        <activity android:name=".allphoto.AllPhotoActivity"/>
         <activity android:name=".person.PersonActivity"/>
         <activity android:name=".activity.ExpriencesActivity"/>
         <activity

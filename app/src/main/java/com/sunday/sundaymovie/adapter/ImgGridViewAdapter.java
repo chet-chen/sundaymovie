@@ -9,10 +9,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.PhotoActivity;
 import com.sunday.sundaymovie.util.PixelUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,11 +22,16 @@ public class ImgGridViewAdapter extends BaseAdapter {
     private List<String> mList;
     private Context mContext;
     private int mColumn;
+    private ItemListener mItemListener;
 
     public ImgGridViewAdapter(List<String> list, Context context, int column) {
         mList = list;
         mContext = context;
         mColumn = column;
+    }
+
+    public void setItemListener(ItemListener itemListener) {
+        mItemListener = itemListener;
     }
 
     @Override
@@ -64,10 +67,15 @@ public class ImgGridViewAdapter extends BaseAdapter {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PhotoActivity.startMe(mContext, (ArrayList<String>) mList, position);
-
+                if (mItemListener != null) {
+                    mItemListener.onClickPhoto(position);
+                }
             }
         });
         return imageView;
+    }
+
+    public interface ItemListener {
+        void onClickPhoto(int position);
     }
 }

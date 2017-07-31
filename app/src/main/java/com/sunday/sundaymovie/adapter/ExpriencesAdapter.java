@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.PhotoActivity;
 import com.sunday.sundaymovie.bean.Person;
+import com.sunday.sundaymovie.photo.PhotoActivity;
 
 import java.util.ArrayList;
 import java.util.List;

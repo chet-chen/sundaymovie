@@ -49,6 +49,8 @@ interface PersonContract {
 
         void hideRelationPersons();
 
+        void showPhoto(ArrayList<String> urls, int position);
+
         void toast(String text);
 
         void finish();
@@ -62,5 +64,7 @@ interface PersonContract {
         void openHotMovie();
 
         void openAllExpriences();
+
+        void openPhoto(int position);
     }
 }

@@ -33,15 +33,15 @@ interface MovieDetailContract {
 
         void toast(String text);
 
-        void showImages(ArrayList<String> urls);
+        void showPhotos(ArrayList<String> urls);
 
         void showActor(List<Movie.BasicBean.ActorsBean> list);
 
-        void showImage(ArrayList<String> urls, int position);
+        void showPhoto(ArrayList<String> urls, int position);
 
-        void showAllImages(int id, String title);
+        void showAllPhoto(int id, String title);
 
-        void updateImages(ArrayList<String> urls);
+        void updatePhotos(ArrayList<String> urls);
 
         void showVideo(String url, String title);
 
@@ -57,11 +57,11 @@ interface MovieDetailContract {
     interface Presenter extends BasePresenter {
         void loadMovieDetail();
 
-        void clickImage(ArrayList<String> urls, int position);
+        void openPhoto(int position);
 
         void modelToView();
 
-        void openAllImages();
+        void openAllPhoto();
 
         void openVideo();
 

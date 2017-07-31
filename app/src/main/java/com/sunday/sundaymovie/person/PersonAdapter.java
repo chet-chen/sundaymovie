@@ -74,4 +74,6 @@ class PersonAdapter extends RecyclerView.Adapter {
             PersonActivity.startMe(mContext, mBean.getRPersonId());
         }
     }
+
+
 }

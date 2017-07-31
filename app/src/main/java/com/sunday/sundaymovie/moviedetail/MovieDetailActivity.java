@@ -22,13 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.AllPhotoActivity;
 import com.sunday.sundaymovie.activity.BaseActivity;
-import com.sunday.sundaymovie.activity.PhotoActivity;
 import com.sunday.sundaymovie.activity.VideoActivity;
 import com.sunday.sundaymovie.activity.VideoAllActivity;
+import com.sunday.sundaymovie.allphoto.AllPhotoActivity;
 import com.sunday.sundaymovie.bean.Movie;
-import com.sunday.sundaymovie.util.StringFormatUtil;
+import com.sunday.sundaymovie.photo.PhotoActivity;
 import com.sunday.sundaymovie.widget.FollowButton;
 
 import java.util.ArrayList;
@@ -205,7 +204,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void showImages(ArrayList<String> urls) {
+    public void showPhotos(ArrayList<String> urls) {
         mRecyclerPhoto.setAdapter(new PhotoAdapter(urls, this, this));
     }
 
@@ -215,28 +214,28 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void showImage(ArrayList<String> urls, int position) {
+    public void showPhoto(ArrayList<String> urls, int position) {
         PhotoActivity.startMe(this, urls, position);
     }
 
     @Override
-    public void showAllImages(int id, String title) {
+    public void showAllPhoto(int id, String title) {
         AllPhotoActivity.startMe(this, id, title);
     }
 
     @Override
-    public void updateImages(ArrayList<String> urls) {
+    public void updatePhotos(ArrayList<String> urls) {
         PhotoActivity.dataChange(this, urls);
     }
 
     @Override
-    public void onImageClick(ArrayList<String> urls, int position) {
-        mPresenter.clickImage(urls, position);
+    public void onImageClick(int position) {
+        mPresenter.openPhoto(position);
     }
 
     @Override
     public void onMoreImageClick() {
-        mPresenter.openAllImages();
+        mPresenter.openAllPhoto();
     }
 
     @Override

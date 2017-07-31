@@ -27,6 +27,7 @@ import com.sunday.sundaymovie.activity.ExpriencesActivity;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
+import com.sunday.sundaymovie.photo.PhotoActivity;
 import com.sunday.sundaymovie.widget.MyGridView;
 import com.sunday.sundaymovie.widget.MyScrollView;
 
@@ -37,7 +38,8 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-public class PersonActivity extends BaseActivity implements PersonContract.View, View.OnClickListener {
+public class PersonActivity extends BaseActivity implements PersonContract.View, View.OnClickListener
+        , ImgGridViewAdapter.ItemListener {
     private PersonContract.Presenter mPresenter;
     private boolean isTitleHide = true;
     private GridView mGridView;
@@ -256,7 +258,9 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     @Override
     public void showImages(List<String> urls) {
-        mGridView.setAdapter(new ImgGridViewAdapter(urls, this, 2));
+        ImgGridViewAdapter gridViewAdapter = new ImgGridViewAdapter(urls, this, 2);
+        gridViewAdapter.setItemListener(this);
+        mGridView.setAdapter(gridViewAdapter);
     }
 
     @Override
@@ -354,5 +358,15 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
                 mPresenter.openHotMovie();
                 break;
         }
+    }
+
+    @Override
+    public void onClickPhoto(int position) {
+        mPresenter.openPhoto(position);
+    }
+
+    @Override
+    public void showPhoto(ArrayList<String> urls, int position) {
+        PhotoActivity.startMe(this, urls, position);
     }
 }
