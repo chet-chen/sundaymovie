@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -44,16 +43,6 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     @Override
     protected void initParams(Bundle bundle) {
         new AllPhotoPresenter(this, bundle.getInt("movieId"), bundle.getString("title"));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
     }
 
     @Override

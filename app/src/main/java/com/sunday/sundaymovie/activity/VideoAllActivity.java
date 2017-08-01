@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
@@ -115,18 +114,6 @@ public class VideoAllActivity extends BaseActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_videos);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return true;
     }
 
     private void modelToView() {

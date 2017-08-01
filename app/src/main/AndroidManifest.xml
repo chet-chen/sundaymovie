@@ -28,13 +28,13 @@
         <activity android:name=".photo.PhotoActivity"/>
         <activity android:name=".allphoto.AllPhotoActivity"/>
         <activity android:name=".person.PersonActivity"/>
-        <activity android:name=".activity.ExpriencesActivity"/>
+        <activity android:name=".expriences.ExpriencesActivity"/>
         <activity
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape"/>
         <activity android:name=".activity.VideoAllActivity"/>
         <activity
-            android:name=".activity.StarsActivity"
+            android:name=".star.StarsActivity"
             android:label="@string/stars"/>
         <activity
             android:name=".activity.SettingsActivity"
@@ -43,5 +43,6 @@
             android:name=".activity.AboutActivity"
             android:label="@string/about">
         </activity>
+        <activity android:name=".star.StarActivity"/>
     </application>
 </manifest>

@@ -59,8 +59,6 @@ interface PersonContract {
     interface Presenter extends BasePresenter {
         void loadPerson();
 
-        void modelToView();
-
         void openHotMovie();
 
         void openAllExpriences();

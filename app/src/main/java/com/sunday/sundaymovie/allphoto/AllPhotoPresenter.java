@@ -54,8 +54,7 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
         });
     }
 
-    @Override
-    public void modelToView() {
+    private void modelToView() {
         List<AllPhoto.Image> images = mAllPhoto.getImages();
         mView.showTitle(mTitle + " " + images.size() + "张");
         mUrls = new ArrayList<>(images.size());

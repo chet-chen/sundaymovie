@@ -2,23 +2,29 @@ package com.sunday.sundaymovie.model;
 
 import android.content.Context;
 
-import com.sunday.sundaymovie.bean.StarsMovie;
+import com.sunday.sundaymovie.bean.StarMovie;
 import com.sunday.sundaymovie.db.StarsTableHelper;
+
+import java.util.List;
 
 /**
  * Created by agentchen on 2017/7/23.
  */
 
-public class StarsModel {
+public class StarModel {
     private StarsTableHelper mHelper;
 
-    public StarsModel(Context context) {
+    public StarModel(Context context) {
         mHelper = new StarsTableHelper(context);
     }
 
+    public List<StarMovie> getAll() {
+        return mHelper.queryAll();
+    }
+
     public void insertMovie(int id, String name, String imageURL) {
-        StarsMovie starsMovie = new StarsMovie(id, name, imageURL);
-        mHelper.insert(starsMovie);
+        StarMovie starMovie = new StarMovie(id, name, imageURL);
+        mHelper.insert(starMovie);
     }
 
     public void deleteMovie(int id) {

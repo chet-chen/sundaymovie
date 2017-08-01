@@ -6,7 +6,7 @@ import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.model.AllPhotoModel;
 import com.sunday.sundaymovie.model.MovieDetailModel;
-import com.sunday.sundaymovie.model.StarsModel;
+import com.sunday.sundaymovie.model.StarModel;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import com.sunday.sundaymovie.net.callback.MovieCallBack;
 
@@ -21,7 +21,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final int mMovieId;
     private final MovieDetailContract.View mView;
     private final MovieDetailModel mDetailModel;
-    private final StarsModel mStarsModel;
+    private final StarModel mStarModel;
     private Movie mMovie;
     private ArrayList<String> mImgsList;
     private boolean updateImages = true;
@@ -30,7 +30,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView = view;
         mMovieId = movieId;
         mDetailModel = new MovieDetailModel();
-        mStarsModel = new StarsModel(context);
+        mStarModel = new StarModel(context);
         view.setPresenter(this);
     }
 
@@ -87,8 +87,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         }
     }
 
-    @Override
-    public void modelToView() {
+    private void modelToView() {
         List<Movie.BasicBean.StageImgBean.ListBean> imgs = mMovie.getBasic().getStageImg().getList();
         if (imgs.size() != 0) {
             mView.showTopImage(imgs.get(0).getImgUrl());
@@ -132,7 +131,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         ab.setRoleName("导演");
         actors.add(0, ab);
         mView.showActor(actors);
-        mView.setFollowed(mStarsModel.isExist(mMovieId));
+        mView.setFollowed(mStarModel.isExist(mMovieId));
     }
 
     @Override
@@ -153,16 +152,16 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void star() {
-        mStarsModel.insertMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg());
+        mStarModel.insertMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg());
     }
 
     @Override
     public void unStar() {
-        mStarsModel.deleteMovie(mMovieId);
+        mStarModel.deleteMovie(mMovieId);
     }
 
     @Override
     public void onDestroy() {
-        mStarsModel.close();
+        mStarModel.close();
     }
 }

@@ -2,7 +2,7 @@ package com.sunday.sundaymovie.home;
 
 import android.content.Context;
 
-import com.sunday.sundaymovie.model.StarsModel;
+import com.sunday.sundaymovie.model.StarModel;
 
 /**
  * Created by agentchen on 2017/7/23.
@@ -10,11 +10,11 @@ import com.sunday.sundaymovie.model.StarsModel;
 
 abstract class BasePresenter<T> implements HomeContract.Presenter {
     final HomeContract.View<T> mView;
-    private StarsModel mStarsModel;
+    private StarModel mStarModel;
 
     BasePresenter(HomeContract.View<T> view, Context context) {
         mView = view;
-        mStarsModel = new StarsModel(context);
+        mStarModel = new StarModel(context);
         view.setPresenter(this);
     }
 
@@ -33,13 +33,13 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
 
     @Override
     public void star(int id, String name, String imageURL) {
-        mStarsModel.insertMovie(id, name, imageURL);
+        mStarModel.insertMovie(id, name, imageURL);
         mView.snackBar("已收藏");
     }
 
     @Override
     public void unStar(int id) {
-        mStarsModel.deleteMovie(id);
+        mStarModel.deleteMovie(id);
         mView.snackBar("已取消收藏");
     }
 

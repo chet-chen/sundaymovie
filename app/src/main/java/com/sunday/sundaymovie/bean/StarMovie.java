@@ -5,16 +5,15 @@ package com.sunday.sundaymovie.bean;
  * Email agentchen97@gmail.com
  */
 
-public class StarsMovie {
+public class StarMovie {
     private int id;
     private String name;
     private String img;
 
-    public StarsMovie() {
-        super();
+    public StarMovie() {
     }
 
-    public StarsMovie(int id, String name, String img) {
+    public StarMovie(int id, String name, String img) {
         this.id = id;
         this.name = name;
         this.img = img;

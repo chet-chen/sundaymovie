@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "sunday.db";
-    public static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "sunday.db";
+    private static final int DATABASE_VERSION = 1;
     private static final String CREATE_STARS_TABLE = "create table stars (" +
             "id integer primary key," +
             "name text," +

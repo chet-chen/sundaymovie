@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.expriences;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.bean.Person;
-import com.sunday.sundaymovie.photo.PhotoActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,14 +19,16 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.ViewHolder> {
+class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.ViewHolder> {
     private List<Person.ExpriencesBean> mList;
     private Context mContext;
+    private ItemListener mItemListener;
 
-    public ExpriencesAdapter(List<Person.ExpriencesBean> list, Context context) {
+    ExpriencesAdapter(List<Person.ExpriencesBean> list, Context context, ItemListener listener) {
         super();
         mList = list;
         mContext = context;
+        mItemListener = listener;
     }
 
     @Override
@@ -72,11 +72,11 @@ public class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            ArrayList<String> imgUrls = new ArrayList<>(mList.size());
-            for (Person.ExpriencesBean bean : mList) {
-                imgUrls.add(bean.getImg());
-            }
-            PhotoActivity.startMe(mContext, imgUrls, getAdapterPosition());
+            mItemListener.onClickImage(getAdapterPosition());
         }
+    }
+
+    interface ItemListener {
+        void onClickImage(int position);
     }
 }

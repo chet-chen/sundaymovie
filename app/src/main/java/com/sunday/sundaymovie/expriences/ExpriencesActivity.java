@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.activity;
+package com.sunday.sundaymovie.expriences;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,32 +6,37 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.adapter.ExpriencesAdapter;
+import com.sunday.sundaymovie.activity.BaseActivity;
 import com.sunday.sundaymovie.bean.Person;
+import com.sunday.sundaymovie.photo.PhotoActivity;
 
 import java.util.ArrayList;
 
 /**
- * Created by agentchen on 2017/4/15.
- * Email agentchen97@gmail.com
+ * Created by agentchen on 2017/8/1.
  */
 
-public class ExpriencesActivity extends BaseActivity {
+public class ExpriencesActivity extends BaseActivity implements ExpriencesContract.View, ExpriencesAdapter.ItemListener {
+    private ExpriencesContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
-    private ArrayList<Person.ExpriencesBean> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRecyclerView.setAdapter(new ExpriencesAdapter(mList, this));
+        mPresenter.start();
+    }
+
+    @Override
+    public void setPresenter(ExpriencesContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override
     protected void initParams(Bundle bundle) {
-        mList = bundle.getParcelableArrayList("list");
+        ArrayList<Person.ExpriencesBean> mList = bundle.getParcelableArrayList("list");
+        new ExpriencesPresenter(this, mList);
     }
 
     @Override
@@ -45,20 +50,23 @@ public class ExpriencesActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-            default:
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    public void showExpriences(ArrayList<Person.ExpriencesBean> list) {
+        mRecyclerView.setAdapter(new ExpriencesAdapter(list, this, this));
     }
 
     public static void startMe(Context context, ArrayList<Person.ExpriencesBean> list) {
         Intent intent = new Intent(context, ExpriencesActivity.class);
         intent.putParcelableArrayListExtra("list", list);
         context.startActivity(intent);
+    }
+
+    @Override
+    public void onClickImage(int position) {
+        mPresenter.openPhoto(position);
+    }
+
+    @Override
+    public void showPhoto(ArrayList<String> urls, int position) {
+        PhotoActivity.startMe(this, urls, position);
     }
 }

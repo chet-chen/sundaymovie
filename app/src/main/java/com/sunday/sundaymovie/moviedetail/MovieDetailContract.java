@@ -59,8 +59,6 @@ interface MovieDetailContract {
 
         void openPhoto(int position);
 
-        void modelToView();
-
         void openAllPhoto();
 
         void openVideo();

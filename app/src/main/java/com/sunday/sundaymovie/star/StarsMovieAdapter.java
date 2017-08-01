@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.star;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.bean.StarsMovie;
-import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
+import com.sunday.sundaymovie.bean.StarMovie;
 
 import java.util.List;
 
@@ -20,14 +19,16 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class StarsMovieAdapter extends RecyclerView.Adapter<StarsMovieAdapter.ViewHolder> {
+class StarsMovieAdapter extends RecyclerView.Adapter<StarsMovieAdapter.ViewHolder> {
     private Context mContext;
-    private List<StarsMovie> mList;
+    private List<StarMovie> mList;
+    private ItemListener mItemListener;
 
-    public StarsMovieAdapter(Context context, List<StarsMovie> list) {
+    StarsMovieAdapter(Context context, List<StarMovie> list, ItemListener listener) {
         super();
         mList = list;
         mContext = context;
+        mItemListener = listener;
     }
 
     @Override
@@ -46,34 +47,38 @@ public class StarsMovieAdapter extends RecyclerView.Adapter<StarsMovieAdapter.Vi
         return mList.size();
     }
 
-    public void notifyDataSetChanged(List<StarsMovie> list) {
+    public void replaceData(List<StarMovie> list) {
         mList = list;
         notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private StarsMovie mStarsMovie;
+        private StarMovie mStarMovie;
         private ImageView mImageView;
         private TextView mTextView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_movie_img);
-            mTextView = (TextView) itemView.findViewById(R.id.tv_movie_name);
+            mImageView = itemView.findViewById(R.id.iv_movie_img);
+            mTextView = itemView.findViewById(R.id.tv_movie_name);
         }
 
-        void bindStarsMovie(StarsMovie starsMovie) {
-            mStarsMovie = starsMovie;
-            Glide.with(mContext).load(mStarsMovie.getImg())
+        void bindStarsMovie(StarMovie starMovie) {
+            mStarMovie = starMovie;
+            Glide.with(mContext).load(mStarMovie.getImg())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
-            mTextView.setText(mStarsMovie.getName());
+            mTextView.setText(mStarMovie.getName());
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            MovieDetailActivity.startMe(mContext, mStarsMovie.getId());
+            mItemListener.onClick(getAdapterPosition());
         }
+    }
+
+    interface ItemListener {
+        void onClick(int position);
     }
 }

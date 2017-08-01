@@ -52,8 +52,7 @@ class PersonPresenter implements PersonContract.Presenter {
         });
     }
 
-    @Override
-    public void modelToView() {
+    private void modelToView() {
         mView.showName(mPerson.getNameCn());
         mView.showMainImage(mPerson.getImage());
         mView.showBasicInfo(mPerson.getNameEn(), mPerson.getAddress(), mPerson.getBirthYear()

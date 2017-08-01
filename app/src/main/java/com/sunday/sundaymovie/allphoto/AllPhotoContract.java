@@ -26,8 +26,6 @@ interface AllPhotoContract {
     interface Presenter extends BasePresenter {
         void loadAllPhoto();
 
-        void modelToView();
-
         void openPhoto(int postition);
     }
 }

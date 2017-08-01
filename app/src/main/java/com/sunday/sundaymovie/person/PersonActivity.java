@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -23,9 +22,9 @@ import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.BaseActivity;
-import com.sunday.sundaymovie.activity.ExpriencesActivity;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.bean.Person;
+import com.sunday.sundaymovie.expriences.ExpriencesActivity;
 import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
 import com.sunday.sundaymovie.photo.PhotoActivity;
 import com.sunday.sundaymovie.widget.MyGridView;
@@ -132,16 +131,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     @Override
     public void setPresenter(PersonContract.Presenter presenter) {
         mPresenter = presenter;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return true;
     }
 
     private View getToolbarTitle() {
