@@ -23,8 +23,8 @@ import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.BaseActivity;
 import com.sunday.sundaymovie.activity.VideoActivity;
-import com.sunday.sundaymovie.activity.VideoAllActivity;
 import com.sunday.sundaymovie.allphoto.AllPhotoActivity;
+import com.sunday.sundaymovie.allvideo.AllVideoActivity;
 import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.photo.PhotoActivity;
 import com.sunday.sundaymovie.widget.FollowButton;
@@ -245,7 +245,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void showAllVideo(int id, String title) {
-        VideoAllActivity.startMe(this, id, title);
+        AllVideoActivity.startMe(this, id, title);
     }
 
     @Override

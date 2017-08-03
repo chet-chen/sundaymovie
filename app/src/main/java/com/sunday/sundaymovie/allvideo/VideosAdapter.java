@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.adapter;
+package com.sunday.sundaymovie.allvideo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.VideoActivity;
 import com.sunday.sundaymovie.bean.VideoAll;
 import com.sunday.sundaymovie.util.StringFormatUtil;
 
@@ -24,11 +23,13 @@ import java.util.List;
 public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosViewHolder> {
     private List<VideoAll.Video> mList;
     private Context mContext;
+    private ItemListener mItemListener;
 
-    public VideosAdapter(List<VideoAll.Video> list, Context context) {
+    public VideosAdapter(List<VideoAll.Video> list, Context context, ItemListener listener) {
         super();
         mList = list;
         mContext = context;
+        mItemListener = listener;
     }
 
     @Override
@@ -47,6 +48,11 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
         return mList.size();
     }
 
+    public void replaceData(List<VideoAll.Video> list) {
+        mList = list;
+        notifyDataSetChanged();
+    }
+
     class VideosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private VideoAll.Video mVideo;
         private ImageView mImageView;
@@ -55,9 +61,9 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
 
         VideosViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.item_video_img);
-            mTVTitle = (TextView) itemView.findViewById(R.id.item_video_title);
-            mTVLength = (TextView) itemView.findViewById(R.id.item_video_length);
+            mImageView = itemView.findViewById(R.id.item_video_img);
+            mTVTitle = itemView.findViewById(R.id.item_video_title);
+            mTVLength = itemView.findViewById(R.id.item_video_length);
         }
 
         void bindVideo(VideoAll.Video video) {
@@ -73,7 +79,11 @@ public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosView
 
         @Override
         public void onClick(View v) {
-            VideoActivity.startMe(mContext, mVideo.getHightUrl(), mVideo.getTitle());
+            mItemListener.onClickVideo(getAdapterPosition());
         }
+    }
+
+    interface ItemListener {
+        void onClickVideo(int position);
     }
 }

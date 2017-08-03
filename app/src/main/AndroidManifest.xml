@@ -32,9 +32,9 @@
         <activity
             android:name=".activity.VideoActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".activity.VideoAllActivity"/>
+        <activity android:name=".allvideo.AllVideoActivity"/>
         <activity
-            android:name=".star.StarsActivity"
+            android:name=".star.StarActivity"
             android:label="@string/stars"/>
         <activity
             android:name=".activity.SettingsActivity"
@@ -43,6 +43,5 @@
             android:name=".activity.AboutActivity"
             android:label="@string/about">
         </activity>
-        <activity android:name=".star.StarActivity"/>
     </application>
 </manifest>

@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.listener;
+package com.sunday.sundaymovie.allvideo;
 
 import android.support.v7.widget.RecyclerView;
 

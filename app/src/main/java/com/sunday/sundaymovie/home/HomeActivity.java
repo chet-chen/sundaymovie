@@ -18,6 +18,7 @@ import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.AboutActivity;
 import com.sunday.sundaymovie.activity.BaseActivity;
 import com.sunday.sundaymovie.activity.SettingsActivity;
+import com.sunday.sundaymovie.search.SearchActivity;
 import com.sunday.sundaymovie.star.StarActivity;
 
 public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
@@ -65,6 +66,16 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_search:
+                SearchActivity.startMe(this, null);
+                break;
+        }
         return true;
     }
 
@@ -120,7 +131,6 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menu_stars:
                 StarActivity.startMe(this);
