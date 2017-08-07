@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.photo.PhotoActivity;
 

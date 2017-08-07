@@ -16,8 +16,8 @@ import android.view.MenuItem;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.activity.AboutActivity;
-import com.sunday.sundaymovie.activity.BaseActivity;
 import com.sunday.sundaymovie.activity.SettingsActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.search.SearchActivity;
 import com.sunday.sundaymovie.star.StarActivity;
 
@@ -34,7 +34,7 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles, this);
+        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);

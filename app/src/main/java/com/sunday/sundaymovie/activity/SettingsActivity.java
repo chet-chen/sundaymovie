@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.sunday.sundaymovie.R;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.util.GlideCacheUtil;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {

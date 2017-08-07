@@ -21,12 +21,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
-import com.sunday.sundaymovie.activity.VideoActivity;
 import com.sunday.sundaymovie.allphoto.AllPhotoActivity;
 import com.sunday.sundaymovie.allvideo.AllVideoActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.photo.PhotoActivity;
+import com.sunday.sundaymovie.video.VideoActivity;
 import com.sunday.sundaymovie.widget.FollowButton;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     protected void initParams(Bundle bundle) {
         if (bundle != null) {
-            new MovieDetailPresenter(this, this, bundle.getInt("movieId"));
+            new MovieDetailPresenter(this, bundle.getInt("movieId"));
         }
     }
 
@@ -116,6 +116,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra("movieId", movieId);
         context.startActivity(intent);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

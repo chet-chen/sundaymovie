@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.star;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.bean.StarMovie;
 import com.sunday.sundaymovie.model.StarModel;
 
@@ -16,10 +14,10 @@ class StarPresenter implements StarContract.Presenter {
     private final StarModel mStarModel;
     private List<StarMovie> mList;
 
-    StarPresenter(StarContract.View view, Context context) {
+    StarPresenter(StarContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        mStarModel = new StarModel(context);
+        mStarModel = new StarModel(view.getContext());
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.home;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.bean.ShowTimeMovies;
 import com.sunday.sundaymovie.model.ShowTimeModel;
 import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
@@ -13,8 +11,8 @@ import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
 class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
     private ShowTimeModel mShowTimeModel;
 
-    ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view, Context context) {
-        super(view, context);
+    ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view) {
+        super(view);
         mShowTimeModel = new ShowTimeModel();
     }
 

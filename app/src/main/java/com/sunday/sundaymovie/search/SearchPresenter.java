@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.search;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.bean.Search;
 import com.sunday.sundaymovie.bean.SearchResult;
 import com.sunday.sundaymovie.model.SearchModel;
@@ -21,10 +19,10 @@ class SearchPresenter implements SearchContract.Presenter {
     private boolean mIsFirstFocus = true;
     private String mSearchText;
 
-    SearchPresenter(SearchContract.View view, Context context) {
+    SearchPresenter(SearchContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        mSearchModel = new SearchModel(context);
+        mSearchModel = new SearchModel(view.getContext());
     }
 
     @Override

@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.expriences.ExpriencesActivity;

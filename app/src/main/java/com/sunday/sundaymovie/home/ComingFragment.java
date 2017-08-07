@@ -20,7 +20,7 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
 
     @Override
     protected void recreatePresenter() {
-        new ComingPresenter(this, getActivity());
+        new ComingPresenter(this);
     }
 
     @Override
@@ -43,11 +43,6 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
             }
             mRecyclerView.smoothScrollToPosition(0);
         }
-    }
-
-    @Override
-    public ComingMovie getSelectedMovie() {
-        return mAdapter.getSelectedMovie();
     }
 
     @Override

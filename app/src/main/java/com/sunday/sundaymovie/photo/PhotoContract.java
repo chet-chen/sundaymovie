@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.photo;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 
@@ -13,6 +15,8 @@ import java.util.List;
 
 interface PhotoContract {
     interface View extends BaseView<Presenter> {
+        Context getApplicationContext();
+
         void showPosition(int position, int count);
 
         void showSnackBar(String text, String actionText);

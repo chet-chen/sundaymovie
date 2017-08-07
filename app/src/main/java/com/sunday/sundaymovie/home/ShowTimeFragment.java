@@ -20,7 +20,7 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
 
     @Override
     protected void recreatePresenter() {
-        new ShowTimePresenter(this, getActivity());
+        new ShowTimePresenter(this);
     }
 
     @Override
@@ -43,11 +43,6 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
             }
             mRecyclerView.smoothScrollToPosition(0);
         }
-    }
-
-    @Override
-    public ShowTimeMovies.MsBean getSelectedMovie() {
-        return mAdapter.getSelectedMovie();
     }
 
     @Override

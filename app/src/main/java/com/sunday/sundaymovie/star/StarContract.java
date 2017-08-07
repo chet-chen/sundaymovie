@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.star;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 import com.sunday.sundaymovie.bean.StarMovie;
@@ -12,6 +14,8 @@ import java.util.List;
 
 interface StarContract {
     interface View extends BaseView<StarContract.Presenter> {
+        Context getContext();
+
         void showStarMovie(List<StarMovie> list);
 
         void showMovie(int id);

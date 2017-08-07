@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.sunday.sundaymovie.R;
+import com.sunday.sundaymovie.base.BaseActivity;
 
 public class AboutActivity extends BaseActivity {
 

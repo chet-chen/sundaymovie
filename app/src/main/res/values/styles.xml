@@ -21,6 +21,9 @@
         <item name="android:windowAnimationStyle">@style/AnimSearchActivity</item>
         <item name="colorPrimary">#F5F5F5</item>
         <item name="colorPrimaryDark">#DBDBDB</item>
+        <!--<item name="android:windowEnterTransition" tools:targetApi="lollipop">@transition/fade-->
+        <!--</item>-->
+        <!--<item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/fade</item>-->
     </style>
 
     <style name="AnimSearchActivity" parent="@android:style/Animation.Activity">

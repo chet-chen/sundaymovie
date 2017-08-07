@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.moviedetail;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 import com.sunday.sundaymovie.bean.Movie;
@@ -13,6 +15,9 @@ import java.util.List;
 
 interface MovieDetailContract {
     interface View extends BaseView<Presenter> {
+
+        Context getContext();
+
         void hideProgressBar();
 
         void showTopImage(String topImg);

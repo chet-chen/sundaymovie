@@ -13,9 +13,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
-import com.sunday.sundaymovie.activity.VideoActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.VideoAll;
+import com.sunday.sundaymovie.video.VideoActivity;
 
 import java.util.List;
 

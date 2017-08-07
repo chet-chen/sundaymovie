@@ -1,10 +1,12 @@
 package com.sunday.sundaymovie.search;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.Search;
 
 import java.lang.reflect.Field;
@@ -105,15 +107,18 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     protected void initParams(Bundle bundle) {
-        SearchContract.Presenter presenter = new SearchPresenter(this, this);
+        SearchContract.Presenter presenter = new SearchPresenter(this);
         if (bundle != null && bundle.containsKey(SearchManager.QUERY)) {
             String text = bundle.getString(SearchManager.QUERY);
             if (text != null && text.isEmpty()) {
                 presenter.setSearchText(text);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            }
         }
     }
 
@@ -139,7 +144,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         if (query != null && !query.isEmpty()) {
             intent.putExtra(SearchManager.QUERY, query);
         }
-        context.startActivity(intent);
+        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
     }
 
     @Override
@@ -184,15 +189,17 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     }
 
     @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
     public void clearSearchFocus() {
         mSearchView.clearFocus();
     }
 
     @Override
     public void showHistory(boolean needAnimate) {
-        if (mCardViewHistory.getVisibility() == View.VISIBLE) {
-            return;
-        }
         if (needAnimate) {
             mAnimShowCard = new TranslateAnimation(0, 0, -mCardViewHistory.getHeight(), 0);
             mAnimShowCard.setDuration(300L);

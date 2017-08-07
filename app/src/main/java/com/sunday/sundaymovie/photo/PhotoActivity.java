@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.widget.HackyViewPager;
 
 import java.io.File;
@@ -72,8 +72,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     @Override
     protected void initParams(Bundle bundle) {
         isFullScreen = true;
-        new PhotoPresenter(this, getApplicationContext()
-                , bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
+        new PhotoPresenter(this, bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
     }
 
     public static void startMe(Context context, ArrayList<String> imgURLs, int position) {

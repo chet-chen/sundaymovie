@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.photo;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.model.PhotoModel;
 
 import java.io.File;
@@ -19,12 +17,12 @@ class PhotoPresenter implements PhotoContract.Presenter {
     private int mPosition;
     private File mDownloadImage;
 
-    PhotoPresenter(PhotoContract.View view, Context appContext, List<String> imgURLs, int position) {
+    PhotoPresenter(PhotoContract.View view, List<String> imgURLs, int position) {
         mView = view;
         mView.setPresenter(this);
         mImgURLs = imgURLs;
         mPosition = position;
-        mPhotoModel = new PhotoModel(appContext);
+        mPhotoModel = new PhotoModel(view.getApplicationContext());
     }
 
     @Override

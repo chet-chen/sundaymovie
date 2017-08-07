@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.activity.BaseActivity;
+import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.StarMovie;
 import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
 
@@ -41,7 +41,7 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
 
     @Override
     protected void initParams(Bundle bundle) {
-        new StarPresenter(this, this);
+        new StarPresenter(this);
     }
 
     @Override
@@ -56,6 +56,11 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
     public static void startMe(Context context) {
         Intent intent = new Intent(context, StarActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.moviedetail;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.model.AllPhotoModel;
@@ -26,11 +24,11 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private ArrayList<String> mImgsList;
     private boolean updateImages = true;
 
-    MovieDetailPresenter(MovieDetailContract.View view, Context context, int movieId) {
+    MovieDetailPresenter(MovieDetailContract.View view, int movieId) {
         mView = view;
         mMovieId = movieId;
         mDetailModel = new MovieDetailModel();
-        mStarModel = new StarModel(context);
+        mStarModel = new StarModel(view.getContext());
         view.setPresenter(this);
     }
 
