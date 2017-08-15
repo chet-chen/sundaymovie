@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_black_ripple"
     android:clickable="true"
+    android:elevation="2dp"
+    android:drawableEnd="@drawable/ic_chevron_right_white_24dp"
     android:ems="1"
     android:gravity="center_vertical|end"
     android:text="@string/all_img"

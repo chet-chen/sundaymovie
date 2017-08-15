@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.sunday.sundaymovie.activity.AllPhotoActivity">
+    tools:context="com.sunday.sundaymovie.allphoto.AllPhotoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -26,17 +26,13 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:padding="150dp"/>
-    <!--注意：gridview要实现第一行距离顶部有距离，先设置paddingTop，设置clipToPadding为false-->
-    <GridView
-        android:id="@+id/image_all_grid_view"
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:gravity="center"
-        android:horizontalSpacing="4dp"
-        android:numColumns="3"
-        android:padding="4dp"
+        android:paddingBottom="4dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        android:verticalSpacing="4dp"/>
+        android:scrollbars="vertical"/>
 </LinearLayout>

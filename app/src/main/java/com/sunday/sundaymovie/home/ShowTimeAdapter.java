@@ -83,14 +83,17 @@ class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_hot_movie_img);
-            mTVMovieTCN = (TextView) itemView.findViewById(R.id.tv_movie_t);
-            mTVMovieTEN = (TextView) itemView.findViewById(R.id.tv_movie_t_en);
-            mTVMovieRating = (TextView) itemView.findViewById(R.id.tv_rating);
-            mTVMovieType = (TextView) itemView.findViewById(R.id.tv_movie_type);
-            mTVMovieDN = (TextView) itemView.findViewById(R.id.tv_movie_director);
-            mTVMovieN = (TextView) itemView.findViewById(R.id.tv_movie_actor);
-            mRatingBar = (RatingBar) itemView.findViewById(R.id.rb_rating);
+            mImageView = itemView.findViewById(R.id.iv_hot_movie_img);
+            mTVMovieTCN = itemView.findViewById(R.id.tv_movie_t);
+            mTVMovieTEN = itemView.findViewById(R.id.tv_movie_t_en);
+            mTVMovieRating = itemView.findViewById(R.id.tv_rating);
+            mTVMovieType = itemView.findViewById(R.id.tv_movie_type);
+            mTVMovieDN = itemView.findViewById(R.id.tv_movie_director);
+            mTVMovieN = itemView.findViewById(R.id.tv_movie_actor);
+            mRatingBar = itemView.findViewById(R.id.rb_rating);
+            itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
+            itemView.setOnCreateContextMenuListener(this);
         }
 
         void bindMsBean(ShowTimeMovies.MsBean msBean) {
@@ -116,9 +119,6 @@ class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
                 mRatingBar.setVisibility(View.GONE);
                 mTVMovieRating.setText("暂无评分");
             }
-            itemView.setOnClickListener(this);
-            itemView.setOnLongClickListener(this);
-            itemView.setOnCreateContextMenuListener(this);
         }
 
         @Override
@@ -128,8 +128,6 @@ class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
                     if (mItemListener != null) {
                         mItemListener.onClick(mMsBean.getId());
                     }
-                    break;
-                default:
                     break;
             }
         }

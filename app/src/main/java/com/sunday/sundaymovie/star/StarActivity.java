@@ -46,7 +46,7 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_stars);
+        setContentView(R.layout.activity_star);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);

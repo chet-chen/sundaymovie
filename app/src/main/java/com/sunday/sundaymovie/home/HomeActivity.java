@@ -53,7 +53,7 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -74,6 +74,11 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
         switch (item.getItemId()) {
             case R.id.menu_search:
                 SearchActivity.startMe(this, null);
+                break;
+            case android.R.id.home:
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                    mDrawerLayout.openDrawer(Gravity.START);
+                }
                 break;
         }
         return true;

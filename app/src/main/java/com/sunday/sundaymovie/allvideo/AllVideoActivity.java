@@ -57,7 +57,7 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_video_all);
+        setContentView(R.layout.activity_all_video);
         Toolbar toolbar = (Toolbar) findViewById(R.id.video_all_toolbar);
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view_videos);

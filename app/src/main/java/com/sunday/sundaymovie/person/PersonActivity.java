@@ -2,7 +2,9 @@ package com.sunday.sundaymovie.person;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +12,6 @@ import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -21,13 +22,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
+import com.sunday.sundaymovie.adapter.GridPhotosAdapter;
 import com.sunday.sundaymovie.base.BaseActivity;
-import com.sunday.sundaymovie.adapter.ImgGridViewAdapter;
 import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.expriences.ExpriencesActivity;
 import com.sunday.sundaymovie.moviedetail.MovieDetailActivity;
 import com.sunday.sundaymovie.photo.PhotoActivity;
-import com.sunday.sundaymovie.widget.MyGridView;
 import com.sunday.sundaymovie.widget.MyScrollView;
 
 import java.util.ArrayList;
@@ -38,12 +38,11 @@ import java.util.List;
  */
 
 public class PersonActivity extends BaseActivity implements PersonContract.View, View.OnClickListener
-        , ImgGridViewAdapter.ItemListener {
+        , GridPhotosAdapter.ItemListener {
     private PersonContract.Presenter mPresenter;
     private boolean isTitleHide = true;
-    private GridView mGridView;
     private Button mBtnShowMoreExpriences;
-    private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerViewRelationPersons, mRecyclerViewImages;
     private ImageView mIVMainImg, mIVHotMovieImg, mIVExpriences;
     private ExpandableTextView mExpandableTextView;
     private View mHotMovieGroup;
@@ -93,18 +92,9 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         setContentView(R.layout.activity_person);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
-        mGridView = (MyGridView) findViewById(R.id.grid_view_img);
-        /*
-        *问题 activity启动，不处在最顶部
-        *原因 ScrollView 中嵌套其他可滑动View,如 GridView、RecyclerView 等
-        *解决 设置子View setFocusable(false)
-        */
-        mGridView.setFocusable(false);
         mBtnShowMoreExpriences = (Button) findViewById(R.id.btn_show_more);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv_relation_persons);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mRecyclerViewRelationPersons = (RecyclerView) findViewById(R.id.rv_relation_persons);
+        mRecyclerViewImages = (RecyclerView) findViewById(R.id.recycler_view_images);
         mIVMainImg = (ImageView) findViewById(R.id.iv_main_img);
         mIVHotMovieImg = (ImageView) findViewById(R.id.iv_hot_movie_img);
         mIVExpriences = (ImageView) findViewById(R.id.iv_expriences_img);
@@ -247,14 +237,17 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     @Override
     public void showImages(List<String> urls) {
-        ImgGridViewAdapter gridViewAdapter = new ImgGridViewAdapter(urls, this, 2);
-        gridViewAdapter.setItemListener(this);
-        mGridView.setAdapter(gridViewAdapter);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        mRecyclerViewImages.setLayoutManager(gridLayoutManager);
+        int space = getResources().getDimensionPixelSize(R.dimen.images_space);
+        mRecyclerViewImages.addItemDecoration(new SpaceItemDecoration(space));
+        GridPhotosAdapter adapter = new GridPhotosAdapter(urls, this, this);
+        mRecyclerViewImages.setAdapter(adapter);
     }
 
     @Override
     public void hideImages() {
-        mGridView.setVisibility(View.GONE);
+        mRecyclerViewImages.setVisibility(View.GONE);
         findViewById(R.id.tv_hint_img).setVisibility(View.GONE);
     }
 
@@ -317,14 +310,16 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     @Override
     public void showRelationPersons(List<Person.RelationPersonsBean> list) {
-        mRecyclerView.setAdapter(new PersonAdapter(list, this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mRecyclerViewRelationPersons.setLayoutManager(linearLayoutManager);
+        mRecyclerViewRelationPersons.setAdapter(new PersonAdapter(list, this));
     }
 
     @Override
     public void hideRelationPersons() {
-        LinearLayout parent = (LinearLayout) mRecyclerView.getParent();
-        parent.removeView(findViewById(R.id.tv_hint_relation));
-        parent.removeView(mRecyclerView);
+        mRecyclerViewRelationPersons.setVisibility(View.GONE);
+        findViewById(R.id.tv_hint_relation).setVisibility(View.GONE);
     }
 
     @Override
@@ -357,5 +352,24 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     @Override
     public void showPhoto(ArrayList<String> urls, int position) {
         PhotoActivity.startMe(this, urls, position);
+    }
+
+    private class SpaceItemDecoration extends RecyclerView.ItemDecoration {
+        private int mSpace;
+
+        SpaceItemDecoration(int space) {
+            this.mSpace = space;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+            int position = parent.getChildAdapterPosition(view);
+            if (position > 1) {
+                outRect.top = mSpace;
+            }
+            if (position % 2 == 0) {
+                outRect.right = mSpace;
+            }
+        }
     }
 }
