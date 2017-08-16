@@ -1,5 +1,6 @@
 package com.sunday.sundaymovie.home;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,10 +12,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 class HomePagerAdapter extends FragmentPagerAdapter {
     private String[] mTitles;
+    private Context mContext;
 
-    HomePagerAdapter(FragmentManager fm, String[] titles) {
+    HomePagerAdapter(FragmentManager fm, String[] titles, Context context) {
         super(fm);
         mTitles = titles;
+        mContext = context;
     }
 
     @Override
@@ -32,11 +35,11 @@ class HomePagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 ShowTimeFragment showTimeFragment = new ShowTimeFragment();
-                showTimeFragment.setPresenter(new ShowTimePresenter(showTimeFragment));
+                showTimeFragment.setPresenter(new ShowTimePresenter(showTimeFragment, mContext));
                 return showTimeFragment;
             case 1:
                 ComingFragment comingFragment = new ComingFragment();
-                comingFragment.setPresenter(new ComingPresenter(comingFragment));
+                comingFragment.setPresenter(new ComingPresenter(comingFragment, mContext));
                 return comingFragment;
             default:
                 return null;

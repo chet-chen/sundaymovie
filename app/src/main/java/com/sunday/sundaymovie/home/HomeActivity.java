@@ -34,7 +34,7 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles);
+        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles, this);
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);

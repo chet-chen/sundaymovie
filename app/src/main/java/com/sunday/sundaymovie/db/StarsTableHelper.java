@@ -30,7 +30,6 @@ public class StarsTableHelper {
         values.put("name", starMovie.getName());
         values.put("img", starMovie.getImg());
         db.insert(TABLE_NAME, null, values);
-        db.close();
     }
 
     public void delete(int id) {

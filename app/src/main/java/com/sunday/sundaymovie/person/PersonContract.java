@@ -14,7 +14,7 @@ import java.util.List;
 interface PersonContract {
     interface View extends BaseView<Presenter> {
 
-        void hideProgressBar();
+        void removeProgressBar();
 
         void showName(String name);
 
@@ -24,30 +24,30 @@ interface PersonContract {
 
         void showContent(String content);
 
-        void hideContent();
+        void removeContent();
 
         void showImages(List<String> urls);
 
-        void hideImages();
+        void removeImages();
 
         /**
          * @param rating 若小于等于0,则没有评分
          */
         void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType, double rating);
 
-        void hideHotMovie();
+        void removeHotMovie();
 
         void showHotMovie(int movieId);
 
         void showExpriences(String imgUrl, int year, String title, String content);
 
-        void hideExpriences();
+        void removeExpriences();
 
         void showAllExpriences(ArrayList<Person.ExpriencesBean> list);
 
         void showRelationPersons(List<Person.RelationPersonsBean> list);
 
-        void hideRelationPersons();
+        void removeRelationPersons();
 
         void showPhoto(ArrayList<String> urls, int position);
 

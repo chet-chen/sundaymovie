@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -95,6 +96,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         mBtnShowMoreExpriences = (Button) findViewById(R.id.btn_show_more);
         mRecyclerViewRelationPersons = (RecyclerView) findViewById(R.id.rv_relation_persons);
         mRecyclerViewImages = (RecyclerView) findViewById(R.id.recycler_view_images);
+        mRecyclerViewImages.setNestedScrollingEnabled(false);
         mIVMainImg = (ImageView) findViewById(R.id.iv_main_img);
         mIVHotMovieImg = (ImageView) findViewById(R.id.iv_hot_movie_img);
         mIVExpriences = (ImageView) findViewById(R.id.iv_expriences_img);
@@ -181,7 +183,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideProgressBar() {
+    public void removeProgressBar() {
         AlphaAnimation animation = new AlphaAnimation(1f, 0f);
         animation.setDuration(300L);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -230,9 +232,10 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideContent() {
-        mExpandableTextView.setVisibility(View.GONE);
-        findViewById(R.id.tv_hint_content).setVisibility(View.GONE);
+    public void removeContent() {
+        ViewGroup parent = (ViewGroup) mExpandableTextView.getParent();
+        parent.removeView(mExpandableTextView);
+        parent.removeView(findViewById(R.id.tv_hint_content));
     }
 
     @Override
@@ -246,9 +249,10 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideImages() {
-        mRecyclerViewImages.setVisibility(View.GONE);
-        findViewById(R.id.tv_hint_img).setVisibility(View.GONE);
+    public void removeImages() {
+        ViewGroup parent = (ViewGroup) mRecyclerViewImages.getParent();
+        parent.removeView(mRecyclerViewImages);
+        parent.removeView(findViewById(R.id.tv_hint_img));
     }
 
     /**
@@ -268,7 +272,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
             mTVHotMovieRating.setText(String.valueOf(rating));
             mRatingBar.setRating((float) rating / 2);
         } else {
-            mRatingBar.setVisibility(View.GONE);
+            ((ViewGroup) mRatingBar.getParent()).removeView(mRatingBar);
             mTVHotMovieRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
             mTVHotMovieRating.setText("暂无评分");
         }
@@ -276,9 +280,10 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideHotMovie() {
-        mHotMovieGroup.setVisibility(View.GONE);
-        findViewById(R.id.tv_hint_hot).setVisibility(View.GONE);
+    public void removeHotMovie() {
+        ViewGroup parent = (ViewGroup) mHotMovieGroup.getParent();
+        parent.removeView(mHotMovieGroup);
+        parent.removeView(findViewById(R.id.tv_hint_hot));
     }
 
     @Override
@@ -299,8 +304,9 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideExpriences() {
-        findViewById(R.id.exprience_group).setVisibility(View.GONE);
+    public void removeExpriences() {
+        View view = findViewById(R.id.exprience_group);
+        ((ViewGroup) view.getParent()).removeView(view);
     }
 
     @Override
@@ -317,9 +323,10 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void hideRelationPersons() {
-        mRecyclerViewRelationPersons.setVisibility(View.GONE);
-        findViewById(R.id.tv_hint_relation).setVisibility(View.GONE);
+    public void removeRelationPersons() {
+        ViewGroup parent = (ViewGroup) mRecyclerViewRelationPersons.getParent();
+        parent.removeView(mRecyclerViewRelationPersons);
+        parent.removeView(findViewById(R.id.tv_hint_relation));
     }
 
     @Override

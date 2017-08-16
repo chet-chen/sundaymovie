@@ -18,7 +18,7 @@ interface MovieDetailContract {
 
         Context getContext();
 
-        void hideProgressBar();
+        void removeProgressBar();
 
         void showTopImage(String topImg);
 
@@ -30,7 +30,7 @@ interface MovieDetailContract {
 
         void showType(String type);
 
-        void hideType();
+        void removeType();
 
         void showMovieStory(String story);
 
@@ -54,7 +54,7 @@ interface MovieDetailContract {
 
         void finish();
 
-        void hideVideoInfo();
+        void removeVideoInfo();
 
         void showVideoInfo(String title, String imgUrl);
     }

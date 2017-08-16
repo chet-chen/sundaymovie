@@ -40,7 +40,7 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
             public void onResponse(AllPhoto response) {
                 if (response != null) {
                     mAllPhoto = response;
-                    mView.hideProgressBar();
+                    mView.removeProgressBar();
                     modelToView();
                 } else {
                     onError();

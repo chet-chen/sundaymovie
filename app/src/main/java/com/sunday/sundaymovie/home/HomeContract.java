@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.home;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 
@@ -19,16 +17,13 @@ interface HomeContract {
 
         void showNetError();
 
-        void hideNetError();
+        void removeNetError();
 
         void showMovies(List<T> list);
 
         void showMovieDetail(int id);
 
         void smoothScrollToTop();
-
-        Context getContext();
-
     }
 
     interface Presenter extends BasePresenter {
@@ -43,5 +38,6 @@ interface HomeContract {
 
         void openMovieDetail(int id);
 
+        void onDestroy();
     }
 }

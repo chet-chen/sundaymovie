@@ -36,7 +36,7 @@ class PersonPresenter implements PersonContract.Presenter {
             @Override
             public void onResponse(Person response) {
                 if (response != null) {
-                    mView.hideProgressBar();
+                    mView.removeProgressBar();
                     mPerson = response;
                     modelToView();
                 } else {
@@ -58,7 +58,7 @@ class PersonPresenter implements PersonContract.Presenter {
         mView.showBasicInfo(mPerson.getNameEn(), mPerson.getAddress(), mPerson.getBirthYear()
                 , mPerson.getBirthMonth(), mPerson.getBirthDay(), mPerson.getProfession());
         if (mPerson.getContent() == null || mPerson.getContent().isEmpty()) {
-            mView.hideContent();
+            mView.removeContent();
         } else {
             mView.showContent(mPerson.getContent());
         }
@@ -69,18 +69,18 @@ class PersonPresenter implements PersonContract.Presenter {
             }
             mView.showImages(mImgs);
         } else {
-            mView.hideImages();
+            mView.removeImages();
         }
         Person.HotMovieBean hotMovie = mPerson.getHotMovie();
         if (hotMovie.getMovieId() == 0) {
-            mView.hideHotMovie();
+            mView.removeHotMovie();
         } else {
             mView.showHotMovie(hotMovie.getMovieCover(), hotMovie.getMovieTitleCn()
                     , hotMovie.getMovieTitleEn(), hotMovie.getType(), hotMovie.getRatingFinal());
         }
         List<Person.ExpriencesBean> mExpriences = mPerson.getExpriences();
         if (mExpriences.size() == 0) {
-            mView.hideExpriences();
+            mView.removeExpriences();
         } else {
             Person.ExpriencesBean expriences = mExpriences.get(0);
             mView.showExpriences(expriences.getImg(), expriences.getYear()
@@ -88,7 +88,7 @@ class PersonPresenter implements PersonContract.Presenter {
         }
         List<Person.RelationPersonsBean> personsBeen = mPerson.getRelationPersons();
         if (personsBeen.size() == 0) {
-            mView.hideRelationPersons();
+            mView.removeRelationPersons();
         } else {
             mView.showRelationPersons(personsBeen);
         }

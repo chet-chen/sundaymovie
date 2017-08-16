@@ -42,7 +42,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mDetailModel.getMovieDetail(mMovieId, new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
-                mView.hideProgressBar();
+                mView.removeProgressBar();
                 if (response == null) {
                     onError();
                 } else {
@@ -102,12 +102,12 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
             String type = mDetailModel.getMovieType(types);
             mView.showType(type);
         } else {
-            mView.hideType();
+            mView.removeType();
         }
         mView.showMovieStory(mMovie.getBasic().getStory());
 //        如果此电影没有视频，则去除视频相关view
         if (mMovie.getBasic().getVideo().getCount() == 0) {
-            mView.hideVideoInfo();
+            mView.removeVideoInfo();
         } else {
             mView.showVideoInfo(mMovie.getBasic().getVideo().getTitle(), mMovie.getBasic().getVideo().getImg());
         }

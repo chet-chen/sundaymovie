@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.home;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.bean.ShowTimeMovies;
 import com.sunday.sundaymovie.model.ShowTimeModel;
 import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
@@ -11,8 +13,8 @@ import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
 class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
     private ShowTimeModel mShowTimeModel;
 
-    ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view) {
-        super(view);
+    ShowTimePresenter(HomeContract.View<ShowTimeMovies.MsBean> view, Context context) {
+        super(view, context);
         mShowTimeModel = new ShowTimeModel();
     }
 
@@ -21,7 +23,7 @@ class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
         mShowTimeModel.getShowTimeMovies(new ShowTimeCallBack() {
             @Override
             public void onResponse(ShowTimeMovies response) {
-                mView.hideNetError();
+                mView.removeNetError();
                 mView.setRefreshing(false);
                 mView.showMovies(response.getMs());
             }

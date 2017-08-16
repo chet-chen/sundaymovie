@@ -21,6 +21,7 @@ import static com.sunday.sundaymovie.R.id.refresh_layout;
  */
 
 public abstract class BaseFragment<T> extends Fragment implements HomeContract.View<T>, SwipeRefreshLayout.OnRefreshListener, ItemListener {
+    private static final String TAG = "BaseFragment";
     protected HomeContract.Presenter mPresenter;
     protected SwipeRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
@@ -44,9 +45,9 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
-        mRefreshLayout = (SwipeRefreshLayout) root.findViewById(refresh_layout);
+        mRefreshLayout = root.findViewById(refresh_layout);
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-        mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view_show_time);
+        mRecyclerView = root.findViewById(R.id.recycler_view_show_time);
         mRefreshLayout.setOnRefreshListener(this);
         if (mPresenter == null) {
             recreatePresenter();
@@ -78,9 +79,8 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     public void showNetError() {
         if (mNetErrorView == null && recyclerEmpty) {
             View root = getView();
-            FrameLayout frameLayout;
             if (root != null) {
-                frameLayout = (FrameLayout) root.findViewById(R.id.frame_layout);
+                FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
                 mNetErrorView = LayoutInflater.from(getActivity())
                         .inflate(R.layout.net_error, frameLayout, false);
                 frameLayout.addView(mNetErrorView);
@@ -89,11 +89,11 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     }
 
     @Override
-    public void hideNetError() {
+    public void removeNetError() {
         if (mNetErrorView != null && recyclerEmpty) {
             View root = getView();
             if (root != null) {
-                FrameLayout frameLayout = (FrameLayout) root.findViewById(R.id.frame_layout);
+                FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
                 frameLayout.removeView(mNetErrorView);
                 recyclerEmpty = false;
                 mNetErrorView = null;
@@ -106,10 +106,14 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         MovieDetailActivity.startMe(getActivity(), id);
     }
 
-
     @Override
     public void onClick(int id) {
         mPresenter.openMovieDetail(id);
     }
 
+    @Override
+    public void onDestroy() {
+        mPresenter.onDestroy();
+        super.onDestroy();
+    }
 }

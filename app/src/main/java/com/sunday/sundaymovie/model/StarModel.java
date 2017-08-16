@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public class StarModel {
-    private StarsTableHelper mHelper;
+    private static StarsTableHelper mHelper;
 
     public StarModel(Context context) {
         mHelper = new StarsTableHelper(context);

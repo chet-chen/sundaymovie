@@ -144,7 +144,8 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         if (query != null && !query.isEmpty()) {
             intent.putExtra(SearchManager.QUERY, query);
         }
-        context.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        context.startActivity(intent,
+                ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
     }
 
     @Override
@@ -169,9 +170,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public void hideSearchNull() {
-        if (mTVSearchNull.getVisibility() == View.VISIBLE) {
-            mTVSearchNull.setVisibility(View.INVISIBLE);
-        }
+        mTVSearchNull.setVisibility(View.INVISIBLE);
     }
 
     @Override

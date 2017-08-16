@@ -42,7 +42,7 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
             public void onResponse(VideoAll response) {
                 if (response != null) {
                     if (mFirstLoad) {
-                        mView.hideProgressBar();
+                        mView.removeProgressBar();
                         mList = response.getVideoList();
                         mTotalPageCount = response.getTotalPageCount();
                         mFirstLoad = false;

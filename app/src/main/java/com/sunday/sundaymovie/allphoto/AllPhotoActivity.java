@@ -69,7 +69,7 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     }
 
     @Override
-    public void hideProgressBar() {
+    public void removeProgressBar() {
         AlphaAnimation animation = new AlphaAnimation(1f, 0f);
         animation.setDuration(300L);
         animation.setAnimationListener(new Animation.AnimationListener() {

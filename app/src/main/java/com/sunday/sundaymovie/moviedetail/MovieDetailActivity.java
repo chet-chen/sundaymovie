@@ -101,7 +101,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
         linearLayoutManager2.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerPhoto = (RecyclerView) findViewById(R.id.recycler_images);
-        mRecyclerPhoto.setFocusable(false);
         mRecyclerPhoto.setLayoutManager(linearLayoutManager2);
         mRecyclerPhoto.setNestedScrollingEnabled(false);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
@@ -124,7 +123,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void hideProgressBar() {
+    public void removeProgressBar() {
         AlphaAnimation animation = new AlphaAnimation(1f, 0f);
         animation.setDuration(300L);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -165,14 +164,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             mRatingBar.setRating((float) (overallRating / 2));
             mTVOverallRating.setText(String.valueOf(overallRating));
         } else {
-            mRatingBar.setVisibility(View.GONE);
+            ((ViewGroup) mRatingBar.getParent()).removeView(mRatingBar);
             mTVOverallRating.setText("暂无评分");
             mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         }
         mTVMovieDirectorName.setText(String.format("导演: %s", movieDirectorName));
         mTVMovieDateAndArea.setText(dateAndArea);
         if (movieMins.isEmpty()) {
-            mTVMovieMins.setVisibility(View.GONE);
+            ((ViewGroup) mTVMovieMins.getParent()).removeView(mTVMovieMins);
         } else {
             mTVMovieMins.setText(String.format("片长: %s", movieMins));
         }
@@ -188,8 +187,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void hideType() {
-        mTVMovieType.setVisibility(View.GONE);
+    public void removeType() {
+        ((ViewGroup) mTVMovieType.getParent()).removeView(mTVMovieType);
     }
 
     @Override
@@ -254,9 +253,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void hideVideoInfo() {
-        findViewById(R.id.tv_hint_video).setVisibility(View.GONE);
-        findViewById(R.id.layout_movie_video).setVisibility(View.GONE);
+    public void removeVideoInfo() {
+        View view1 = findViewById(R.id.tv_hint_video);
+        View view2 = findViewById(R.id.layout_movie_video);
+        ViewGroup parent = (ViewGroup) view1.getParent();
+        parent.removeView(view1);
+        parent.removeView(view2);
     }
 
     @Override

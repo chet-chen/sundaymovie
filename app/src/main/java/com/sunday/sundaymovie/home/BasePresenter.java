@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.home;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.model.StarModel;
 
 /**
@@ -8,11 +10,11 @@ import com.sunday.sundaymovie.model.StarModel;
 
 abstract class BasePresenter<T> implements HomeContract.Presenter {
     final HomeContract.View<T> mView;
-    private StarModel mStarModel;
+    private final StarModel mStarModel;
 
-    BasePresenter(HomeContract.View<T> view) {
+    BasePresenter(HomeContract.View<T> view, Context context) {
         mView = view;
-        mStarModel = new StarModel(view.getContext());
+        mStarModel = new StarModel(context);
         view.setPresenter(this);
     }
 
@@ -44,5 +46,10 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
     @Override
     public void openMovieDetail(int id) {
         mView.showMovieDetail(id);
+    }
+
+    @Override
+    public void onDestroy() {
+        mStarModel.close();
     }
 }

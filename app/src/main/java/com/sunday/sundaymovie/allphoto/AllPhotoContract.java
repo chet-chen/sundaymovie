@@ -14,7 +14,7 @@ interface AllPhotoContract {
     interface View extends BaseView<Presenter> {
         void showTitle(String title);
 
-        void hideProgressBar();
+        void removeProgressBar();
 
         void showAllImage(List<String> urls);
 

@@ -12,7 +12,7 @@ import java.util.List;
 
 interface AllVideoContract {
     interface View extends BaseView<AllVideoContract.Presenter> {
-        void hideProgressBar();
+        void removeProgressBar();
 
         void showAllVideo(List<VideoAll.Video> list);
 
