@@ -8,6 +8,7 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="false"
         android:icon="@drawable/ic_local_movies_black_24dp"
         android:label="@string/app_name"
         android:supportsRtl="true"

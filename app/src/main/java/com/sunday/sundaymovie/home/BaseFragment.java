@@ -21,15 +21,11 @@ import static com.sunday.sundaymovie.R.id.refresh_layout;
  */
 
 public abstract class BaseFragment<T> extends Fragment implements HomeContract.View<T>, SwipeRefreshLayout.OnRefreshListener, ItemListener {
-    private static final String TAG = "BaseFragment";
     protected HomeContract.Presenter mPresenter;
     protected SwipeRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
     private boolean recyclerEmpty = true;
     protected View mNetErrorView;
-
-    public BaseFragment() {
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

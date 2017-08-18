@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.home;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.model.StarModel;
 
 /**
@@ -10,16 +8,18 @@ import com.sunday.sundaymovie.model.StarModel;
 
 abstract class BasePresenter<T> implements HomeContract.Presenter {
     final HomeContract.View<T> mView;
-    private final StarModel mStarModel;
+    private StarModel mStarModel;
 
-    BasePresenter(HomeContract.View<T> view, Context context) {
+    BasePresenter(HomeContract.View<T> view) {
         mView = view;
-        mStarModel = new StarModel(context);
         view.setPresenter(this);
     }
 
     @Override
     public void start() {
+        if (mStarModel == null) {
+            mStarModel = new StarModel(mView.getContext());
+        }
         mView.setRefreshing(true);
         loadMovies();
     }

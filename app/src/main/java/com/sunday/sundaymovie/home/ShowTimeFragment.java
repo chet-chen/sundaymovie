@@ -20,7 +20,7 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
 
     @Override
     protected void recreatePresenter() {
-        new ShowTimePresenter(this, getContext());
+        new ShowTimePresenter(this);
     }
 
     @Override

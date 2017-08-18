@@ -20,7 +20,7 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
 
     @Override
     protected void recreatePresenter() {
-        new ComingPresenter(this, getContext());
+        new ComingPresenter(this);
     }
 
     @Override

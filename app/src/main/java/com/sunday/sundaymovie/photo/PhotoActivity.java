@@ -5,10 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
@@ -75,14 +77,14 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
         new PhotoPresenter(this, bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
     }
 
-    public static void startMe(Context context, ArrayList<String> imgURLs, int position) {
+    public static void startMe(@NonNull Context context, ArrayList<String> imgURLs, int position) {
         Intent intent = new Intent(context, PhotoActivity.class);
         intent.putStringArrayListExtra("imgURLs", imgURLs);
         intent.putExtra("position", position);
         context.startActivity(intent);
     }
 
-    public static void dataChange(Context context, ArrayList<String> list) {
+    public static void dataChange(@NonNull Context context, ArrayList<String> list) {
         Intent intent = new Intent(ACTION_DATA_CHANGE);
         intent.putStringArrayListExtra("imgURLs", list);
         context.sendBroadcast(intent);
@@ -92,6 +94,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     protected void initView(Context context) {
         setContentView(R.layout.activity_photo);
         mViewPager = (HackyViewPager) findViewById(R.id.photo_hacky_view_pager);
+        mViewPager.setPageTransformer(true, new IntervalTransformer());
         mTextView = (TextView) findViewById(R.id.tv_photo_position_hint);
         mButtonDownloadImg = (ImageButton) findViewById(R.id.btn_download_img);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
@@ -103,7 +106,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     }
 
     @Override
-    public void showSnackBar(String text, String actionText) {
+    public void showSnackBar(@NonNull String text, String actionText) {
         Snackbar.make(mCoordinatorLayout, text, Snackbar.LENGTH_LONG)
                 .setAction(actionText, new View.OnClickListener() {
                     @Override
@@ -114,7 +117,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     }
 
     @Override
-    public void showDownloadImage(File file) {
+    public void showDownloadImage(@NonNull File file) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
         Uri uri;
@@ -128,7 +131,12 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
         }
         intent.setDataAndType(uri, "image/*");
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        PackageManager manager = getPackageManager();
+        if (manager.resolveActivity(intent, PackageManager.MATCH_DEFAULT_ONLY) != null) {
+            startActivity(intent);
+        } else {
+            toast("没有可用的应用");
+        }
     }
 
     @Override
@@ -170,7 +178,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
         super.onDestroy();
     }
 
-    class DataChangeReceiver extends BroadcastReceiver {
+    private class DataChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -179,6 +187,15 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
                 ArrayList<String> urls = intent.getExtras().getStringArrayList("imgURLs");
                 mPresenter.dataChange(urls);
             }
+        }
+    }
+
+    private class IntervalTransformer implements ViewPager.PageTransformer {
+
+        @Override
+        public void transformPage(@NonNull View page, float position) {
+            if (-1 <= position && position <= 1)
+                page.setTranslationX(position * 20);
         }
     }
 }

@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.home;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.bean.ComingMovie;
 import com.sunday.sundaymovie.bean.ComingMovies;
 import com.sunday.sundaymovie.model.ComingModel;
@@ -14,8 +12,8 @@ import com.sunday.sundaymovie.net.callback.ComingCallBack;
 class ComingPresenter extends BasePresenter<ComingMovie> {
     private ComingModel mComingModel;
 
-    ComingPresenter(HomeContract.View<ComingMovie> view, Context context) {
-        super(view, context);
+    ComingPresenter(HomeContract.View<ComingMovie> view) {
+        super(view);
         mComingModel = new ComingModel();
     }
 

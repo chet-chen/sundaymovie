@@ -20,12 +20,12 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosViewHolder> {
+class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosViewHolder> {
     private List<VideoAll.Video> mList;
     private Context mContext;
     private ItemListener mItemListener;
 
-    public VideosAdapter(List<VideoAll.Video> list, Context context, ItemListener listener) {
+    VideosAdapter(List<VideoAll.Video> list, Context context, ItemListener listener) {
         super();
         mList = list;
         mContext = context;

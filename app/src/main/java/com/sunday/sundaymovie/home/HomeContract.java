@@ -1,5 +1,7 @@
 package com.sunday.sundaymovie.home;
 
+import android.content.Context;
+
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 
@@ -24,6 +26,8 @@ interface HomeContract {
         void showMovieDetail(int id);
 
         void smoothScrollToTop();
+
+        Context getContext();
     }
 
     interface Presenter extends BasePresenter {

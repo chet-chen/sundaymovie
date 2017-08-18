@@ -24,12 +24,12 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context mContext;
     private List<Search> mList;
     private int mType;
 
-    public SearchAdapter(Context context, List<Search> list, int type) {
+    SearchAdapter(Context context, List<Search> list, int type) {
         super();
         mContext = context;
         mList = list;
@@ -66,10 +66,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
         ViewHolder(View itemView) {
             super(itemView);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_search_movie);
-            mTitle = (TextView) itemView.findViewById(R.id.tv_search_title);
-            mT1 = (TextView) itemView.findViewById(R.id.tv_search_t1);
-            mT2 = (TextView) itemView.findViewById(R.id.tv_search_t2);
+            mImageView = itemView.findViewById(R.id.iv_search_movie);
+            mTitle = itemView.findViewById(R.id.tv_search_title);
+            mT1 = itemView.findViewById(R.id.tv_search_t1);
+            mT2 = itemView.findViewById(R.id.tv_search_t2);
         }
 
         void bindSearchMovie(Search movie, int type) {
