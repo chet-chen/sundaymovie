@@ -1,7 +1,6 @@
 package com.sunday.sundaymovie.util;
 
 import android.content.Context;
-import android.os.Looper;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
@@ -16,6 +15,7 @@ import java.math.BigDecimal;
 
 public class GlideCacheUtil {
     private static GlideCacheUtil mInst;
+    private boolean mCleaning = false;
 
     public static GlideCacheUtil getInstance() {
         if (mInst == null) {
@@ -28,31 +28,34 @@ public class GlideCacheUtil {
         return mInst;
     }
 
-    public void cleanDiskCache(final Context context) {
-        try {
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Glide.get(context).clearDiskCache();
-                    }
-                }).start();
-            } else {
-                Glide.get(context).clearDiskCache();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public void cleanDiskCache(final Context context, final OnCleanCacheListener listener) {
+        if (mCleaning) {
+            return;
         }
+        mCleaning = true;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Glide.get(context).clearDiskCache();
+                listener.onCleanCache();
+                mCleaning = false;
+            }
+        }).start();
     }
 
-    public String getChcheSize(Context context) {
-        try {
-            return getFormatSize(getFolderSize(new File(context.getCacheDir()
-                    + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "";
+    public void getChcheSize(final Context context, final OnGottenCacheSizeListener listener) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    String cacheSize = getFormatSize(getFolderSize(new File(context.getCacheDir()
+                            + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
+                    listener.onGottenCacheSize(cacheSize);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     private long getFolderSize(File file) throws Exception {
@@ -99,5 +102,13 @@ public class GlideCacheUtil {
         BigDecimal result4 = new BigDecimal(teraBytes);
 
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " TB";
+    }
+
+    public interface OnCleanCacheListener {
+        void onCleanCache();
+    }
+
+    public interface OnGottenCacheSizeListener {
+        void onGottenCacheSize(String size);
     }
 }

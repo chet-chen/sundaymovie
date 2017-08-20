@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.sunday.sundaymovie.home.HomeActivity"
+    tools:context=".mvp.home.HomeActivity"
     tools:openDrawer="start">
 
     <android.support.design.widget.CoordinatorLayout
