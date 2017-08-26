@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tv_btn_all_img"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="56dp"
     android:layout_height="match_parent"
     android:background="@drawable/bg_black_ripple"
@@ -12,4 +12,5 @@
     android:gravity="center_vertical|end"
     android:text="@string/all_img"
     android:textColor="@color/colorTextWhite_1"
-    android:textSize="18sp"/>
+    android:textSize="18sp"
+    tools:ignore="UnusedIds"/>

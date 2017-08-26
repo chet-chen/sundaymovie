@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">SundayMovie</string>
     <string name="main_title">首页</string>
-    <string name="test_text">简介: </string>
-    <string name="hello">Hello</string>
     <string name="search">搜索</string>
-    <string name="star">收藏</string>
-    <string name="feedback">反馈意见</string>
     <string name="about">关于</string>
     <string name="navigation_drawer_open">open</string>
     <string name="navigation_drawer_close">close</string>
-    <string name="trim_collapsed_text">展开</string>
-    <string name="trim_expanded_text">收起</string>
     <string name="photo">图片</string>
     <string name="video">视频</string>
     <string name="demo_video_name">奠基 病毒视频之Dream Research</string>
@@ -22,11 +16,8 @@
     <string name="search_hint">搜索电影、影人</string>
     <string name="clean_history">清除历史</string>
     <string name="search_null">未找到任何搜索结果</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="action_settings">Settings</string>
     <string name="home">首页</string>
     <string name="stars">收藏夹</string>
-    <string name="download">下载管理</string>
     <string name="settings">设置</string>
     <string name="net_error">网络异常，下拉刷新重试</string>
     <string name="hot_movie">热映电影</string>
@@ -34,8 +25,6 @@
     <string name="expriences">个人经历</string>
     <string name="relation_persons">相关影人</string>
     <string name="show_more">查看更多</string>
-    <string name="title_activity_settings">设置</string>
-    <string name="img_cache">图片缓存</string>
     <string name="clean_cache">清除缓存</string>
     <string name="about_text">此应用数据均来自时光网，原作公司拥有所有权利。\n\n此应用开源于：https://github.com/agentchen/sundaymovie</string>
     <string name="load_animation">load animation</string>
