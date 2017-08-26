@@ -9,15 +9,15 @@ import android.database.sqlite.SQLiteOpenHelper;
  * Email agentchen97@gmail.com
  */
 
-public class DataBaseHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "sunday.db";
-    public static final int DATABASE_VERSION = 1;
+class DataBaseHelper extends SQLiteOpenHelper {
+    private static final String DATABASE_NAME = "sunday.db";
+    private static final int DATABASE_VERSION = 1;
     private static final String CREATE_STARS_TABLE = "create table stars (" +
             "id integer primary key," +
             "name text," +
             "img text)";
 
-    public DataBaseHelper(Context context) {
+    DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 

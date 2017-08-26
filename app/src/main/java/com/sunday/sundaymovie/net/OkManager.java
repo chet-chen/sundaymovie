@@ -2,6 +2,7 @@ package com.sunday.sundaymovie.net;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.sunday.sundaymovie.net.callback.CallBack;
 

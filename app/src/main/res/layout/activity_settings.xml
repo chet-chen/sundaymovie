@@ -2,10 +2,8 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
@@ -20,57 +18,8 @@
             app:titleTextColor="@android:color/white"/>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
+        android:id="@+id/content_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:id="@+id/settings_item_img_cache"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_white_ripple"
-            android:clickable="true"
-            android:orientation="horizontal"
-            android:padding="16dp">
-
-            <TextView
-                android:id="@+id/tv_img_cache_hint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/img_cache"
-                android:textColor="@color/colorTextBlack_1"
-                android:textSize="18sp"/>
-
-            <TextView
-                android:id="@+id/tv_img_cache_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_img_cache_hint"
-                android:textColor="@color/colorTextBlack_3"
-                android:textSize="14sp"
-                tools:text="24.6MB"/>
-
-            <CheckBox
-                android:id="@+id/check_box_img_cache"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:checked="true"
-                android:clickable="true"/>
-        </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/colorTextBlack_3"/>
-
-    <Button
-        android:id="@+id/btn_clean_cache"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="@string/clean_cache"
-        android:theme="@style/AppTheme.Button"/>
+        android:layout_height="match_parent"/>
 </LinearLayout>

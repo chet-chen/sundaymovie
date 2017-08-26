@@ -9,7 +9,6 @@
     <color name="secondaryBG">#F1F1F1</color>
     <color name="searchToolBarBG">#FAFAFA</color>
     <color name="listBG">#EEEEEE</color>
-    <color name="colorStatusBar">#1e1e1e1e</color>
     <color name="colorRecyclerViewBG_Line">#DBDBDB</color>
     <color name="colorTextWhite_1">#fff</color>
     <color name="colorTextWhite_2">#deffffff</color>

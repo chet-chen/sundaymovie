@@ -7,6 +7,4 @@
           android:padding="8dp"
           android:textColor="@color/colorTextBlack_2"
           android:textSize="16sp"
-          tools:text="明日边缘">
-
-</TextView>
+          tools:text="明日边缘"/>

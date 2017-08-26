@@ -144,17 +144,13 @@
                 style="@style/TextViewHintStyle"
                 android:text="@string/photo"/>
 
-            <com.sunday.sundaymovie.widget.MyGridView
-                android:id="@+id/grid_view_img"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view_images"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="4dp"
-                android:gravity="center"
-                android:horizontalSpacing="4dp"
-                android:numColumns="2"
-                android:verticalSpacing="4dp"/>
+                android:layout_marginTop="4dp"/>
 
 
             <TextView
@@ -247,7 +243,7 @@
 
                 <TextView
                     style="@style/TextViewHintStyle"
-                    android:text="@string/exprience"/>
+                    android:text="@string/expriences"/>
 
                 <include layout="@layout/item_expriences"/>
 

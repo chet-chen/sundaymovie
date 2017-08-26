@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.sunday.sundaymovie.bean.StarsMovie;
+import com.sunday.sundaymovie.bean.StarMovie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,14 +23,13 @@ public class StarsTableHelper {
         mHelper = new DataBaseHelper(context);
     }
 
-    public void insert(StarsMovie starsMovie) {
+    public void insert(StarMovie starMovie) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", starsMovie.getId());
-        values.put("name", starsMovie.getName());
-        values.put("img", starsMovie.getImg());
+        values.put("id", starMovie.getId());
+        values.put("name", starMovie.getName());
+        values.put("img", starMovie.getImg());
         db.insert(TABLE_NAME, null, values);
-        db.close();
     }
 
     public void delete(int id) {
@@ -38,13 +37,13 @@ public class StarsTableHelper {
         db.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
     }
 
-    public List<StarsMovie> queryAll() {
+    public List<StarMovie> queryAll() {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        List<StarsMovie> list = new ArrayList<>();
+        List<StarMovie> list = new ArrayList<>();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                list.add(new StarsMovie(
+                list.add(new StarMovie(
                         cursor.getInt(cursor.getColumnIndex("id")),
                         cursor.getString(cursor.getColumnIndex("name")),
                         cursor.getString(cursor.getColumnIndex("img")))

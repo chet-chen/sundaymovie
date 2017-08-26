@@ -20,8 +20,8 @@ public class Api {
     private static final String MOVIE_URL = "https://ticket-api-m.mtime.cn/movie/detail.api?locationId=290&movieId=";
     private static final String IMAGE_ALL = "https://api-m.mtime.cn/Movie/ImageAll.api?movieId=";
     private static final String VIDEO_ALL = "https://api-m.mtime.cn/Movie/Video.api?pageIndex=";
-    public static final String SHOW_TIME = "https://api-m.mtime.cn/Showtime/LocationMovies.api?locationId=290";
-    public static final String COMING_MOVIE = "https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId=290";
+    public static final String SHOW_TIME_MOVIES = "https://api-m.mtime.cn/Showtime/LocationMovies.api?locationId=290";
+    public static final String COMING_MOVIES = "https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId=290";
 
     public static String getPersonUrl(int id) {
         return PERSON_URL_HEAD + id + PERSON_URL_END;

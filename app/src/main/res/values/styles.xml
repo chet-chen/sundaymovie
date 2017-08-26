@@ -9,7 +9,10 @@
     </style>
 
     <style name="AppTheme.TranslucentStatus" parent="AppTheme">
-        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="PhotoActivityTheme" parent="AppTheme">
+        <item name="colorPrimaryDark">@color/colorTextBlack_1</item>
     </style>
 
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
@@ -21,15 +24,14 @@
         <item name="android:windowAnimationStyle">@style/AnimSearchActivity</item>
         <item name="colorPrimary">#F5F5F5</item>
         <item name="colorPrimaryDark">#DBDBDB</item>
+        <!--<item name="android:windowEnterTransition" tools:targetApi="lollipop">@transition/fade-->
+        <!--</item>-->
+        <!--<item name="android:windowExitTransition" tools:targetApi="lollipop">@transition/fade</item>-->
     </style>
 
     <style name="AnimSearchActivity" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/search_activity_in</item>
         <item name="android:activityCloseExitAnimation">@anim/search_activity_out</item>
-    </style>
-
-    <style name="CollapsingText">
-        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="ExpandedText">

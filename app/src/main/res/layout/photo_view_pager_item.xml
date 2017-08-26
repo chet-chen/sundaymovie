@@ -2,10 +2,11 @@
 <ImageView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/iv_view_pager_item"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:contentDescription="@string/load_animation"
     android:scaleType="center"
-    app:srcCompat="@drawable/bg_rotate_load">
-</ImageView>
+    app:srcCompat="@drawable/bg_rotate_load"
+    tools:ignore="UnusedIds"/>
