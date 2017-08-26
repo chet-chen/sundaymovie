@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "sunday.db";
     private static final int DATABASE_VERSION = 1;
-    private static final String CREATE_STARS_TABLE = "create table stars (" +
+    private static final String CREATE_STARS_TABLE = "create table star (" +
             "id integer primary key," +
             "name text," +
             "img text)";

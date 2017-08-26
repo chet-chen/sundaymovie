@@ -3,7 +3,7 @@ package com.sunday.sundaymovie.model;
 import android.content.Context;
 
 import com.sunday.sundaymovie.bean.StarMovie;
-import com.sunday.sundaymovie.db.StarsTableHelper;
+import com.sunday.sundaymovie.db.StarTableHelper;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import java.util.List;
  */
 
 public class StarModel {
-    private static StarsTableHelper mHelper;
+    private static StarTableHelper mHelper;
 
     public StarModel(Context context) {
-        mHelper = new StarsTableHelper(context);
+        mHelper = new StarTableHelper(context);
     }
 
     public List<StarMovie> getAll() {

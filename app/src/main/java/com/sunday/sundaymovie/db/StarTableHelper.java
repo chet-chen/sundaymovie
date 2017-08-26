@@ -15,11 +15,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-public class StarsTableHelper {
-    private static final String TABLE_NAME = "stars";
+public class StarTableHelper {
+    private static final String TABLE_NAME = "star";
     private DataBaseHelper mHelper;
 
-    public StarsTableHelper(Context context) {
+    public StarTableHelper(Context context) {
         mHelper = new DataBaseHelper(context);
     }
 

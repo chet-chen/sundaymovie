@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.bean.ShowTimeMovies;
-import com.sunday.sundaymovie.db.StarsTableHelper;
+import com.sunday.sundaymovie.db.StarTableHelper;
 
 import java.util.List;
 
@@ -134,7 +134,7 @@ class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            StarsTableHelper helper = new StarsTableHelper(mContext);
+            StarTableHelper helper = new StarTableHelper(mContext);
             if (helper.queryIsExist(mMsBean.getId())) {
                 menu.add(GROUP_SHOW_TIME, ID_UN_STAR, Menu.NONE, "取消收藏");
             } else {

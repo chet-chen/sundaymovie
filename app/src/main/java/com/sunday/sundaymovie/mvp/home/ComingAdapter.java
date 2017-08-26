@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.bean.ComingMovie;
-import com.sunday.sundaymovie.db.StarsTableHelper;
+import com.sunday.sundaymovie.db.StarTableHelper;
 
 import java.util.List;
 
@@ -111,7 +111,7 @@ class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            StarsTableHelper helper = new StarsTableHelper(mContext);
+            StarTableHelper helper = new StarTableHelper(mContext);
             if (helper.queryIsExist(mMovie.getId())) {
                 menu.add(GROUP_COMING, ID_UN_STAR, Menu.NONE, "取消收藏");
             } else {
