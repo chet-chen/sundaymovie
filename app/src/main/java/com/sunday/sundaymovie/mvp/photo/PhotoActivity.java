@@ -73,7 +73,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
 
     @Override
     protected void initParams(Bundle bundle) {
-        isFullScreen = true;
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
         new PhotoPresenter(this, bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
     }
 

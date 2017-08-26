@@ -26,7 +26,9 @@
             android:name=".mvp.search.SearchActivity"
             android:theme="@style/SearchActivityTheme">
         </activity>
-        <activity android:name=".mvp.photo.PhotoActivity"/>
+        <activity
+            android:name=".mvp.photo.PhotoActivity"
+            android:theme="@style/PhotoActivityTheme"/>
         <activity android:name=".mvp.allphoto.AllPhotoActivity"/>
         <activity android:name=".mvp.person.PersonActivity"/>
         <activity android:name=".mvp.expriences.ExpriencesActivity"/>
