@@ -1,97 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/media_controller_all"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorTextBlack_4">
+    android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_round_ripple"
-        android:padding="6dp"
-        app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+    <RelativeLayout
+        android:id="@+id/media_controller_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTextBlack_4">
 
-    <TextView
-        android:id="@+id/tv_movie_video_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_toEndOf="@id/btn_back"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        tools:text="北京爱迪生"/>
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_round_ripple"
+            android:padding="6dp"
+            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+
+        <TextView
+            android:id="@+id/tv_movie_video_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_toEndOf="@id/btn_back"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            tools:text="北京爱迪生"/>
+
+        <ImageButton
+            android:id="@+id/btn_play_video"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/bg_round_ripple"
+            app:srcCompat="@drawable/ic_pause_white_56dp"/>
+
+        <LinearLayout
+            android:id="@+id/media_controller_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/_00_00"
+                android:textColor="#ffffff"/>
+
+            <SeekBar
+                android:id="@+id/media_controller_seek_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
+                android:background="@null"
+                android:max="100"
+                android:maxHeight="4dp"
+                android:minHeight="4dp"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:progressDrawable="@drawable/jc_seek_progress"
+                android:thumb="@drawable/jc_seek_thumb"/>
+
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="@string/_00_00"
+                android:textColor="#ffffff"/>
+
+            <ImageButton
+                android:id="@+id/btn_download_video"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_round_ripple"
+                android:padding="6dp"
+                app:srcCompat="@drawable/ic_file_download_white_24dp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress_video_load"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_centerInParent="true"
-        android:visibility="visible"/>
-
-    <ImageButton
-        android:id="@+id/btn_play_video"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/bg_round_ripple"
-        app:srcCompat="@drawable/ic_pause_white_56dp"/>
-
-    <LinearLayout
-        android:id="@+id/media_controller_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
-        android:background="@android:color/transparent"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/_00_00"
-            android:textColor="#ffffff"/>
-
-        <SeekBar
-            android:id="@+id/media_controller_seek_bar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1.0"
-            android:background="@null"
-            android:max="100"
-            android:maxHeight="4dp"
-            android:minHeight="4dp"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:progressDrawable="@drawable/jc_seek_progress"
-            android:thumb="@drawable/jc_seek_thumb"/>
-
-        <TextView
-            android:id="@+id/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/_00_00"
-            android:textColor="#ffffff"/>
-
-        <ImageButton
-            android:id="@+id/btn_download_video"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/bg_round_ripple"
-            android:padding="6dp"
-            app:srcCompat="@drawable/ic_file_download_white_24dp"/>
-
-    </LinearLayout>
-</RelativeLayout>
+        android:layout_gravity="center"/>
+</FrameLayout>

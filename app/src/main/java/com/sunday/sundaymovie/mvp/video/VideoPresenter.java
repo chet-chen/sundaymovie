@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -21,7 +22,8 @@ import static android.content.Context.DOWNLOAD_SERVICE;
  * Created by agentchen on 2017/8/7.
  */
 
-class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletionListener, MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener {
+class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletionListener
+        , MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
     private final VideoContract.View mView;
     private final String mUrl;
     private final String mTitle;
@@ -46,6 +48,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         mMediaPlayer.setOnPreparedListener(this);
         mMediaPlayer.setOnBufferingUpdateListener(this);
         mMediaPlayer.setOnCompletionListener(this);
+        mMediaPlayer.setOnInfoListener(this);
     }
 
     @Override
@@ -154,7 +157,6 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
         startProgressTimer();
         mediaPlayer.start();
-        mView.hideProgressBar();
         mView.showPlay();
         mView.showBottomMediaController();
         mView.hideMediaController();
@@ -171,6 +173,23 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     private void cancelImmersionTimer() {
         mHandler.removeCallbacks(mImmersionRunnable);
+    }
+
+    private static final String TAG = "VideoPresenter";
+
+    @Override
+    public boolean onInfo(MediaPlayer mp, int what, int extra) {
+        switch (what) {
+            case MediaPlayer.MEDIA_INFO_BUFFERING_START:
+                Log.d(TAG, "onInfo: buffering start");
+                mView.showProgressBar();
+                break;
+            case MediaPlayer.MEDIA_INFO_BUFFERING_END:
+                Log.d(TAG, "onInfo: buffering end");
+                mView.hideProgressBar();
+                break;
+        }
+        return false;
     }
 
     private class TimerImmersionRunnable implements Runnable {

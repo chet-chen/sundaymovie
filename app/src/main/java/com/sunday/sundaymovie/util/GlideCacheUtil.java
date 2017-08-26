@@ -43,7 +43,7 @@ public class GlideCacheUtil {
         }).start();
     }
 
-    public void getChcheSize(final Context context, final OnGottenCacheSizeListener listener) {
+    public void getCacheSize(final Context context, final OnGottenCacheSizeListener listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {

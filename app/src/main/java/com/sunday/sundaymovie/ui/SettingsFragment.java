@@ -5,7 +5,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.util.GlideCacheUtil;
@@ -15,25 +14,18 @@ import com.sunday.sundaymovie.util.GlideCacheUtil;
  */
 
 public class SettingsFragment extends PreferenceFragment {
-    private static final String TAG = "SettingsFragment";
-    GlideCacheUtil mCacheUtil;
+    private GlideCacheUtil mCacheUtil;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCacheUtil = GlideCacheUtil.getInstance();
         addPreferencesFromResource(R.xml.preferences);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
         getCacheSize();
     }
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        Log.d(TAG, "onPreferenceTreeClick: " + preference.getKey());
         switch (preference.getKey()) {
             case "pref_key_clean_cache":
                 cleanCache();
@@ -43,14 +35,14 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     private void getCacheSize() {
-        mCacheUtil.getChcheSize(getActivity(), new GlideCacheUtil.OnGottenCacheSizeListener() {
+        mCacheUtil.getCacheSize(getActivity(), new GlideCacheUtil.OnGottenCacheSizeListener() {
             @Override
             public void onGottenCacheSize(final String size) {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Preference preference = findPreference("pref_key_clean_cache");
-                        preference.setSummary(String.format("共 %s", size));
+                        preference.setSummary(size);
                     }
                 });
             }
@@ -65,7 +57,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void run() {
                         Preference preference = findPreference("pref_key_clean_cache");
-                        preference.setSummary("");
+                        preference.setSummary("0.0 Byte");
                     }
                 });
             }

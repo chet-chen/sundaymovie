@@ -20,6 +20,8 @@ interface VideoContract {
 
         void hideProgressBar();
 
+        void showProgressBar();
+
         void showPlay();
 
         void showBottomMediaController();

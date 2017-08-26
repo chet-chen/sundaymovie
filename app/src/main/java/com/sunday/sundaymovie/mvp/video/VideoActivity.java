@@ -63,8 +63,8 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     protected void initParams(Bundle bundle) {
-        String url = bundle.getString("mUrl");
-        String title = bundle.getString("mTitle");
+        String url = bundle.getString("url");
+        String title = bundle.getString("title");
         new VideoPresenter(this, url, title);
         isFullScreen = true;
         isAllowScreenRotate = true;
@@ -91,8 +91,8 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     public static void startMe(Context context, String url, String title) {
         Intent intent = new Intent(context, VideoActivity.class);
-        intent.putExtra("mUrl", url);
-        intent.putExtra("mTitle", title);
+        intent.putExtra("url", url);
+        intent.putExtra("title", title);
         context.startActivity(intent);
     }
 
@@ -115,6 +115,11 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     @Override
     public void hideMediaController() {
         alphaHideView(mRelativeLayout);
+    }
+
+    @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
