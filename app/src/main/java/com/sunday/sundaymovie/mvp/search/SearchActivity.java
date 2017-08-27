@@ -1,12 +1,10 @@
 package com.sunday.sundaymovie.mvp.search;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -144,8 +142,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         if (query != null && !query.isEmpty()) {
             intent.putExtra(SearchManager.QUERY, query);
         }
-        context.startActivity(intent,
-                ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context).toBundle());
+        context.startActivity(intent);
     }
 
     @Override
@@ -315,5 +312,11 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
             }
         }
         return result;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0, R.anim.search_activity_out);
     }
 }

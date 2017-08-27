@@ -34,7 +34,7 @@
         <activity android:name=".mvp.expriences.ExpriencesActivity"/>
         <activity
             android:name=".mvp.video.VideoActivity"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="sensorLandscape"/>
         <activity android:name=".mvp.allvideo.AllVideoActivity"/>
         <activity
             android:name=".mvp.star.StarActivity"
