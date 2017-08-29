@@ -107,9 +107,4 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         mPresenter.openMovieDetail(id);
     }
 
-    @Override
-    public void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
-    }
 }

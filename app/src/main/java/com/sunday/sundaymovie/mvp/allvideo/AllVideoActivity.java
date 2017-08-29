@@ -33,12 +33,7 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mScrollEndListener = new OnScrollEndListener() {
-            @Override
-            public void onScrollEnd() {
-                mPresenter.scrollEnd();
-            }
-        };
+        mScrollEndListener = new OnScrollEndListener();
         mRecyclerView.setOnScrollListener(mScrollEndListener);
         mPresenter.start();
     }
@@ -133,8 +128,23 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
     }
 
     @Override
-    public void onClickVideo(int position) {
-        mPresenter.openVideo(position);
+    public void onClickVideo(VideoAll.Video video) {
+        mPresenter.openVideo(video);
     }
 
+    private class OnScrollEndListener extends RecyclerView.OnScrollListener {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (recyclerView == null) return;
+            if (recyclerView.computeVerticalScrollExtent() + recyclerView.computeVerticalScrollOffset()
+                    >= recyclerView.computeVerticalScrollRange() - 800) {
+                onScrollEnd();
+            }
+        }
+
+        void onScrollEnd() {
+            mPresenter.scrollEnd();
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.model.AllPhotoModel;
 import com.sunday.sundaymovie.model.MovieDetailModel;
 import com.sunday.sundaymovie.model.StarModel;
+import com.sunday.sundaymovie.mvp.actor.ActorActivity;
 import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 import com.sunday.sundaymovie.net.callback.MovieCallBack;
 
@@ -22,7 +23,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final StarModel mStarModel;
     private Movie mMovie;
     private ArrayList<String> mImgsList;
-    private boolean updateImages = true;
+    private boolean needUpdateImages = true;
 
     MovieDetailPresenter(MovieDetailContract.View view, int movieId) {
         mView = view;
@@ -37,8 +38,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         loadMovieDetail();
     }
 
-    @Override
-    public void loadMovieDetail() {
+    private void loadMovieDetail() {
         mDetailModel.getMovieDetail(mMovieId, new MovieCallBack() {
             @Override
             public void onResponse(Movie response) {
@@ -62,8 +62,8 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public void openPhoto(int position) {
         mView.showPhoto(mImgsList, position);
-        if (updateImages) {
-            updateImages = false;
+        if (needUpdateImages) {
+            needUpdateImages = false;
             new AllPhotoModel().getAllPhoto(mMovieId, new ImageAllCallBack() {
                 @Override
                 public void onResponse(AllPhoto response) {
@@ -149,6 +149,11 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
+    public void openActor(Movie.BasicBean.ActorsBean actorsBean) {
+        ActorActivity.startMe(mView.getContext(), actorsBean.getActorId());
+    }
+
+    @Override
     public void star() {
         mStarModel.insertMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg());
     }
@@ -156,10 +161,5 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public void unStar() {
         mStarModel.deleteMovie(mMovieId);
-    }
-
-    @Override
-    public void onDestroy() {
-        mStarModel.close();
     }
 }

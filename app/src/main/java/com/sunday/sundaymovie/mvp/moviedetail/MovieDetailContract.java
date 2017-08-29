@@ -60,7 +60,6 @@ interface MovieDetailContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadMovieDetail();
 
         void openPhoto(int position);
 
@@ -70,10 +69,10 @@ interface MovieDetailContract {
 
         void openAllVideo();
 
+        void openActor(Movie.BasicBean.ActorsBean actorsBean);
+
         void star();
 
         void unStar();
-
-        void onDestroy();
     }
 }

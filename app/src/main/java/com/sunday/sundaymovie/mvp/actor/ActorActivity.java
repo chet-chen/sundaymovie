@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.person;
+package com.sunday.sundaymovie.mvp.actor;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,9 +38,9 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-public class PersonActivity extends BaseActivity implements PersonContract.View, View.OnClickListener
+public class ActorActivity extends BaseActivity implements ActorContract.View, View.OnClickListener
         , GridPhotosAdapter.ItemListener {
-    private PersonContract.Presenter mPresenter;
+    private ActorContract.Presenter mPresenter;
     private boolean isTitleHide = true;
     private Button mBtnShowMoreExpriences;
     private RecyclerView mRecyclerViewRelationPersons, mRecyclerViewImages;
@@ -77,7 +77,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     public static void startMe(Context context, int id) {
-        Intent intent = new Intent(context, PersonActivity.class);
+        Intent intent = new Intent(context, ActorActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
     }
@@ -85,7 +85,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     @Override
     protected void initParams(Bundle bundle) {
         int id = bundle.getInt("id");
-        new PersonPresenter(this, id);
+        new ActorPresenter(this, id);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     }
 
     @Override
-    public void setPresenter(PersonContract.Presenter presenter) {
+    public void setPresenter(ActorContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -255,11 +255,8 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         parent.removeView(findViewById(R.id.tv_hint_img));
     }
 
-    /**
-     * @param rating 若小于等于0,则没有评分
-     */
     @Override
-    public void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType, double rating) {
+    public void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType) {
         try {
             Glide.with(this).load(imgUrl).placeholder(R.drawable.img_load).into(mIVHotMovieImg);
         } catch (IllegalArgumentException e) {
@@ -268,15 +265,20 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         mTVHotMovieNameCn.setText(nameCn);
         mTVHotMovieNameEn.setText(nameEn);
         mTVHotMovieType.setText(movieType);
-        if (rating > 0) {
-            mTVHotMovieRating.setText(String.valueOf(rating));
-            mRatingBar.setRating((float) rating / 2);
-        } else {
-            ((ViewGroup) mRatingBar.getParent()).removeView(mRatingBar);
-            mTVHotMovieRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
-            mTVHotMovieRating.setText("暂无评分");
-        }
         mHotMovieGroup.setOnClickListener(this);
+    }
+
+    @Override
+    public void showHotMovieRating(double rating) {
+        mTVHotMovieRating.setText(String.valueOf(rating));
+        mRatingBar.setRating((float) rating / 2);
+    }
+
+    @Override
+    public void hideHotMovieRating() {
+        ((ViewGroup) mRatingBar.getParent()).removeView(mRatingBar);
+        mTVHotMovieRating.setTextColor(getResources().getColor(R.color.colorTextBlack_3));
+        mTVHotMovieRating.setText("暂无评分");
     }
 
     @Override
@@ -319,7 +321,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerViewRelationPersons.setLayoutManager(linearLayoutManager);
-        mRecyclerViewRelationPersons.setAdapter(new PersonAdapter(list, this));
+        mRecyclerViewRelationPersons.setAdapter(new ActorAdapter(list, this));
     }
 
     @Override

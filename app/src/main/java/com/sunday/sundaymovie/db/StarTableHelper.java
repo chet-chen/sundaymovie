@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 
 import com.sunday.sundaymovie.bean.StarMovie;
 
@@ -19,7 +20,7 @@ public class StarTableHelper {
     private static final String TABLE_NAME = "star";
     private DataBaseHelper mHelper;
 
-    public StarTableHelper(Context context) {
+    public StarTableHelper(@NonNull Context context) {
         mHelper = new DataBaseHelper(context);
     }
 
@@ -30,11 +31,13 @@ public class StarTableHelper {
         values.put("name", starMovie.getName());
         values.put("img", starMovie.getImg());
         db.insert(TABLE_NAME, null, values);
+        db.close();
     }
 
     public void delete(int id) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         db.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
+        db.close();
     }
 
     public List<StarMovie> queryAll() {
@@ -51,6 +54,7 @@ public class StarTableHelper {
             }
             cursor.close();
         }
+        db.close();
         return list;
     }
 
@@ -60,11 +64,7 @@ public class StarTableHelper {
         Cursor cursor = db.query(TABLE_NAME, null, "id=?", new String[]{String.valueOf(id)}, null, null, null);
         b = cursor.moveToFirst();
         cursor.close();
+        db.close();
         return b;
     }
-
-    public void close() {
-        mHelper.close();
-    }
-
 }

@@ -26,7 +26,7 @@ class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void setSearchText(String searchText) {
+    public void initSearchText(String searchText) {
         mSearchText = searchText;
     }
 

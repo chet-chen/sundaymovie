@@ -82,7 +82,7 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
         mTotalTimeTextView = (TextView) findViewById(R.id.total);
         mMediaControllerBottom = findViewById(R.id.media_controller_bottom);
         mTVTitle = (TextView) findViewById(R.id.tv_movie_video_title);
-        mButtonBack = (ImageButton) findViewById(R.id.btn_back);
+        mButtonBack = (ImageButton) findViewById(R.id.btn_close);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.media_controller_all);
 
         mButtonPlay.setVisibility(View.INVISIBLE);
@@ -219,7 +219,7 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_back:
+            case R.id.btn_close:
                 finish();
                 break;
             case R.id.surface_view_video:

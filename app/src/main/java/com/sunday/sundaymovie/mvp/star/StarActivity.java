@@ -83,9 +83,4 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
         MovieDetailActivity.startMe(this, id);
     }
 
-    @Override
-    protected void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
-    }
 }

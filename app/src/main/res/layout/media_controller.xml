@@ -10,17 +10,17 @@
         android:id="@+id/media_controller_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorTextBlack_4">
+        android:background="@color/colorTextBlack_3">
 
         <ImageButton
-            android:id="@+id/btn_back"
+            android:id="@+id/btn_close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_round_ripple"
             android:padding="6dp"
-            app:srcCompat="@drawable/ic_arrow_back_white_24dp"/>
+            app:srcCompat="@drawable/ic_close_white_24dp"/>
 
         <TextView
             android:id="@+id/tv_movie_video_title"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:layout_toEndOf="@id/btn_back"
+            android:layout_toEndOf="@id/btn_close"
             android:textColor="@android:color/white"
             android:textSize="18sp"
             tools:text="北京爱迪生"/>
@@ -95,6 +95,7 @@
 
     <ProgressBar
         android:id="@+id/progress_video_load"
+        style="@style/MyProgressBar"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_gravity="center"/>

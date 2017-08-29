@@ -32,8 +32,6 @@ interface HomeContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadMovies();
-
         void refresh();
 
         void star(int id, String name, String imageURL);
@@ -41,7 +39,5 @@ interface HomeContract {
         void unStar(int id);
 
         void openMovieDetail(int id);
-
-        void onDestroy();
     }
 }

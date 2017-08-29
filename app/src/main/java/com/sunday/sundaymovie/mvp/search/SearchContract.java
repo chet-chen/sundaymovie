@@ -46,7 +46,7 @@ interface SearchContract {
     interface Presenter extends BasePresenter {
         void doSearch(String query);
 
-        void setSearchText(String text);
+        void initSearchText(String text);
 
         void cleanSearchHistory();
 

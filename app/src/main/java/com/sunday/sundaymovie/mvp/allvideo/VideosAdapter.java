@@ -79,11 +79,11 @@ class VideosAdapter extends RecyclerView.Adapter<VideosAdapter.VideosViewHolder>
 
         @Override
         public void onClick(View v) {
-            mItemListener.onClickVideo(getAdapterPosition());
+            mItemListener.onClickVideo(mVideo);
         }
     }
 
     interface ItemListener {
-        void onClickVideo(int position);
+        void onClickVideo(VideoAll.Video video);
     }
 }

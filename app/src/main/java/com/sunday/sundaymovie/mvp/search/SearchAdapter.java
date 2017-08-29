@@ -15,7 +15,7 @@ import com.sunday.sundaymovie.bean.SearchMovie;
 import com.sunday.sundaymovie.bean.SearchPerson;
 import com.sunday.sundaymovie.bean.SearchResult;
 import com.sunday.sundaymovie.mvp.moviedetail.MovieDetailActivity;
-import com.sunday.sundaymovie.mvp.person.PersonActivity;
+import com.sunday.sundaymovie.mvp.actor.ActorActivity;
 
 import java.util.List;
 
@@ -114,7 +114,7 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
             if (type == SearchResult.TYPE_MOVIE) {
                 MovieDetailActivity.startMe(mContext, ((SearchMovie) mSearch).getMovieId());
             } else if (type == SearchResult.TYPE_PERSON) {
-                PersonActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId());
+                ActorActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId());
             }
         }
     }

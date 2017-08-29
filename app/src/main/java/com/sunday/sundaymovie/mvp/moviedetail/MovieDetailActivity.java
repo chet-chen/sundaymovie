@@ -7,7 +7,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -21,10 +20,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.ms.square.android.expandabletextview.ExpandableTextView;
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.mvp.allphoto.AllPhotoActivity;
-import com.sunday.sundaymovie.mvp.allvideo.AllVideoActivity;
 import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.Movie;
+import com.sunday.sundaymovie.mvp.allphoto.AllPhotoActivity;
+import com.sunday.sundaymovie.mvp.allvideo.AllVideoActivity;
 import com.sunday.sundaymovie.mvp.photo.PhotoActivity;
 import com.sunday.sundaymovie.mvp.video.VideoActivity;
 import com.sunday.sundaymovie.widget.FollowButton;
@@ -36,8 +35,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/24.
  */
 
-public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View, PhotoAdapter.ItemListener, View.OnClickListener {
-    private static final String TAG = "MyMovieDetailActivity";
+public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View, PhotoAdapter.ItemListener, ActorAdapter.ItemListener, View.OnClickListener {
     private MovieDetailContract.Presenter mPresenter;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
@@ -213,7 +211,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void showActor(List<Movie.BasicBean.ActorsBean> list) {
-        mRecyclerActor.setAdapter(new ActorAdapter(list, this));
+        mRecyclerActor.setAdapter(new ActorAdapter(list, this, this));
     }
 
     @Override
@@ -232,18 +230,17 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void onImageClick(int position) {
+    public void onClickPhoto(int position) {
         mPresenter.openPhoto(position);
     }
 
     @Override
-    public void onMoreImageClick() {
+    public void onClickMore() {
         mPresenter.openAllPhoto();
     }
 
     @Override
     public void showVideo(String url, String title) {
-        Log.d(TAG, "showVideo: " + url + title);
         VideoActivity.startMe(this, url, title);
     }
 
@@ -295,8 +292,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    protected void onDestroy() {
-        mPresenter.onDestroy();
-        super.onDestroy();
+    public void onClickActor(Movie.BasicBean.ActorsBean actorsBean) {
+        mPresenter.openActor(actorsBean);
     }
 }

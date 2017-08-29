@@ -27,9 +27,9 @@ public class FollowButton extends FrameLayout {
     private String mUnFollowText = "收藏";
     private TextView mFollowTv;
     private TextView mUnFollowTv;
-    float mActionUpX;
-    float mActionUpY;
-    float mRevealRadius;
+    private float mActionUpX;
+    private float mActionUpY;
+    private float mRevealRadius;
     private boolean mIsFirstDraw = true;
     private Path mPath = new Path();
     private ValueAnimator mAnimator;
@@ -89,9 +89,8 @@ public class FollowButton extends FrameLayout {
             case MotionEvent.ACTION_CANCEL:
                 setForeground(mTransparent);
                 return true;
-            default:
-                return false;
         }
+        return false;
     }
 
     private void init() {

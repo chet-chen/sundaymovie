@@ -79,7 +79,7 @@ class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            mListener.onImageClick(getAdapterPosition());
+            mListener.onClickPhoto(getAdapterPosition());
         }
     }
 
@@ -92,13 +92,13 @@ class PhotoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         @Override
         public void onClick(View v) {
-            mListener.onMoreImageClick();
+            mListener.onClickMore();
         }
     }
 
     interface ItemListener {
-        void onImageClick(int position);
+        void onClickPhoto(int position);
 
-        void onMoreImageClick();
+        void onClickMore();
     }
 }

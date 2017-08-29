@@ -33,8 +33,7 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
         loadAllPhoto();
     }
 
-    @Override
-    public void loadAllPhoto() {
+    private void loadAllPhoto() {
         mAllPhotoModel.getAllPhoto(mMovieId, new ImageAllCallBack() {
             @Override
             public void onResponse(AllPhoto response) {

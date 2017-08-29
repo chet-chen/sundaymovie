@@ -17,7 +17,7 @@ class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
     }
 
     @Override
-    public void loadMovies() {
+    protected void loadMovies() {
         mShowTimeModel.getShowTimeMovies(new ShowTimeCallBack() {
             @Override
             public void onResponse(ShowTimeMovies response) {

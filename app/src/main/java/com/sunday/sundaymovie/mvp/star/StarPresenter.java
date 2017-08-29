@@ -25,8 +25,7 @@ class StarPresenter implements StarContract.Presenter {
         loadStarMovie();
     }
 
-    @Override
-    public void loadStarMovie() {
+    private void loadStarMovie() {
         mList = mStarModel.getAll();
         mView.showStarMovie(mList);
     }
@@ -34,10 +33,5 @@ class StarPresenter implements StarContract.Presenter {
     @Override
     public void openMovie(int position) {
         mView.showMovie(mList.get(position).getId());
-    }
-
-    @Override
-    public void onDestroy() {
-        mStarModel.close();
     }
 }

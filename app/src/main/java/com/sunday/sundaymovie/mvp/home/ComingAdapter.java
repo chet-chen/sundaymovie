@@ -117,7 +117,6 @@ class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
             } else {
                 menu.add(GROUP_COMING, ID_STAR, Menu.NONE, "收藏");
             }
-            helper.close();
         }
 
         @Override

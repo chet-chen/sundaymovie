@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.bean.Movie;
-import com.sunday.sundaymovie.mvp.person.PersonActivity;
 
 import java.util.List;
 
@@ -23,11 +22,12 @@ import java.util.List;
 class ActorAdapter extends RecyclerView.Adapter {
     private List<Movie.BasicBean.ActorsBean> mList;
     private Context mContext;
+    private ItemListener mItemListener;
 
-    ActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context) {
-        super();
+    ActorAdapter(List<Movie.BasicBean.ActorsBean> list, Context context, ItemListener itemListener) {
         mList = list;
         mContext = context;
+        mItemListener = itemListener;
     }
 
     @Override
@@ -72,7 +72,11 @@ class ActorAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            PersonActivity.startMe(mContext, mBean.getActorId());
+            mItemListener.onClickActor(mBean);
         }
+    }
+
+    interface ItemListener {
+        void onClickActor(Movie.BasicBean.ActorsBean actorsBean);
     }
 }

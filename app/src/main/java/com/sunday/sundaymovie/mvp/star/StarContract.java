@@ -23,10 +23,6 @@ interface StarContract {
 
     interface Presenter extends BasePresenter {
 
-        void loadStarMovie();
-
         void openMovie(int position);
-
-        void onDestroy();
     }
 }

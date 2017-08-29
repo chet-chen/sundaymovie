@@ -15,11 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sunday.sundaymovie.R;
-import com.sunday.sundaymovie.ui.AboutActivity;
-import com.sunday.sundaymovie.ui.SettingsActivity;
 import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.mvp.search.SearchActivity;
 import com.sunday.sundaymovie.mvp.star.StarActivity;
+import com.sunday.sundaymovie.ui.AboutActivity;
+import com.sunday.sundaymovie.ui.SettingsActivity;
 
 public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
@@ -132,6 +132,8 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_home:
+                break;
             case R.id.menu_stars:
                 StarActivity.startMe(this);
                 break;

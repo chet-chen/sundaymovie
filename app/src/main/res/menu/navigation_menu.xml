@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-      xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
     <item
+        android:id="@+id/menu_home"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/home"
-        tools:ignore="UnusedIds"/>
+        android:title="@string/home"/>
     <item
         android:id="@+id/menu_stars"
         android:icon="@drawable/ic_stars_black_24dp"

@@ -35,8 +35,7 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
         mView.showTitle(mTitle);
     }
 
-    @Override
-    public void loadAllVideo() {
+    private void loadAllVideo() {
         mAllVideoModel.getAllVideo(mId, mPageCount, new VideoAllCallBack() {
             @Override
             public void onResponse(VideoAll response) {
@@ -70,8 +69,7 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
     }
 
     @Override
-    public void openVideo(int position) {
-        VideoAll.Video video = mList.get(position);
+    public void openVideo(VideoAll.Video video) {
         mView.showVideo(video.getHightUrl(), video.getTitle());
     }
 

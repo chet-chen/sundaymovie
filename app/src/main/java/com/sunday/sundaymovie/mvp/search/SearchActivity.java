@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -99,6 +100,20 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mSearchView.hasFocus()) {
+                    clearSearchFocus();
+                } else {
+                    finish();
+                }
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public void setPresenter(SearchContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -109,7 +124,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         if (bundle != null && bundle.containsKey(SearchManager.QUERY)) {
             String text = bundle.getString(SearchManager.QUERY);
             if (text != null && text.isEmpty()) {
-                presenter.setSearchText(text);
+                presenter.initSearchText(text);
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

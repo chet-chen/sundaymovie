@@ -1,6 +1,7 @@
 package com.sunday.sundaymovie.mvp.video;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 
 import com.sunday.sundaymovie.base.BasePresenter;
@@ -48,7 +49,7 @@ interface VideoContract {
 
         void onClickSurface();
 
-        void onSurfaceCreated(SurfaceHolder holder);
+        void onSurfaceCreated(@NonNull SurfaceHolder holder);
 
         void onClickPlay();
 

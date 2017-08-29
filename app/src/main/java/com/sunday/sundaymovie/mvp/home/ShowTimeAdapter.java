@@ -140,7 +140,6 @@ class ShowTimeAdapter extends RecyclerView.Adapter<ShowTimeAdapter.ViewHolder> {
             } else {
                 menu.add(GROUP_SHOW_TIME, ID_STAR, Menu.NONE, "收藏");
             }
-            helper.close();
         }
 
         @Override

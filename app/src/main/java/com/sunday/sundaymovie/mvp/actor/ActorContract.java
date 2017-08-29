@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.person;
+package com.sunday.sundaymovie.mvp.actor;
 
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-interface PersonContract {
+interface ActorContract {
     interface View extends BaseView<Presenter> {
 
         void removeProgressBar();
@@ -30,10 +30,11 @@ interface PersonContract {
 
         void removeImages();
 
-        /**
-         * @param rating 若小于等于0,则没有评分
-         */
-        void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType, double rating);
+        void showHotMovie(String imgUrl, String nameCn, String nameEn, String movieType);
+
+        void showHotMovieRating(double rating);
+
+        void hideHotMovieRating();
 
         void removeHotMovie();
 
@@ -57,7 +58,6 @@ interface PersonContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadPerson();
 
         void openHotMovie();
 

@@ -24,7 +24,7 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
         loadMovies();
     }
 
-    public abstract void loadMovies();
+    protected abstract void loadMovies();
 
     @Override
     public void refresh() {
@@ -48,8 +48,4 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
         mView.showMovieDetail(id);
     }
 
-    @Override
-    public void onDestroy() {
-        mStarModel.close();
-    }
 }

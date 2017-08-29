@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
@@ -88,7 +89,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     }
 
     @Override
-    public void onSurfaceCreated(SurfaceHolder holder) {
+    public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
         mMediaPlayer.setDisplay(holder);
     }
 

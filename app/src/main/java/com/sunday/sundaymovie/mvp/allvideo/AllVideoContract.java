@@ -26,9 +26,7 @@ interface AllVideoContract {
     }
 
     interface Presenter extends BasePresenter {
-        void loadAllVideo();
-
-        void openVideo(int position);
+        void openVideo(VideoAll.Video video);
 
         void scrollEnd();
     }

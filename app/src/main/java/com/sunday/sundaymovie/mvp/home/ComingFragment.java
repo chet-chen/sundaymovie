@@ -63,7 +63,6 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
                 break;
             default:
                 return super.onContextItemSelected(item);
-
         }
         snackBar(hint);
         return true;

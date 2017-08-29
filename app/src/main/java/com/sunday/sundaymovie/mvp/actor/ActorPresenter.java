@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.person;
+package com.sunday.sundaymovie.mvp.actor;
 
 import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.model.PersonModel;
@@ -11,14 +11,14 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-class PersonPresenter implements PersonContract.Presenter {
-    private final PersonContract.View mView;
+class ActorPresenter implements ActorContract.Presenter {
+    private final ActorContract.View mView;
     private final int mId;
     private final PersonModel mPersonModel;
     private Person mPerson;
-    private ArrayList<String> mImgs;
+    private ArrayList<String> mPhotos;
 
-    PersonPresenter(PersonContract.View view, int id) {
+    ActorPresenter(ActorContract.View view, int id) {
         mView = view;
         mId = id;
         mView.setPresenter(this);
@@ -30,8 +30,7 @@ class PersonPresenter implements PersonContract.Presenter {
         loadPerson();
     }
 
-    @Override
-    public void loadPerson() {
+    private void loadPerson() {
         mPersonModel.getPerson(mId, new PersonCallBack() {
             @Override
             public void onResponse(Person response) {
@@ -63,11 +62,11 @@ class PersonPresenter implements PersonContract.Presenter {
             mView.showContent(mPerson.getContent());
         }
         if (mPerson.getImages().size() > 0) {
-            mImgs = new ArrayList<>();
+            mPhotos = new ArrayList<>();
             for (Person.ImagesBean imagesBean : mPerson.getImages()) {
-                mImgs.add(imagesBean.getImage());
+                mPhotos.add(imagesBean.getImage());
             }
-            mView.showImages(mImgs);
+            mView.showImages(mPhotos);
         } else {
             mView.removeImages();
         }
@@ -76,7 +75,13 @@ class PersonPresenter implements PersonContract.Presenter {
             mView.removeHotMovie();
         } else {
             mView.showHotMovie(hotMovie.getMovieCover(), hotMovie.getMovieTitleCn()
-                    , hotMovie.getMovieTitleEn(), hotMovie.getType(), hotMovie.getRatingFinal());
+                    , hotMovie.getMovieTitleEn(), hotMovie.getType());
+            double rating = hotMovie.getRatingFinal();
+            if (rating > 0) {
+                mView.showHotMovieRating(rating);
+            } else {
+                mView.hideHotMovieRating();
+            }
         }
         List<Person.ExpriencesBean> mExpriences = mPerson.getExpriences();
         if (mExpriences.size() == 0) {
@@ -106,6 +111,6 @@ class PersonPresenter implements PersonContract.Presenter {
 
     @Override
     public void openPhoto(int position) {
-        mView.showPhoto(mImgs, position);
+        mView.showPhoto(mPhotos, position);
     }
 }

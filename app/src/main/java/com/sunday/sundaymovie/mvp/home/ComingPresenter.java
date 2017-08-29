@@ -18,7 +18,7 @@ class ComingPresenter extends BasePresenter<ComingMovie> {
     }
 
     @Override
-    public void loadMovies() {
+    protected void loadMovies() {
         mComingModel.getComingMovies(new ComingCallBack() {
             @Override
             public void onResponse(ComingMovies response) {
