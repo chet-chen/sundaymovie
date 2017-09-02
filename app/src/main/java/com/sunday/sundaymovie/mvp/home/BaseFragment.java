@@ -24,7 +24,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     protected HomeContract.Presenter mPresenter;
     protected SwipeRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
-    private boolean recyclerEmpty = true;
+    private boolean mRecyclerEmpty = true, mIsReady = false;
     protected View mNetErrorView;
 
     @Override
@@ -37,9 +37,8 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         mPresenter = presenter;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         mRefreshLayout = root.findViewById(refresh_layout);
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -48,8 +47,24 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         if (mPresenter == null) {
             recreatePresenter();
         }
-        mPresenter.start();
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mIsReady = true;
+        if (getUserVisibleHint()) {
+            mPresenter.start();
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mIsReady && isVisibleToUser) {
+            mPresenter.start();
+        }
     }
 
     protected abstract void recreatePresenter();
@@ -73,7 +88,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
 
     @Override
     public void showNetError() {
-        if (mNetErrorView == null && recyclerEmpty) {
+        if (mNetErrorView == null && mRecyclerEmpty) {
             View root = getView();
             if (root != null) {
                 FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
@@ -86,12 +101,12 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
 
     @Override
     public void removeNetError() {
-        if (mNetErrorView != null && recyclerEmpty) {
+        if (mNetErrorView != null && mRecyclerEmpty) {
             View root = getView();
             if (root != null) {
                 FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
                 frameLayout.removeView(mNetErrorView);
-                recyclerEmpty = false;
+                mRecyclerEmpty = false;
                 mNetErrorView = null;
             }
         }

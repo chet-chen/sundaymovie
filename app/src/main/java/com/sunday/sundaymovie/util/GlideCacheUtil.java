@@ -17,6 +17,9 @@ public class GlideCacheUtil {
     private static GlideCacheUtil mInst;
     private boolean mCleaning = false;
 
+    private GlideCacheUtil() {
+    }
+
     public static GlideCacheUtil getInstance() {
         if (mInst == null) {
             synchronized (GlideCacheUtil.class) {
@@ -47,30 +50,22 @@ public class GlideCacheUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    String cacheSize = getFormatSize(getFolderSize(new File(context.getCacheDir()
-                            + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
-                    listener.onGottenCacheSize(cacheSize);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                String cacheSize = getFormatSize(getFolderSize(new File(context.getCacheDir()
+                        + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
+                listener.onGottenCacheSize(cacheSize);
             }
         }).start();
     }
 
-    private long getFolderSize(File file) throws Exception {
+    private long getFolderSize(File file) {
         long size = 0;
-        try {
-            File[] fileList = file.listFiles();
-            for (File aFileList : fileList) {
-                if (aFileList.isDirectory()) {
-                    size = size + getFolderSize(aFileList);
-                } else {
-                    size = size + aFileList.length();
-                }
+        File[] fileList = file.listFiles();
+        for (File f : fileList) {
+            if (f.isDirectory()) {
+                size = size + getFolderSize(f);
+            } else {
+                size = size + f.length();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return size;
     }

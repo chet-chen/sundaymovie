@@ -9,19 +9,21 @@ import com.sunday.sundaymovie.model.StarModel;
 abstract class BasePresenter<T> implements HomeContract.Presenter {
     final HomeContract.View<T> mView;
     private StarModel mStarModel;
+    private boolean mIsStarted = false;
 
     BasePresenter(HomeContract.View<T> view) {
         mView = view;
-        view.setPresenter(this);
+        mView.setPresenter(this);
+        mStarModel = new StarModel(mView.getContext());
     }
 
     @Override
     public void start() {
-        if (mStarModel == null) {
-            mStarModel = new StarModel(mView.getContext());
+        if (!mIsStarted) {
+            mIsStarted = true;
+            mView.setRefreshing(true);
+            loadMovies();
         }
-        mView.setRefreshing(true);
-        loadMovies();
     }
 
     protected abstract void loadMovies();

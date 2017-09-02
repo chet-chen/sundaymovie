@@ -15,13 +15,19 @@ import com.sunday.sundaymovie.util.GlideCacheUtil;
 
 public class SettingsFragment extends PreferenceFragment {
     private GlideCacheUtil mCacheUtil;
+    private Preference mPreferenceCleanCache;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCacheUtil = GlideCacheUtil.getInstance();
         addPreferencesFromResource(R.xml.preferences);
+        findPreference();
+        mCacheUtil = GlideCacheUtil.getInstance();
         getCacheSize();
+    }
+
+    private void findPreference() {
+        mPreferenceCleanCache = findPreference("pref_key_clean_cache");
     }
 
     @Override
@@ -34,6 +40,7 @@ public class SettingsFragment extends PreferenceFragment {
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
+
     private void getCacheSize() {
         mCacheUtil.getCacheSize(getActivity(), new GlideCacheUtil.OnGottenCacheSizeListener() {
             @Override
@@ -41,8 +48,7 @@ public class SettingsFragment extends PreferenceFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Preference preference = findPreference("pref_key_clean_cache");
-                        preference.setSummary(size);
+                        mPreferenceCleanCache.setSummary(size);
                     }
                 });
             }
@@ -56,8 +62,7 @@ public class SettingsFragment extends PreferenceFragment {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Preference preference = findPreference("pref_key_clean_cache");
-                        preference.setSummary("0.0 Byte");
+                        mPreferenceCleanCache.setSummary("0.0 Byte");
                     }
                 });
             }

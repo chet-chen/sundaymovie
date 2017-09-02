@@ -61,7 +61,7 @@ class ActorPresenter implements ActorContract.Presenter {
         } else {
             mView.showContent(mPerson.getContent());
         }
-        if (mPerson.getImages().size() > 0) {
+        if (mPerson.getImages() != null && mPerson.getImages().size() > 0) {
             mPhotos = new ArrayList<>();
             for (Person.ImagesBean imagesBean : mPerson.getImages()) {
                 mPhotos.add(imagesBean.getImage());
