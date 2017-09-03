@@ -17,7 +17,7 @@ class StarPresenter implements StarContract.Presenter {
     StarPresenter(StarContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        mStarModel = new StarModel(view.getContext());
+        mStarModel = new StarModel();
     }
 
     @Override

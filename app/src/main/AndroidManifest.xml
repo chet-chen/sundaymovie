@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:fullBackupContent="false"
         android:icon="@drawable/ic_local_movies_black_24dp"

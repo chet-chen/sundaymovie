@@ -15,7 +15,7 @@ public class MovieDetailModel {
         OkManager.getInstance().asyncGet(Api.getMovieUrl(movieId), callBack);
     }
 
-    public String getMovieReleaseText(String releaseDate, String releaseArea) {
+    public static String getMovieReleaseText(String releaseDate, String releaseArea) {
         if (releaseDate.length() < 4) {
             return releaseDate + releaseArea;
         }
@@ -40,7 +40,7 @@ public class MovieDetailModel {
         return sb.toString();
     }
 
-    public String getMovieType(List<String> list) {
+    public static String getMovieType(List<String> list) {
         if (list.size() == 0) {
             return null;
         }

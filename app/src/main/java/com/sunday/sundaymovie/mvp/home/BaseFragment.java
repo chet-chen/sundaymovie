@@ -51,8 +51,8 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onStart() {
+        super.onStart();
         mIsReady = true;
         if (getUserVisibleHint()) {
             mPresenter.start();

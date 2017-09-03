@@ -59,11 +59,6 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
     public void showStarMovie(List<StarMovie> list) {
         if (mAdapter == null) {
             mAdapter = new StarsMovieAdapter(this, list, this);

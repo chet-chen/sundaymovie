@@ -9,7 +9,7 @@ import com.sunday.sundaymovie.net.callback.VideoAllCallBack;
  */
 
 public class AllVideoModel {
-    OkManager mOkManager;
+    private OkManager mOkManager;
 
     public AllVideoModel() {
         mOkManager = OkManager.getInstance();

@@ -7,7 +7,7 @@ import com.sunday.sundaymovie.model.StarModel;
  */
 
 abstract class BasePresenter<T> implements HomeContract.Presenter {
-    final HomeContract.View<T> mView;
+    protected final HomeContract.View<T> mView;
     private StarModel mStarModel;
     private boolean mIsStarted = false;
 
@@ -19,7 +19,7 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
     @Override
     public void start() {
         if (mStarModel == null) {
-            mStarModel = new StarModel(mView.getContext());
+            mStarModel = new StarModel();
         }
         if (!mIsStarted) {
             mIsStarted = true;

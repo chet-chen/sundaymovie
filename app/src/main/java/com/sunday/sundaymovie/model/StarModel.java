@@ -1,7 +1,6 @@
 package com.sunday.sundaymovie.model;
 
-import android.content.Context;
-
+import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.bean.StarMovie;
 import com.sunday.sundaymovie.db.StarTableHelper;
 
@@ -14,8 +13,8 @@ import java.util.List;
 public class StarModel {
     private static StarTableHelper mHelper;
 
-    public StarModel(Context context) {
-        mHelper = new StarTableHelper(context);
+    public StarModel() {
+        mHelper = new StarTableHelper(BaseApplication.getContext());
     }
 
     public List<StarMovie> getAll() {

@@ -29,7 +29,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView = view;
         mMovieId = movieId;
         mDetailModel = new MovieDetailModel();
-        mStarModel = new StarModel(view.getContext());
+        mStarModel = new StarModel();
         view.setPresenter(this);
     }
 
