@@ -4,43 +4,40 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by agentchen on 2017/3/28.
  * Email agentchen97@gmail.com
  */
 
 class HomePagerAdapter extends FragmentPagerAdapter {
-    private String[] mTitles;
+    private List<Fragment> mFragments = new ArrayList<>();
+    private List<String> mTitles = new ArrayList<>();
 
-    HomePagerAdapter(FragmentManager fm, String[] titles) {
+    HomePagerAdapter(FragmentManager fm) {
         super(fm);
-        mTitles = titles;
+    }
+
+    void addTab(Fragment fragment, String title) {
+        mFragments.add(fragment);
+        mTitles.add(title);
     }
 
     @Override
     public int getCount() {
-        return mTitles.length;
+        return mFragments.size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles[position];
+        return mTitles.get(position);
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                ShowTimeFragment showTimeFragment = new ShowTimeFragment();
-                showTimeFragment.setPresenter(new ShowTimePresenter(showTimeFragment));
-                return showTimeFragment;
-            case 1:
-                ComingFragment comingFragment = new ComingFragment();
-                comingFragment.setPresenter(new ComingPresenter(comingFragment));
-                return comingFragment;
-            default:
-                return null;
-        }
+        return mFragments.get(position);
     }
 
 }

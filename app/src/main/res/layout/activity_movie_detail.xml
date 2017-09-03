@@ -181,7 +181,7 @@
                     <com.sunday.sundaymovie.widget.FollowButton
                         android:id="@+id/btn_follow"
                         android:layout_width="76dp"
-                        android:layout_height="38dp"
+                        android:layout_height="34dp"
                         android:layout_marginStart="20dp"/>
                 </LinearLayout>
 

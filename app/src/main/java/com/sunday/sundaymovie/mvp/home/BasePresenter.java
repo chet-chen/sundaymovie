@@ -14,11 +14,13 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
     BasePresenter(HomeContract.View<T> view) {
         mView = view;
         mView.setPresenter(this);
-        mStarModel = new StarModel(mView.getContext());
     }
 
     @Override
     public void start() {
+        if (mStarModel == null) {
+            mStarModel = new StarModel(mView.getContext());
+        }
         if (!mIsStarted) {
             mIsStarted = true;
             mView.setRefreshing(true);

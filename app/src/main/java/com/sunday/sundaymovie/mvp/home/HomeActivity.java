@@ -23,7 +23,6 @@ import com.sunday.sundaymovie.ui.SettingsActivity;
 
 public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelectedListener
         , NavigationView.OnNavigationItemSelectedListener {
-    private String[] mTitles = new String[]{"正在热映", "即将上映"};
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
     private Toolbar mToolbar;
@@ -34,7 +33,16 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new HomePagerAdapter(getSupportFragmentManager(), mTitles);
+        mAdapter = new HomePagerAdapter(getSupportFragmentManager());
+
+        ShowTimeFragment showTimeFragment = new ShowTimeFragment();
+        showTimeFragment.setPresenter(new ShowTimePresenter(showTimeFragment));
+        mAdapter.addTab(showTimeFragment, "正在热映");
+
+        ComingFragment comingFragment = new ComingFragment();
+        comingFragment.setPresenter(new ComingPresenter(comingFragment));
+        mAdapter.addTab(comingFragment, "即将上映");
+
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);
@@ -131,6 +139,7 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        mDrawerLayout.closeDrawer(Gravity.START);
         switch (item.getItemId()) {
             case R.id.menu_home:
                 break;
@@ -144,7 +153,6 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
                 AboutActivity.startMe(this);
                 break;
         }
-        mDrawerLayout.closeDrawer(Gravity.START);
         return true;
     }
 }

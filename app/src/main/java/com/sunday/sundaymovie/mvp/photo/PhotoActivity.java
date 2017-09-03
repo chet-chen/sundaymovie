@@ -195,7 +195,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
         @Override
         public void transformPage(@NonNull View page, float position) {
             if (-1 <= position && position <= 1)
-                page.setTranslationX(position * 20);
+                page.setTranslationX(position * 30);
         }
     }
 }

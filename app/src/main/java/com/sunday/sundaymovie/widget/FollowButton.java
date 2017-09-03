@@ -24,7 +24,7 @@ import com.sunday.sundaymovie.R;
 public class FollowButton extends FrameLayout {
     protected boolean mIsFollowed;
     private String mFollowText = "已收藏";
-    private String mUnFollowText = "收藏";
+    private String mUnFollowText = "+ 收藏";
     private TextView mFollowTv;
     private TextView mUnFollowTv;
     private float mActionUpX;
