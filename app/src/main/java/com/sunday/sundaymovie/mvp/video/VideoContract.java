@@ -23,9 +23,9 @@ interface VideoContract {
 
         void showProgressBar();
 
-        void showPlay();
+        void enabledPlayButton();
 
-        void showBottomMediaController();
+        void enabledSeekBar();
 
         void showPlayIcon();
 

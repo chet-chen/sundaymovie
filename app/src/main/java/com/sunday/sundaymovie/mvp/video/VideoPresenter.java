@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -34,8 +33,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     private static Timer timer;
     private ProgressTimerTask mProgressTimerTask;
 
-    private boolean mIsImmersion = true;
-    private boolean mPrepared = false;
+    private boolean mIsHideMediaController = true, mPrepared = false;
     private int mDuration;
 
     VideoPresenter(VideoContract.View view, String url, String title) {
@@ -76,13 +74,13 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     @Override
     public void onClickSurface() {
         if (mPrepared) {
-            if (mIsImmersion) {
+            if (mIsHideMediaController) {
                 mView.showMediaController();
-                mIsImmersion = false;
+                mIsHideMediaController = false;
                 startImmersionTimer();
             } else {
                 mView.hideMediaController();
-                mIsImmersion = true;
+                mIsHideMediaController = true;
                 cancelImmersionTimer();
             }
         }
@@ -158,8 +156,8 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
         startProgressTimer();
         mediaPlayer.start();
-        mView.showPlay();
-        mView.showBottomMediaController();
+        mView.enabledPlayButton();
+        mView.enabledSeekBar();
         mView.hideMediaController();
     }
 
@@ -176,17 +174,16 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         mHandler.removeCallbacks(mImmersionRunnable);
     }
 
-    private static final String TAG = "VideoPresenter";
-
     @Override
     public boolean onInfo(MediaPlayer mp, int what, int extra) {
         switch (what) {
             case MediaPlayer.MEDIA_INFO_BUFFERING_START:
-                Log.d(TAG, "onInfo: buffering start");
                 mView.showProgressBar();
                 break;
             case MediaPlayer.MEDIA_INFO_BUFFERING_END:
-                Log.d(TAG, "onInfo: buffering end");
+                mView.hideProgressBar();
+                break;
+            case MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START:
                 mView.hideProgressBar();
                 break;
         }
@@ -196,9 +193,9 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     private class TimerImmersionRunnable implements Runnable {
         @Override
         public void run() {
-            if (!mIsImmersion) {
+            if (!mIsHideMediaController) {
                 mView.hideMediaController();
-                mIsImmersion = true;
+                mIsHideMediaController = true;
             }
         }
     }

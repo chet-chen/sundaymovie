@@ -29,7 +29,6 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     private ProgressBar mProgressBar;
     private SeekBar mSeekBar;
     private ImageButton mButtonPlay, mButtonDownload, mButtonBack;
-    private View mMediaControllerBottom;
     private RelativeLayout mRelativeLayout;
 
     @Override
@@ -80,13 +79,12 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
         mProgressBar = (ProgressBar) findViewById(R.id.progress_video_load);
         mCurrentTimeTextView = (TextView) findViewById(R.id.current);
         mTotalTimeTextView = (TextView) findViewById(R.id.total);
-        mMediaControllerBottom = findViewById(R.id.media_controller_bottom);
         mTVTitle = (TextView) findViewById(R.id.tv_movie_video_title);
         mButtonBack = (ImageButton) findViewById(R.id.btn_close);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.media_controller_all);
 
-        mButtonPlay.setVisibility(View.INVISIBLE);
-        mMediaControllerBottom.setVisibility(View.INVISIBLE);
+        mButtonPlay.setEnabled(false);
+        mSeekBar.setEnabled(false);
     }
 
     public static void startMe(Context context, String url, String title) {
@@ -128,13 +126,13 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     }
 
     @Override
-    public void showPlay() {
-        mButtonPlay.setVisibility(View.VISIBLE);
+    public void enabledPlayButton() {
+        mButtonPlay.setEnabled(true);
     }
 
     @Override
-    public void showBottomMediaController() {
-        mMediaControllerBottom.setVisibility(View.VISIBLE);
+    public void enabledSeekBar() {
+        mSeekBar.setEnabled(true);
     }
 
     @Override
@@ -184,12 +182,10 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
             @Override
             public void onAnimationEnd(Animation animation) {
-
             }
 
             @Override
             public void onAnimationRepeat(Animation animation) {
-
             }
         });
         view.startAnimation(animation);

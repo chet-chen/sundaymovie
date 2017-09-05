@@ -90,7 +90,7 @@ public class ActorActivity extends BaseActivity implements ActorContract.View, V
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_person);
+        setContentView(R.layout.activity_actor);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
         mBtnShowMoreExpriences = (Button) findViewById(R.id.btn_show_more);
