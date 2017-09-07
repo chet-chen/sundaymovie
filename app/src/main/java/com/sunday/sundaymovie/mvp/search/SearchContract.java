@@ -1,7 +1,5 @@
 package com.sunday.sundaymovie.mvp.search;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 import com.sunday.sundaymovie.bean.Search;
@@ -14,8 +12,6 @@ import java.util.List;
 
 interface SearchContract {
     interface View extends BaseView<Presenter> {
-        Context getContext();
-
         void clearSearchFocus();
 
         void showHistory(boolean needAnimate);

@@ -64,6 +64,12 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onViewDestroy();
+    }
+
+    @Override
     public void showTitle(String title) {
         setTitle(title);
     }

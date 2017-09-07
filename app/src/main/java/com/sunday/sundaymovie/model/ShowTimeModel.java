@@ -1,8 +1,11 @@
 package com.sunday.sundaymovie.model;
 
+import com.sunday.sundaymovie.bean.ShowTimeMovies;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
-import com.sunday.sundaymovie.net.callback.ShowTimeCallBack;
+import com.sunday.sundaymovie.net.converter.ShowTimeMoviesConverter;
+
+import io.reactivex.Observable;
 
 /**
  * Created by agentchen on 2017/7/23.
@@ -15,7 +18,7 @@ public class ShowTimeModel {
         mOkManager = OkManager.getInstance();
     }
 
-    public void getShowTimeMovies(ShowTimeCallBack callBack) {
-        mOkManager.asyncGet(Api.SHOW_TIME_MOVIES, callBack);
+    public Observable<ShowTimeMovies> getShowTimeMovies() {
+        return mOkManager.get(Api.SHOW_TIME_MOVIES, new ShowTimeMoviesConverter());
     }
 }

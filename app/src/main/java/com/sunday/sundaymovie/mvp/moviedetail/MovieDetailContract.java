@@ -74,5 +74,6 @@ interface MovieDetailContract {
         void star();
 
         void unStar();
+
     }
 }

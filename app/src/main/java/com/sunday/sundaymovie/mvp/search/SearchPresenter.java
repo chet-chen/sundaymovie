@@ -3,9 +3,12 @@ package com.sunday.sundaymovie.mvp.search;
 import com.sunday.sundaymovie.bean.Search;
 import com.sunday.sundaymovie.bean.SearchResult;
 import com.sunday.sundaymovie.model.SearchModel;
-import com.sunday.sundaymovie.net.callback.SearchCallBack;
 
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/7/28.
@@ -22,7 +25,7 @@ class SearchPresenter implements SearchContract.Presenter {
     SearchPresenter(SearchContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        mSearchModel = new SearchModel(view.getContext());
+        mSearchModel = new SearchModel();
     }
 
     @Override
@@ -38,6 +41,11 @@ class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
+    public void onViewDestroy() {
+
+    }
+
+    @Override
     public void doSearch(String query) {
         if (query.isEmpty()) {
             return;
@@ -46,24 +54,32 @@ class SearchPresenter implements SearchContract.Presenter {
         if (!mIsSearching) {
             mIsSearching = true;
             mView.showProgressBar();
-            mSearchModel.doSearch(query, new SearchCallBack() {
+            mSearchModel.doSearch(query).subscribe(new Observer<SearchResult>() {
                 @Override
-                public void onResponse(SearchResult response) {
-                    if (response != null) {
-                        mSearchResult = response;
+                public void onSubscribe(@NonNull Disposable d) {
+
+                }
+
+                @Override
+                public void onNext(@NonNull SearchResult searchResult) {
+                    if (searchResult != null) {
+                        mSearchResult = searchResult;
                         mView.hideProgressBar();
                         modelToView();
                         mIsSearching = false;
-                    } else {
-                        onError();
                     }
                 }
 
                 @Override
-                public void onError() {
+                public void onError(@NonNull Throwable e) {
                     mView.hideProgressBar();
                     mView.toast("有点问题");
                     mIsSearching = false;
+                }
+
+                @Override
+                public void onComplete() {
+
                 }
             });
             mSearchModel.saveSearchHistory(query);

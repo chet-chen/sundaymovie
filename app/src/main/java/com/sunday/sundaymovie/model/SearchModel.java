@@ -3,13 +3,17 @@ package com.sunday.sundaymovie.model;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.sunday.sundaymovie.base.BaseApplication;
+import com.sunday.sundaymovie.bean.SearchResult;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
-import com.sunday.sundaymovie.net.callback.SearchCallBack;
+import com.sunday.sundaymovie.net.converter.SearchResultConverter;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import io.reactivex.Observable;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -21,13 +25,13 @@ public class SearchModel {
     private OkManager mOkManager;
     private Context mContext;
 
-    public SearchModel(Context context) {
+    public SearchModel() {
         mOkManager = OkManager.getInstance();
-        mContext = context;
+        mContext = BaseApplication.getContext();
     }
 
-    public void doSearch(String param, SearchCallBack callBack) {
-        mOkManager.asyncGet(Api.getSearchUrl(param), callBack);
+    public Observable<SearchResult> doSearch(String param) {
+        return mOkManager.get(Api.getSearchUrl(param), new SearchResultConverter());
     }
 
     public void saveSearchHistory(String text) {

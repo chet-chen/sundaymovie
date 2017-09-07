@@ -5,12 +5,15 @@ import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.model.AllPhotoModel;
 import com.sunday.sundaymovie.model.MovieDetailModel;
 import com.sunday.sundaymovie.model.StarModel;
-import com.sunday.sundaymovie.mvp.actor.ActorActivity;
-import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
-import com.sunday.sundaymovie.net.callback.MovieCallBack;
+import com.sunday.sundaymovie.mvp.person.PersonActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by agentchen on 2017/7/24.
@@ -23,6 +26,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final StarModel mStarModel;
     private Movie mMovie;
     private ArrayList<String> mImgsList;
+    private Disposable mDisposable;
     private boolean needUpdateImages = true;
 
     MovieDetailPresenter(MovieDetailContract.View view, int movieId) {
@@ -39,22 +43,30 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     private void loadMovieDetail() {
-        mDetailModel.getMovieDetail(mMovieId, new MovieCallBack() {
+        mDetailModel.getMovieDetail(mMovieId).subscribe(new Observer<Movie>() {
             @Override
-            public void onResponse(Movie response) {
-                mView.removeProgressBar();
-                if (response == null) {
-                    onError();
-                } else {
-                    mMovie = response;
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override
+            public void onNext(@NonNull Movie movie) {
+                if (movie != null) {
+                    mView.removeProgressBar();
+                    mMovie = movie;
                     modelToView();
                 }
             }
 
             @Override
-            public void onError() {
+            public void onError(@NonNull Throwable e) {
+                e.printStackTrace();
                 mView.toast("有点问题");
                 mView.finish();
+            }
+
+            @Override
+            public void onComplete() {
             }
         });
     }
@@ -64,22 +76,18 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView.showPhoto(mImgsList, position);
         if (needUpdateImages) {
             needUpdateImages = false;
-            new AllPhotoModel().getAllPhoto(mMovieId, new ImageAllCallBack() {
+            new AllPhotoModel().getAllPhoto(mMovieId).subscribe(new Consumer<AllPhoto>() {
                 @Override
-                public void onResponse(AllPhoto response) {
-                    if (response != null) {
-                        ArrayList<String> list = new ArrayList<>(mImgsList.size() + response.getImages().size());
+                public void accept(AllPhoto allPhoto) throws Exception {
+                    if (allPhoto != null) {
+                        ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
                         list.addAll(mImgsList);
-                        for (AllPhoto.Image image : response.getImages()) {
+                        for (AllPhoto.Image image : allPhoto.getImages()) {
                             list.add(image.getImage());
                         }
                         mView.updatePhotos(list);
                         mImgsList = list;
                     }
-                }
-
-                @Override
-                public void onError() {
                 }
             });
         }
@@ -94,12 +102,12 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView.showBasicInfo(mMovie.getBasic().getName(), mMovie.getBasic().getNameEn()
                 , mMovie.getBasic().isIs3D(), mMovie.getBasic().getOverallRating()
                 , mMovie.getBasic().getDirector().getName()
-                , mDetailModel.getMovieReleaseText(mMovie.getBasic().getReleaseDate()
+                , MovieDetailModel.getMovieReleaseText(mMovie.getBasic().getReleaseDate()
                         , mMovie.getBasic().getReleaseArea())
                 , mMovie.getBasic().getMins(), mMovie.getBoxOffice().getTotalBoxDes());
         List<String> types = mMovie.getBasic().getType();
         if (types.size() > 0) {
-            String type = mDetailModel.getMovieType(types);
+            String type = MovieDetailModel.getMovieType(types);
             mView.showType(type);
         } else {
             mView.removeType();
@@ -129,7 +137,12 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         ab.setRoleName("导演");
         actors.add(0, ab);
         mView.showActor(actors);
-        mView.setFollowed(mStarModel.isExist(mMovieId));
+        mStarModel.isStar(mMovieId).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean aBoolean) throws Exception {
+                mView.setFollowed(aBoolean);
+            }
+        });
     }
 
     @Override
@@ -150,16 +163,23 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void openActor(Movie.BasicBean.ActorsBean actorsBean) {
-        ActorActivity.startMe(mView.getContext(), actorsBean.getActorId());
+        PersonActivity.startMe(mView.getContext(), actorsBean.getActorId());
     }
 
     @Override
     public void star() {
-        mStarModel.insertMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg());
+        mStarModel.starMovie(mMovieId, mMovie.getBasic().getName(), mMovie.getBasic().getImg());
     }
 
     @Override
     public void unStar() {
-        mStarModel.deleteMovie(mMovieId);
+        mStarModel.unstarMovie(mMovieId);
+    }
+
+    @Override
+    public void onViewDestroy() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 }

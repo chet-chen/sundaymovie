@@ -24,6 +24,11 @@ class ExpriencesPresenter implements ExpriencesContract.Presenter {
     }
 
     @Override
+    public void onViewDestroy() {
+
+    }
+
+    @Override
     public void openPhoto(int position) {
         ArrayList<String> imgUrls = new ArrayList<>(mList.size());
         for (Person.ExpriencesBean bean : mList) {

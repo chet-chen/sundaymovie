@@ -2,10 +2,13 @@ package com.sunday.sundaymovie.mvp.allphoto;
 
 import com.sunday.sundaymovie.bean.AllPhoto;
 import com.sunday.sundaymovie.model.AllPhotoModel;
-import com.sunday.sundaymovie.net.callback.ImageAllCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/7/31.
@@ -18,6 +21,7 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
     private final AllPhotoModel mAllPhotoModel;
     private AllPhoto mAllPhoto;
     private ArrayList<String> mUrls;
+    private Disposable mDisposable;
 
     AllPhotoPresenter(AllPhotoContract.View view, int movieId, String title) {
         mView = view;
@@ -33,22 +37,37 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
         loadAllPhoto();
     }
 
+    @Override
+    public void onViewDestroy() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void loadAllPhoto() {
-        mAllPhotoModel.getAllPhoto(mMovieId, new ImageAllCallBack() {
+        mAllPhotoModel.getAllPhoto(mMovieId).subscribe(new Observer<AllPhoto>() {
             @Override
-            public void onResponse(AllPhoto response) {
-                if (response != null) {
-                    mAllPhoto = response;
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override
+            public void onNext(@NonNull AllPhoto allPhoto) {
+                if (allPhoto != null) {
+                    mAllPhoto = allPhoto;
                     mView.removeProgressBar();
                     modelToView();
-                } else {
-                    onError();
                 }
             }
 
             @Override
-            public void onError() {
+            public void onError(@NonNull Throwable e) {
                 mView.toast("有点问题");
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

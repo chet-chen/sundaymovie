@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.actor;
+package com.sunday.sundaymovie.mvp.person;
 
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-interface ActorContract {
+interface PersonContract {
     interface View extends BaseView<Presenter> {
 
         void removeProgressBar();
@@ -64,5 +64,6 @@ interface ActorContract {
         void openAllExpriences();
 
         void openPhoto(int position);
+
     }
 }

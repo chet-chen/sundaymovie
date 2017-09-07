@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.actor;
+package com.sunday.sundaymovie.mvp.person;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +19,11 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-class ActorAdapter extends RecyclerView.Adapter {
+class PersonAdapter extends RecyclerView.Adapter {
     private List<Person.RelationPersonsBean> mList;
     private Context mContext;
 
-    ActorAdapter(List<Person.RelationPersonsBean> list, Context context) {
+    PersonAdapter(List<Person.RelationPersonsBean> list, Context context) {
         super();
         mList = list;
         mContext = context;
@@ -33,12 +33,12 @@ class ActorAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_actor_recycler, parent, false);
-        return new ActorAdapter.RecyclerActorItemViewHolder(view);
+        return new PersonAdapter.RecyclerActorItemViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((ActorAdapter.RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position));
+        ((PersonAdapter.RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position));
     }
 
     @Override
@@ -71,7 +71,7 @@ class ActorAdapter extends RecyclerView.Adapter {
 
         @Override
         public void onClick(View v) {
-            ActorActivity.startMe(mContext, mBean.getRPersonId());
+            PersonActivity.startMe(mContext, mBean.getRPersonId());
         }
     }
 

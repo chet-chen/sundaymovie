@@ -1,24 +1,28 @@
-package com.sunday.sundaymovie.mvp.actor;
+package com.sunday.sundaymovie.mvp.person;
 
 import com.sunday.sundaymovie.bean.Person;
 import com.sunday.sundaymovie.model.PersonModel;
-import com.sunday.sundaymovie.net.callback.PersonCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/7/26.
  */
 
-class ActorPresenter implements ActorContract.Presenter {
-    private final ActorContract.View mView;
+class PersonPresenter implements PersonContract.Presenter {
+    private final PersonContract.View mView;
     private final int mId;
     private final PersonModel mPersonModel;
     private Person mPerson;
     private ArrayList<String> mPhotos;
+    private Disposable mDisposable;
 
-    ActorPresenter(ActorContract.View view, int id) {
+    PersonPresenter(PersonContract.View view, int id) {
         mView = view;
         mId = id;
         mView.setPresenter(this);
@@ -30,23 +34,38 @@ class ActorPresenter implements ActorContract.Presenter {
         loadPerson();
     }
 
+    @Override
+    public void onViewDestroy() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
+
     private void loadPerson() {
-        mPersonModel.getPerson(mId, new PersonCallBack() {
+        mPersonModel.getPerson(mId).subscribe(new Observer<Person>() {
             @Override
-            public void onResponse(Person response) {
-                if (response != null) {
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
+            }
+
+            @Override
+            public void onNext(@NonNull Person person) {
+                if (person != null) {
                     mView.removeProgressBar();
-                    mPerson = response;
+                    mPerson = person;
                     modelToView();
-                } else {
-                    onError();
                 }
             }
 
             @Override
-            public void onError() {
+            public void onError(@NonNull Throwable e) {
                 mView.toast("有点问题");
                 mView.finish();
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

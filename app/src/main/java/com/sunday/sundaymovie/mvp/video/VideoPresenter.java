@@ -62,6 +62,11 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     }
 
     @Override
+    public void onViewDestroy() {
+
+    }
+
+    @Override
     public void onDestroy() {
         cancelImmersionTimer();
         cancelProgressTimer();

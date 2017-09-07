@@ -56,6 +56,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.onViewDestroy();
+    }
+
+    @Override
     protected void initParams(Bundle bundle) {
         if (bundle != null) {
             new MovieDetailPresenter(this, bundle.getInt("movieId"));

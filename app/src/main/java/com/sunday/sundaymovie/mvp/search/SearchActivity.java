@@ -185,11 +185,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
     public void clearSearchFocus() {
         mSearchView.clearFocus();
     }
@@ -197,14 +192,15 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     @Override
     public void showHistory(boolean needAnimate) {
         if (needAnimate) {
-            mAnimShowCard = new TranslateAnimation(0, 0, -mCardViewHistory.getHeight(), 0);
-            mAnimShowCard.setDuration(300L);
-            mAnimShowCard.setInterpolator(new DecelerateInterpolator());
-            mAnimShowCard.setAnimationListener(this);
+            if (mAnimShowCard == null) {
+                mAnimShowCard = new TranslateAnimation(0, 0, -mCardViewHistory.getHeight(), 0);
+                mAnimShowCard.setDuration(300L);
+                mAnimShowCard.setInterpolator(new DecelerateInterpolator());
+                mAnimShowCard.setAnimationListener(this);
+            }
             if (mAnimShowBG == null) {
                 mAnimShowBG = new AlphaAnimation(0, 1);
                 mAnimShowBG.setDuration(300L);
-                mAnimShowBG.setInterpolator(new DecelerateInterpolator());
                 mAnimShowBG.setAnimationListener(this);
             }
             mCardViewHistory.startAnimation(mAnimShowCard);
@@ -221,15 +217,15 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
             return;
         }
         if (needAnimate) {
-            mAnimHideCard = new TranslateAnimation(0, 0, 0, -mCardViewHistory.getHeight());
-            mAnimHideCard.setInterpolator(new AccelerateInterpolator());
-            mAnimHideCard.setDuration(300L);
-            mAnimHideCard.setAnimationListener(this);
-
+            if (mAnimHideCard == null) {
+                mAnimHideCard = new TranslateAnimation(0, 0, 0, -mCardViewHistory.getHeight());
+                mAnimHideCard.setInterpolator(new AccelerateInterpolator());
+                mAnimHideCard.setDuration(300L);
+                mAnimHideCard.setAnimationListener(this);
+            }
             if (mAnimHideBG == null) {
                 mAnimHideBG = new AlphaAnimation(1, 0);
                 mAnimHideBG.setDuration(300L);
-                mAnimHideBG.setInterpolator(new AccelerateInterpolator());
                 mAnimHideBG.setAnimationListener(this);
             }
             mCardViewHistory.startAnimation(mAnimHideCard);

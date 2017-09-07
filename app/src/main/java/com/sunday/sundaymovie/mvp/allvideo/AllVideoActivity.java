@@ -121,10 +121,11 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (mScrollEndListener != null) {
             mRecyclerView.removeOnScrollListener(mScrollEndListener);
         }
-        super.onDestroy();
+        mPresenter.onViewDestroy();
     }
 
     @Override

@@ -3,7 +3,10 @@ package com.sunday.sundaymovie.mvp.home;
 import com.sunday.sundaymovie.bean.ComingMovie;
 import com.sunday.sundaymovie.bean.ComingMovies;
 import com.sunday.sundaymovie.model.ComingModel;
-import com.sunday.sundaymovie.net.callback.ComingCallBack;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/7/23.
@@ -19,20 +22,32 @@ class ComingPresenter extends BasePresenter<ComingMovie> {
 
     @Override
     protected void loadMovies() {
-        mComingModel.getComingMovies(new ComingCallBack() {
+        mComingModel.getComingMovies().subscribe(new Observer<ComingMovies>() {
             @Override
-            public void onResponse(ComingMovies response) {
-                mView.removeNetError();
-                mView.setRefreshing(false);
-                mView.showMovies(response.getAttention());
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable = d;
             }
 
             @Override
-            public void onError() {
+            public void onNext(@NonNull ComingMovies comingMovies) {
+                mView.removeNetError();
+                mView.setRefreshing(false);
+                mView.showMovies(comingMovies.getAttention());
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
                 mView.showNetError();
                 mView.setRefreshing(false);
                 mView.snackBar("网络异常,下拉重试");
             }
+
+            @Override
+            public void onComplete() {
+
+            }
         });
     }
+
+
 }

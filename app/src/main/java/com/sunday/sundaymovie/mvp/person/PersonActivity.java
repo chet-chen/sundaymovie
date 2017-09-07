@@ -1,4 +1,4 @@
-package com.sunday.sundaymovie.mvp.actor;
+package com.sunday.sundaymovie.mvp.person;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,9 +38,9 @@ import java.util.List;
  * Created by agentchen on 2017/7/26.
  */
 
-public class ActorActivity extends BaseActivity implements ActorContract.View, View.OnClickListener
+public class PersonActivity extends BaseActivity implements PersonContract.View, View.OnClickListener
         , GridPhotosAdapter.ItemListener {
-    private ActorContract.Presenter mPresenter;
+    private PersonContract.Presenter mPresenter;
     private boolean isTitleHide = true;
     private Button mBtnShowMoreExpriences;
     private RecyclerView mRecyclerViewRelationPersons, mRecyclerViewImages;
@@ -77,7 +77,7 @@ public class ActorActivity extends BaseActivity implements ActorContract.View, V
     }
 
     public static void startMe(Context context, int id) {
-        Intent intent = new Intent(context, ActorActivity.class);
+        Intent intent = new Intent(context, PersonActivity.class);
         intent.putExtra("id", id);
         context.startActivity(intent);
     }
@@ -85,7 +85,7 @@ public class ActorActivity extends BaseActivity implements ActorContract.View, V
     @Override
     protected void initParams(Bundle bundle) {
         int id = bundle.getInt("id");
-        new ActorPresenter(this, id);
+        new PersonPresenter(this, id);
     }
 
     @Override
@@ -121,7 +121,7 @@ public class ActorActivity extends BaseActivity implements ActorContract.View, V
     }
 
     @Override
-    public void setPresenter(ActorContract.Presenter presenter) {
+    public void setPresenter(PersonContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -321,7 +321,7 @@ public class ActorActivity extends BaseActivity implements ActorContract.View, V
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         mRecyclerViewRelationPersons.setLayoutManager(linearLayoutManager);
-        mRecyclerViewRelationPersons.setAdapter(new ActorAdapter(list, this));
+        mRecyclerViewRelationPersons.setAdapter(new PersonAdapter(list, this));
     }
 
     @Override

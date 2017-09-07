@@ -2,9 +2,12 @@ package com.sunday.sundaymovie.mvp.allvideo;
 
 import com.sunday.sundaymovie.bean.VideoAll;
 import com.sunday.sundaymovie.model.AllVideoModel;
-import com.sunday.sundaymovie.net.callback.VideoAllCallBack;
 
 import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/8/3.
@@ -20,6 +23,8 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
     private int mTotalPageCount = 1;
     private boolean mLoading = false;
     private boolean mFirstLoad = true;
+    private Observer<VideoAll> mObserver;
+    private Disposable mDisposable;
 
     AllVideoPresenter(AllVideoContract.View view, int id, String title) {
         mView = view;
@@ -35,33 +40,51 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
         mView.showTitle(mTitle);
     }
 
-    private void loadAllVideo() {
-        mAllVideoModel.getAllVideo(mId, mPageCount, new VideoAllCallBack() {
-            @Override
-            public void onResponse(VideoAll response) {
-                if (response != null) {
-                    if (mFirstLoad) {
-                        mView.removeProgressBar();
-                        mList = response.getVideoList();
-                        mTotalPageCount = response.getTotalPageCount();
-                        mFirstLoad = false;
-                    } else {
-                        mList.addAll(response.getVideoList());
-                    }
-                    modelToView();
-                    mLoading = false;
-                } else {
-                    onError();
-                }
-            }
+    @Override
+    public void onViewDestroy() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
+    }
 
-            @Override
-            public void onError() {
-                mLoading = false;
-                mPageCount--;
-                mView.toast("有点问题");
-            }
-        });
+    private void loadAllVideo() {
+        if (mObserver == null) {
+            mObserver = new Observer<VideoAll>() {
+                @Override
+                public void onSubscribe(@NonNull Disposable d) {
+                    mDisposable = d;
+                }
+
+                @Override
+                public void onNext(@NonNull VideoAll videoAll) {
+                    if (videoAll != null) {
+                        if (mFirstLoad) {
+                            mView.removeProgressBar();
+                            mList = videoAll.getVideoList();
+                            mTotalPageCount = videoAll.getTotalPageCount();
+                            mFirstLoad = false;
+                        } else {
+                            mList.addAll(videoAll.getVideoList());
+                        }
+                        modelToView();
+                        mLoading = false;
+                    }
+                }
+
+                @Override
+                public void onError(@NonNull Throwable e) {
+                    mLoading = false;
+                    mPageCount--;
+                    mView.toast("有点问题");
+                }
+
+                @Override
+                public void onComplete() {
+
+                }
+            };
+        }
+        mAllVideoModel.getAllVideo(mId, mPageCount).subscribe(mObserver);
     }
 
     private void modelToView() {

@@ -1,63 +1,57 @@
 package com.sunday.sundaymovie.util;
 
-import android.content.Context;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
+import com.sunday.sundaymovie.base.BaseApplication;
 
 import java.io.File;
 import java.math.BigDecimal;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by agentchen on 2017/6/13.
  * Email agentchen97@gmail.com
  */
 
-public class GlideCacheUtil {
-    private static GlideCacheUtil mInst;
-    private boolean mCleaning = false;
+public final class GlideCacheUtil {
+    private static boolean mCleaning = false;
 
     private GlideCacheUtil() {
     }
 
-    public static GlideCacheUtil getInstance() {
-        if (mInst == null) {
-            synchronized (GlideCacheUtil.class) {
-                if (mInst == null) {
-                    mInst = new GlideCacheUtil();
+    public static Observable<Object> cleanDiskCache() {
+        return Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Object> e) throws Exception {
+                if (!mCleaning) {
+                    mCleaning = true;
+                    Glide.get(BaseApplication.getContext()).clearDiskCache();
+                    e.onComplete();
+                    mCleaning = false;
                 }
             }
-        }
-        return mInst;
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public void cleanDiskCache(final Context context, final OnCleanCacheListener listener) {
-        if (mCleaning) {
-            return;
-        }
-        mCleaning = true;
-        new Thread(new Runnable() {
+    public static Observable<String> getCacheSize() {
+        return Observable.create(new ObservableOnSubscribe<String>() {
             @Override
-            public void run() {
-                Glide.get(context).clearDiskCache();
-                listener.onCleanCache();
-                mCleaning = false;
+            public void subscribe(@NonNull ObservableEmitter<String> e) throws Exception {
+                String cacheSize = getFormatSize(getFolderSize(new File(
+                        BaseApplication.getContext().getCacheDir() + "/" +
+                                InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
+                e.onNext(cacheSize);
             }
-        }).start();
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public void getCacheSize(final Context context, final OnGottenCacheSizeListener listener) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String cacheSize = getFormatSize(getFolderSize(new File(context.getCacheDir()
-                        + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
-                listener.onGottenCacheSize(cacheSize);
-            }
-        }).start();
-    }
-
-    private long getFolderSize(File file) {
+    private static long getFolderSize(File file) {
         long size = 0;
         File[] fileList = file.listFiles();
         for (File f : fileList) {
@@ -97,13 +91,5 @@ public class GlideCacheUtil {
         BigDecimal result4 = new BigDecimal(teraBytes);
 
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + " TB";
-    }
-
-    public interface OnCleanCacheListener {
-        void onCleanCache();
-    }
-
-    public interface OnGottenCacheSizeListener {
-        void onGottenCacheSize(String size);
     }
 }

@@ -5,6 +5,8 @@ import com.sunday.sundaymovie.model.StarModel;
 
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
+
 /**
  * Created by agentchen on 2017/8/1.
  */
@@ -25,9 +27,19 @@ class StarPresenter implements StarContract.Presenter {
         loadStarMovie();
     }
 
+    @Override
+    public void onViewDestroy() {
+
+    }
+
     private void loadStarMovie() {
-        mList = mStarModel.getAll();
-        mView.showStarMovie(mList);
+        mStarModel.getAllStarMovie().subscribe(new Consumer<List<StarMovie>>() {
+            @Override
+            public void accept(List<StarMovie> starMovies) throws Exception {
+                mList = starMovies;
+                mView.showStarMovie(mList);
+            }
+        });
     }
 
     @Override

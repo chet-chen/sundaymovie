@@ -3,68 +3,77 @@ package com.sunday.sundaymovie.ui;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.util.GlideCacheUtil;
+
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by agentchen on 2017/8/20.
  */
 
-public class SettingsFragment extends PreferenceFragment {
-    private GlideCacheUtil mCacheUtil;
-    private Preference mPreferenceCleanCache;
+public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    private Preference mCleanCache;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         findPreference();
-        mCacheUtil = GlideCacheUtil.getInstance();
+
+        mCleanCache.setOnPreferenceClickListener(this);
+
         getCacheSize();
     }
 
     private void findPreference() {
-        mPreferenceCleanCache = findPreference("pref_key_clean_cache");
+        mCleanCache = findPreference("pref_key_clean_cache");
     }
 
     @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        switch (preference.getKey()) {
-            case "pref_key_clean_cache":
-                cleanCache();
-                break;
+    public boolean onPreferenceClick(Preference preference) {
+        if (mCleanCache == preference) {
+            cleanCache();
         }
-        return super.onPreferenceTreeClick(preferenceScreen, preference);
+        return true;
     }
 
-
     private void getCacheSize() {
-        mCacheUtil.getCacheSize(getActivity(), new GlideCacheUtil.OnGottenCacheSizeListener() {
+        GlideCacheUtil.getCacheSize().subscribe(new Consumer<String>() {
             @Override
-            public void onGottenCacheSize(final String size) {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPreferenceCleanCache.setSummary(size);
-                    }
-                });
+            public void accept(String s) throws Exception {
+                mCleanCache.setSummary(s);
             }
         });
     }
 
     private void cleanCache() {
-        mCacheUtil.cleanDiskCache(getActivity(), new GlideCacheUtil.OnCleanCacheListener() {
+        GlideCacheUtil.cleanDiskCache().subscribe(new Observer<Object>() {
             @Override
-            public void onCleanCache() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mPreferenceCleanCache.setSummary("0.0 Byte");
-                    }
-                });
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull Object o) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                mCleanCache.setSummary("0.0 Byte");
+                Toast.makeText(getActivity(), "缓存清理成功", Toast.LENGTH_SHORT).show();
             }
         });
     }

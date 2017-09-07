@@ -122,4 +122,9 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         mPresenter.openMovieDetail(id);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mPresenter.onViewDestroy();
+    }
 }

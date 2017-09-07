@@ -1,18 +1,21 @@
 package com.sunday.sundaymovie.model;
 
+import com.sunday.sundaymovie.bean.Movie;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
-import com.sunday.sundaymovie.net.callback.MovieCallBack;
+import com.sunday.sundaymovie.net.converter.MovieConverter;
 
 import java.util.List;
+
+import io.reactivex.Observable;
 
 /**
  * Created by agentchen on 2017/7/24.
  */
 
 public class MovieDetailModel {
-    public void getMovieDetail(int movieId, MovieCallBack callBack) {
-        OkManager.getInstance().asyncGet(Api.getMovieUrl(movieId), callBack);
+    public Observable<Movie> getMovieDetail(int movieId) {
+        return OkManager.getInstance().get(Api.getMovieUrl(movieId), new MovieConverter());
     }
 
     public static String getMovieReleaseText(String releaseDate, String releaseArea) {

@@ -6,6 +6,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+
 /**
  * Created by agentchen on 2017/7/31.
  */
@@ -32,6 +36,11 @@ class PhotoPresenter implements PhotoContract.Presenter {
     }
 
     @Override
+    public void onViewDestroy() {
+
+    }
+
+    @Override
     public void openDownloadImage() {
         if (mDownloadImage != null) {
             mView.showDownloadImage(mDownloadImage);
@@ -40,16 +49,26 @@ class PhotoPresenter implements PhotoContract.Presenter {
 
     @Override
     public void downloadImage(int position) {
-        mPhotoModel.downloadImage(mImgURLs.get(position), new PhotoModel.OnDownloadListener() {
+        mPhotoModel.downloadImage(mImgURLs.get(position)).subscribe(new Observer<File>() {
             @Override
-            public void onDownloadSuccess(File file) {
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull File file) {
                 mDownloadImage = file;
                 mView.showSnackBar("图片已保存", "打开");
             }
 
             @Override
-            public void onDownloadFailed() {
+            public void onError(@NonNull Throwable e) {
                 mView.toast("下载失败");
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

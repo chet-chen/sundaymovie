@@ -1,16 +1,15 @@
 package com.sunday.sundaymovie.net;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
+import com.sunday.sundaymovie.net.converter.Converter;
 
-import com.sunday.sundaymovie.net.callback.CallBack;
-
-import java.io.IOException;
 import java.util.Map;
 
-import okhttp3.Call;
-import okhttp3.Callback;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -24,11 +23,9 @@ import okhttp3.Response;
 public class OkManager {
     private static OkManager mOkManager;
     private OkHttpClient client;
-    private Handler handler;
 
     private OkManager() {
         client = new OkHttpClient();
-        handler = new Handler(Looper.getMainLooper());
     }
 
     public static OkManager getInstance() {
@@ -42,83 +39,42 @@ public class OkManager {
         return mOkManager;
     }
 
-    public <T> void asyncPost(String url, Map<String, String> params, final CallBack<T> callBack) {
-        FormBody.Builder formBuilder = new FormBody.Builder();
-        if (params != null && !params.isEmpty()) {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                formBuilder.add(entry.getKey(), entry.getValue());
-            }
-        }
-        RequestBody RequestBody = formBuilder.build();
-        Request request = new Request.Builder().url(url).post(RequestBody).build();
-        client.newCall(request).enqueue(new Callback() {
+    public <T> Observable<T> asyncPost(final String url, final Map<String, String> params, final Converter<T> converter) {
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void onFailure(Call call, final IOException e) {
-                e.printStackTrace();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onError();
+            public void subscribe(@NonNull ObservableEmitter<T> e) throws Exception {
+                FormBody.Builder formBuilder = new FormBody.Builder();
+                if (params != null && !params.isEmpty()) {
+                    for (Map.Entry<String, String> entry : params.entrySet()) {
+                        formBuilder.add(entry.getKey(), entry.getValue());
                     }
-                });
+                }
+                RequestBody RequestBody = formBuilder.build();
+                Request request = new Request.Builder().url(url).post(RequestBody).build();
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    T t = converter.parseResponse(response);
+                    e.onNext(t);
+                } else {
+                    e.onError(new Exception("unsuccessful"));
+                }
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final T t = callBack.parseResponse(response);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onResponse(t);
-                    }
-                });
-            }
-        });
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public <T> void asyncGet(String url, final CallBack<T> callBack) {
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(new Callback() {
+    public <T> Observable<T> get(final String url, final Converter<T> converter) {
+        return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
-            public void onFailure(Call call, final IOException e) {
-                e.printStackTrace();
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onError();
-                    }
-                });
+            public void subscribe(@NonNull ObservableEmitter<T> e) throws Exception {
+                Request request = new Request.Builder().url(url).build();
+                Response response = client.newCall(request).execute();
+                if (response.isSuccessful()) {
+                    T t = converter.parseResponse(response);
+                    e.onNext(t);
+                } else {
+                    e.onError(new Exception("unsuccessful"));
+                }
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                final T t = callBack.parseResponse(response);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onResponse(t);
-                    }
-                });
-            }
-        });
-    }
-
-    /*
-    * 不切换到主线程，请求完成后还会有耗时操作使用此方法
-    * */
-    public <T> void asyncThreadGet(String url, final CallBack<T> callBack) {
-        Request request = new Request.Builder().url(url).build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, final IOException e) {
-                e.printStackTrace();
-                callBack.onError();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                callBack.onResponse(callBack.parseResponse(response));
-            }
-        });
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 }
