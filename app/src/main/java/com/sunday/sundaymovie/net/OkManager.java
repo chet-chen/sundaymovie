@@ -25,7 +25,7 @@ public class OkManager {
     private OkHttpClient client;
 
     private OkManager() {
-        client = new OkHttpClient();
+        client = new OkHttpClient.Builder().build();
     }
 
     public static OkManager getInstance() {

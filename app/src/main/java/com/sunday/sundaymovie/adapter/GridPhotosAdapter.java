@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.widget.SquareImageView;
 
 import java.util.List;
@@ -56,7 +57,7 @@ public class GridPhotosAdapter extends RecyclerView.Adapter<GridPhotosAdapter.Vi
         }
 
         void bindImage(String url) {
-            Glide.with(mContext).load(url).into(mImageView);
+            Glide.with(mContext).load(url).placeholder(R.drawable.img_load).into(mImageView);
         }
 
         @Override

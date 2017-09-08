@@ -54,9 +54,9 @@ class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.ViewHolde
 
         ViewHolder(View itemView) {
             super(itemView);
-            mTVExpriencesTitle = (TextView) itemView.findViewById(R.id.tv_expriences_title);
-            mTVExpriencesContent = (TextView) itemView.findViewById(R.id.tv_expriences_content);
-            mImageView = (ImageView) itemView.findViewById(R.id.iv_expriences_img);
+            mTVExpriencesTitle = itemView.findViewById(R.id.tv_expriences_title);
+            mTVExpriencesContent = itemView.findViewById(R.id.tv_expriences_content);
+            mImageView = itemView.findViewById(R.id.iv_expriences_img);
         }
 
         void bindExpriences(Person.ExpriencesBean bean) {
@@ -65,7 +65,7 @@ class ExpriencesAdapter extends RecyclerView.Adapter<ExpriencesAdapter.ViewHolde
                     .load(mBean.getImg())
                     .placeholder(R.drawable.img_load)
                     .into(mImageView);
-            mTVExpriencesTitle.setText(String.format("%d年 %s", mBean.getYear(), mBean.getTitle()));
+            mTVExpriencesTitle.setText(mBean.getYear() + "年 " + mBean.getTitle());
             mTVExpriencesContent.setText(mBean.getContent());
             mImageView.setOnClickListener(this);
         }

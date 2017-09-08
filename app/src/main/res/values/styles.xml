@@ -8,9 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.TranslucentStatus" parent="AppTheme">
-    </style>
-
     <style name="PhotoActivityTheme" parent="AppTheme">
         <item name="colorPrimaryDark">@color/colorTextBlack_1</item>
     </style>

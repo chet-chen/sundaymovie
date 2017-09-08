@@ -1,5 +1,6 @@
 package com.sunday.sundaymovie.mvp.person;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -10,8 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,8 +52,6 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     private View mTitleView;
     private MyScrollView mScrollView;
     private ProgressBar mProgressBar;
-    private AlphaAnimation mAnimationShow;
-    private AlphaAnimation mAnimationHide;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +87,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     @Override
     protected void initView(Context context) {
-        setContentView(R.layout.activity_actor);
+        setContentView(R.layout.activity_person);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         setSupportActionBar(mToolbar);
         mBtnShowMoreExpriences = (Button) findViewById(R.id.btn_show_more);
@@ -117,7 +114,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         mScrollView = (MyScrollView) findViewById(R.id.scroll_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
         mTitleView = getToolbarTitle();
-        mTitleView.setVisibility(View.INVISIBLE);
+        mTitleView.setAlpha(0f);
     }
 
     @Override
@@ -138,69 +135,39 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     private void showTitle() {
         isTitleHide = false;
-        if (mAnimationShow == null) {
-            mAnimationShow = new AlphaAnimation(0f, 1f);
-            mAnimationShow.setDuration(500L);
-            mAnimationShow.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                    mTitleView.setVisibility(View.VISIBLE);
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-        }
-        mTitleView.startAnimation(mAnimationShow);
+        mTitleView.animate().alpha(1f);
     }
 
     private void hideTitle() {
         isTitleHide = true;
-        if (mAnimationHide == null) {
-            mAnimationHide = new AlphaAnimation(1f, 0f);
-            mAnimationHide.setDuration(500L);
-            mAnimationHide.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    mTitleView.setVisibility(View.INVISIBLE);
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-                }
-            });
-        }
-        mTitleView.startAnimation(mAnimationHide);
+        mTitleView.animate().alpha(0f);
     }
 
     @Override
     public void removeProgressBar() {
-        AlphaAnimation animation = new AlphaAnimation(1f, 0f);
-        animation.setDuration(300L);
-        animation.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
+        mProgressBar.animate()
+                .alpha(0f)
+                .setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
 
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
-            }
+                    }
 
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        });
-        mProgressBar.startAnimation(animation);
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
     }
 
     @Override
@@ -222,7 +189,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     public void showBasicInfo(String enName, String address, int birthYear, int birthMonth, int birthDay, String profession) {
         mTVNameEn.setText(enName);
         mTVAddress.setText(address);
-        mTVBirth.setText(String.format("生日: %d-%d-%d", birthYear, birthMonth, birthDay));
+        mTVBirth.setText("生日: " + birthYear + "-" + birthMonth + "-" + birthDay);
         mTVProfession.setText(profession);
     }
 
@@ -300,7 +267,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
         }
-        mTVExpriencesTitle.setText(String.format("%d年 %s", year, title));
+        mTVExpriencesTitle.setText(year + "年 " + title);
         mTVExpriencesContent.setText(content);
         mBtnShowMoreExpriences.setOnClickListener(this);
     }

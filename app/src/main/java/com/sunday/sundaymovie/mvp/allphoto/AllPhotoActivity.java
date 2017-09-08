@@ -30,6 +30,9 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     private AllPhotoContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
+    private static final String KEY_ID = "id";
+    private static final String KEY_URLS = "urls";
+    public static final String KEY_TITLE = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,12 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
 
     @Override
     protected void initParams(Bundle bundle) {
-        new AllPhotoPresenter(this, bundle.getInt("movieId"), bundle.getString("title"));
+        String title = bundle.getString(KEY_TITLE);
+        if (bundle.containsKey(KEY_URLS)) {
+            new AllPhotoPresenter(this, bundle.getStringArrayList(KEY_URLS), title);
+        } else if (bundle.containsKey(KEY_ID)) {
+            new AllPhotoPresenter(this, bundle.getInt("movieId"), title);
+        }
     }
 
     @Override
@@ -57,10 +65,21 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     }
 
     public static void startMe(Context context, int movieId, String title) {
-        Intent intent = new Intent(context, AllPhotoActivity.class);
-        intent.putExtra("movieId", movieId);
-        intent.putExtra("title", title);
+        Intent intent = getBaseIntent(context, title);
+        intent.putExtra(KEY_ID, movieId);
         context.startActivity(intent);
+    }
+
+    public static void startMe(Context context, ArrayList<String> urls, String title) {
+        Intent intent = getBaseIntent(context, title);
+        intent.putExtra(KEY_URLS, urls);
+        context.startActivity(intent);
+    }
+
+    private static Intent getBaseIntent(Context context, String title) {
+        Intent intent = new Intent(context, AllPhotoActivity.class);
+        intent.putExtra(KEY_TITLE, title);
+        return intent;
     }
 
     @Override
@@ -86,6 +105,7 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
             @Override
             public void onAnimationEnd(Animation animation) {
                 ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
+                mProgressBar = null;
             }
 
             @Override

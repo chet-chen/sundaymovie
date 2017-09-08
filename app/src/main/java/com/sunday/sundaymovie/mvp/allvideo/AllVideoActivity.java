@@ -79,6 +79,7 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
             @Override
             public void onAnimationEnd(Animation animation) {
                 ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
+                mProgressBar = null;
             }
 
             @Override

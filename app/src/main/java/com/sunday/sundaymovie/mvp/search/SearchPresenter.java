@@ -21,6 +21,8 @@ class SearchPresenter implements SearchContract.Presenter {
     private boolean mIsSearching = false;
     private boolean mIsFirstFocus = true;
     private String mSearchText;
+    private Disposable mDisposable;
+    private Observer<SearchResult> mObserver;
 
     SearchPresenter(SearchContract.View view) {
         mView = view;
@@ -42,7 +44,9 @@ class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void onViewDestroy() {
-
+        if (mDisposable != null) {
+            mDisposable.dispose();
+        }
     }
 
     @Override
@@ -51,13 +55,19 @@ class SearchPresenter implements SearchContract.Presenter {
             return;
         }
         mView.clearSearchFocus();
-        if (!mIsSearching) {
-            mIsSearching = true;
-            mView.showProgressBar();
-            mSearchModel.doSearch(query).subscribe(new Observer<SearchResult>() {
+        if (mIsSearching) {
+            if (mDisposable != null) {
+                mDisposable.dispose();
+                mDisposable = null;
+            }
+        }
+        mIsSearching = true;
+        mView.showProgressBar();
+        if (mObserver == null) {
+            mObserver = new Observer<SearchResult>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
-
+                    mDisposable = d;
                 }
 
                 @Override
@@ -81,9 +91,10 @@ class SearchPresenter implements SearchContract.Presenter {
                 public void onComplete() {
 
                 }
-            });
-            mSearchModel.saveSearchHistory(query);
+            };
         }
+        mSearchModel.doSearch(query).subscribe(mObserver);
+        mSearchModel.saveSearchHistory(query);
     }
 
     private void modelToView() {

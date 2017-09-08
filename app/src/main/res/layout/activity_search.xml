@@ -80,7 +80,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:background="@color/searchToolBarBG"
             android:translationY="-2dp"
             android:visibility="invisible">
 
@@ -89,6 +88,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
+                android:background="@color/searchToolBarBG"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"/>
 

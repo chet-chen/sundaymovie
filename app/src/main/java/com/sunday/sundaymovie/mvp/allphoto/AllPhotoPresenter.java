@@ -16,25 +16,40 @@ import io.reactivex.disposables.Disposable;
 
 class AllPhotoPresenter implements AllPhotoContract.Presenter {
     private final AllPhotoContract.View mView;
-    private final int mMovieId;
+    private int mMovieId;
     private final String mTitle;
-    private final AllPhotoModel mAllPhotoModel;
+    private AllPhotoModel mAllPhotoModel;
     private AllPhoto mAllPhoto;
     private ArrayList<String> mUrls;
     private Disposable mDisposable;
 
     AllPhotoPresenter(AllPhotoContract.View view, int movieId, String title) {
+        this(view, title);
+        mMovieId = movieId;
+        mAllPhotoModel = new AllPhotoModel();
+    }
+
+    AllPhotoPresenter(AllPhotoContract.View view, ArrayList<String> urls, String title) {
+        this(view, title);
+        mUrls = urls;
+    }
+
+    private AllPhotoPresenter(AllPhotoContract.View view, String title) {
         mView = view;
         mView.setPresenter(this);
-        mMovieId = movieId;
         mTitle = title;
-        mAllPhotoModel = new AllPhotoModel();
     }
 
     @Override
     public void start() {
         mView.showTitle(mTitle);
-        loadAllPhoto();
+        if (mUrls == null) {
+            loadAllPhoto();
+        } else {
+            mView.removeProgressBar();
+            mView.showTitle(mTitle + " " + mUrls.size() + "张");
+            mView.showAllImage(mUrls);
+        }
     }
 
     @Override

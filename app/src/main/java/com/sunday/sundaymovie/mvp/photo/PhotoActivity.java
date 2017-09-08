@@ -1,10 +1,9 @@
 package com.sunday.sundaymovie.mvp.photo;
 
-import android.content.BroadcastReceiver;
+import android.Manifest;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -13,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.base.BaseActivity;
+import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.widget.HackyViewPager;
 
 import java.io.File;
@@ -32,22 +33,18 @@ import java.util.List;
  */
 
 public class PhotoActivity extends BaseActivity implements PhotoContract.View, View.OnClickListener {
-    public static final String ACTION_DATA_CHANGE = "com.sunday.sundaymovie.ACTION_DATA_CHANGE";
     private PhotoContract.Presenter mPresenter;
     private ViewPager mViewPager;
     private TextView mTextView;
     private ImageButton mButtonDownloadImg;
     private CoordinatorLayout mCoordinatorLayout;
     private PhotoViewPagerAdapter mPagerAdapter;
-    private DataChangeReceiver mReceiver;
+    private static boolean isCreated = false;
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ACTION_DATA_CHANGE);
-        mReceiver = new DataChangeReceiver();
-        registerReceiver(mReceiver, intentFilter);
         mButtonDownloadImg.setOnClickListener(this);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -74,20 +71,30 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     @Override
     protected void initParams(Bundle bundle) {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+        isCreated = true;
         new PhotoPresenter(this, bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
     }
 
-    public static void startMe(@NonNull Context context, ArrayList<String> imgURLs, int position) {
+    public static void startMe(Context context, ArrayList<String> imgURLs, int position) {
         Intent intent = new Intent(context, PhotoActivity.class);
         intent.putStringArrayListExtra("imgURLs", imgURLs);
         intent.putExtra("position", position);
         context.startActivity(intent);
     }
 
-    public static void dataChange(@NonNull Context context, ArrayList<String> list) {
-        Intent intent = new Intent(ACTION_DATA_CHANGE);
-        intent.putStringArrayListExtra("imgURLs", list);
-        context.sendBroadcast(intent);
+    public static void dataChange(Context context, ArrayList<String> list) {
+        if (isCreated) {
+            Intent intent = new Intent(context, PhotoActivity.class);
+            intent.putStringArrayListExtra("imgURLs", list);
+            context.startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ArrayList<String> urls = intent.getExtras().getStringArrayList("imgURLs");
+        mPresenter.dataChange(urls);
     }
 
     @Override
@@ -106,14 +113,16 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     }
 
     @Override
-    public void showSnackBar(@NonNull String text, String actionText) {
-        Snackbar.make(mCoordinatorLayout, text, Snackbar.LENGTH_LONG)
-                .setAction(actionText, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.openDownloadImage();
-                    }
-                }).show();
+    public void showSnackBar(String text, String actionText) {
+        if (!isFinishing()) {
+            Snackbar.make(mCoordinatorLayout, text, Snackbar.LENGTH_LONG)
+                    .setAction(actionText, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.openDownloadImage();
+                        }
+                    }).show();
+        }
     }
 
     @Override
@@ -166,28 +175,51 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_download_img:
-                mPresenter.downloadImage(mViewPager.getCurrentItem());
+                if (checkPermission()) {
+                    mPresenter.downloadImage(mViewPager.getCurrentItem());
+                }
                 break;
         }
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_EXTERNAL_STORAGE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mPresenter.downloadImage(mViewPager.getCurrentItem());
+            } else {
+                Toast.makeText(this, "没有获取到权限", Toast.LENGTH_SHORT).show();
+            }
+            return;
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     protected void onDestroy() {
+        isCreated = false;
         mViewPager.clearOnPageChangeListeners();
-        unregisterReceiver(mReceiver);
         super.onDestroy();
     }
 
-    private class DataChangeReceiver extends BroadcastReceiver {
+    private boolean checkPermission() {
+        boolean result = true;
+        String[] PERMISSIONS_STORAGE = {
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        int permission = ActivityCompat.checkSelfPermission(
+                BaseApplication.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (ACTION_DATA_CHANGE.equals(action)) {
-                ArrayList<String> urls = intent.getExtras().getStringArrayList("imgURLs");
-                mPresenter.dataChange(urls);
-            }
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            result = false;
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
         }
+        return result;
     }
 
     private class IntervalTransformer implements ViewPager.PageTransformer {

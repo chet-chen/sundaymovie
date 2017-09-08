@@ -1,9 +1,9 @@
 package com.sunday.sundaymovie.mvp.photo;
 
+import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.model.PhotoModel;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
@@ -26,7 +26,7 @@ class PhotoPresenter implements PhotoContract.Presenter {
         mView.setPresenter(this);
         mImgURLs = imgURLs;
         mPosition = position;
-        mPhotoModel = new PhotoModel(view.getApplicationContext());
+        mPhotoModel = new PhotoModel(BaseApplication.getContext());
     }
 
     @Override
@@ -79,7 +79,7 @@ class PhotoPresenter implements PhotoContract.Presenter {
     }
 
     @Override
-    public void dataChange(ArrayList<String> urls) {
+    public void dataChange(List<String> urls) {
         mImgURLs = urls;
         mView.showPhotos(mImgURLs, -1);
         mView.showPosition(mView.getCurrentItem(), mImgURLs.size());

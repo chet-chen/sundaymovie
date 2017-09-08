@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
@@ -15,8 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".mvp.home.HomeActivity"
-            android:theme="@style/AppTheme.TranslucentStatus">
+            android:name=".mvp.home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -29,6 +29,7 @@
         </activity>
         <activity
             android:name=".mvp.photo.PhotoActivity"
+            android:launchMode="singleTask"
             android:theme="@style/PhotoActivityTheme"/>
         <activity android:name=".mvp.allphoto.AllPhotoActivity"/>
         <activity android:name=".mvp.person.PersonActivity"/>

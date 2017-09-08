@@ -11,9 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by agentchen on 2017/7/24.
@@ -26,14 +30,15 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final StarModel mStarModel;
     private Movie mMovie;
     private ArrayList<String> mImgsList;
-    private Disposable mDisposable;
-    private boolean needUpdateImages = true;
+    private CompositeDisposable mDisposables;
+    private volatile boolean mNeedMorePhotoUrl = true;
 
     MovieDetailPresenter(MovieDetailContract.View view, int movieId) {
         mView = view;
         mMovieId = movieId;
         mDetailModel = new MovieDetailModel();
         mStarModel = new StarModel();
+        mDisposables = new CompositeDisposable();
         view.setPresenter(this);
     }
 
@@ -46,7 +51,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mDetailModel.getMovieDetail(mMovieId).subscribe(new Observer<Movie>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                mDisposable = d;
+                mDisposables.add(d);
             }
 
             @Override
@@ -74,22 +79,44 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public void openPhoto(int position) {
         mView.showPhoto(mImgsList, position);
-        if (needUpdateImages) {
-            needUpdateImages = false;
-            new AllPhotoModel().getAllPhoto(mMovieId).subscribe(new Consumer<AllPhoto>() {
-                @Override
-                public void accept(AllPhoto allPhoto) throws Exception {
-                    if (allPhoto != null) {
-                        ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
-                        list.addAll(mImgsList);
-                        for (AllPhoto.Image image : allPhoto.getImages()) {
-                            list.add(image.getImage());
+        if (mNeedMorePhotoUrl) {
+            new AllPhotoModel().getAllPhoto(mMovieId)
+                    .observeOn(Schedulers.computation())
+                    .map(new Function<AllPhoto, ArrayList<String>>() {
+                        @Override
+                        public ArrayList<String> apply(@NonNull AllPhoto allPhoto) throws Exception {
+                            mNeedMorePhotoUrl = false;
+                            ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
+                            list.addAll(mImgsList);
+                            for (AllPhoto.Image image : allPhoto.getImages()) {
+                                list.add(image.getImage());
+                            }
+                            mImgsList = list;
+                            return list;
                         }
-                        mView.updatePhotos(list);
-                        mImgsList = list;
-                    }
-                }
-            });
+                    })
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<ArrayList<String>>() {
+                        @Override
+                        public void onSubscribe(@NonNull Disposable d) {
+                            mDisposables.add(d);
+                        }
+
+                        @Override
+                        public void onNext(@NonNull ArrayList<String> strings) {
+                            mView.updatePhotos(strings);
+                        }
+
+                        @Override
+                        public void onError(@NonNull Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
         }
     }
 
@@ -147,7 +174,12 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void openAllPhoto() {
-        mView.showAllPhoto(mMovieId, mMovie.getBasic().getName());
+        String title = mMovie.getBasic().getName();
+        if (mNeedMorePhotoUrl) {
+            mView.showAllPhoto(mMovieId, title);
+        } else {
+            mView.showAllPhoto(mImgsList, title);
+        }
     }
 
     @Override
@@ -178,8 +210,8 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void onViewDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
+        if (mDisposables != null) {
+            mDisposables.dispose();
         }
     }
 }

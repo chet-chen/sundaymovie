@@ -19,7 +19,7 @@ import java.util.List;
  * Email agentchen97@gmail.com
  */
 
-class ActorAdapter extends RecyclerView.Adapter {
+class ActorAdapter extends RecyclerView.Adapter<ActorAdapter.ViewHolder> {
     private List<Movie.BasicBean.ActorsBean> mList;
     private Context mContext;
     private ItemListener mItemListener;
@@ -31,15 +31,15 @@ class ActorAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_actor_recycler, parent, false);
-        return new RecyclerActorItemViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        ((RecyclerActorItemViewHolder) holder).bindActorsBean(mList.get(position));
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        holder.bindActorsBean(mList.get(position));
     }
 
     @Override
@@ -47,13 +47,13 @@ class ActorAdapter extends RecyclerView.Adapter {
         return mList == null ? 0 : mList.size();
     }
 
-    private class RecyclerActorItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Movie.BasicBean.ActorsBean mBean;
-        ImageView mImageViewActorImg;
-        TextView mTextViewActorName;
-        TextView mTextViewActorRoleName;
+        private ImageView mImageViewActorImg;
+        private TextView mTextViewActorName;
+        private TextView mTextViewActorRoleName;
 
-        RecyclerActorItemViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mImageViewActorImg = itemView.findViewById(R.id.iv_actor_img);
             mTextViewActorName = itemView.findViewById(R.id.tv_actors_name);

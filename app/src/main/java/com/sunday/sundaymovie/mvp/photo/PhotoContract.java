@@ -1,12 +1,9 @@
 package com.sunday.sundaymovie.mvp.photo;
 
-import android.content.Context;
-
 import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +12,6 @@ import java.util.List;
 
 interface PhotoContract {
     interface View extends BaseView<Presenter> {
-        Context getApplicationContext();
-
         void showPosition(int position, int count);
 
         void showSnackBar(String text, String actionText);
@@ -37,6 +32,6 @@ interface PhotoContract {
 
         void onPageSelected(int position);
 
-        void dataChange(ArrayList<String> urls);
+        void dataChange(List<String> urls);
     }
 }

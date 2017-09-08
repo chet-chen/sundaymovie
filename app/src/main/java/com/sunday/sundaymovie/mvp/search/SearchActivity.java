@@ -1,5 +1,6 @@
 package com.sunday.sundaymovie.mvp.search;
 
+import android.animation.Animator;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -37,7 +35,7 @@ import java.util.List;
  * Created by agentchen on 2017/7/28.
  */
 
-public class SearchActivity extends BaseActivity implements SearchContract.View, Animation.AnimationListener {
+public class SearchActivity extends BaseActivity implements SearchContract.View {
     private SearchContract.Presenter mPresenter;
     private SearchView mSearchView;
     private ListView mListViewHistory;
@@ -48,10 +46,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     private ProgressBar mProgressBar;
     private CardView mCardViewHistory;
     private View mViewBGSearch;
-    private TranslateAnimation mAnimShowCard;
-    private AlphaAnimation mAnimShowBG;
-    private TranslateAnimation mAnimHideCard;
-    private AlphaAnimation mAnimHideBG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +116,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     protected void initView(Context context) {
-        flymeSetStatusBarLightMode(getWindow(), true);
+//        flymeSetStatusBarLightMode(getWindow(), true);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -189,22 +183,44 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mSearchView.clearFocus();
     }
 
+    private Animator.AnimatorListener mAnimatorListenerShow;
+    private Animator.AnimatorListener mAnimatorListenerHide;
+
     @Override
     public void showHistory(boolean needAnimate) {
         if (needAnimate) {
-            if (mAnimShowCard == null) {
-                mAnimShowCard = new TranslateAnimation(0, 0, -mCardViewHistory.getHeight(), 0);
-                mAnimShowCard.setDuration(300L);
-                mAnimShowCard.setInterpolator(new DecelerateInterpolator());
-                mAnimShowCard.setAnimationListener(this);
+            if (mAnimatorListenerShow == null) {
+                mAnimatorListenerShow = new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                        mCardViewHistory.setVisibility(View.VISIBLE);
+                        mViewBGSearch.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                };
             }
-            if (mAnimShowBG == null) {
-                mAnimShowBG = new AlphaAnimation(0, 1);
-                mAnimShowBG.setDuration(300L);
-                mAnimShowBG.setAnimationListener(this);
-            }
-            mCardViewHistory.startAnimation(mAnimShowCard);
-            mViewBGSearch.startAnimation(mAnimShowBG);
+            mCardViewHistory.animate()
+                    .translationY(-6f)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .setListener(mAnimatorListenerShow);
+            mViewBGSearch.animate()
+                    .alpha(1f)
+                    .setInterpolator(new DecelerateInterpolator())
+                    .setListener(mAnimatorListenerShow);
         } else {
             mCardViewHistory.setVisibility(View.VISIBLE);
             mViewBGSearch.setVisibility(View.VISIBLE);
@@ -213,23 +229,39 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public void hideHistory(boolean needAnimate) {
-        if (mCardViewHistory.getVisibility() != View.VISIBLE) {
-            return;
-        }
         if (needAnimate) {
-            if (mAnimHideCard == null) {
-                mAnimHideCard = new TranslateAnimation(0, 0, 0, -mCardViewHistory.getHeight());
-                mAnimHideCard.setInterpolator(new AccelerateInterpolator());
-                mAnimHideCard.setDuration(300L);
-                mAnimHideCard.setAnimationListener(this);
+            if (mAnimatorListenerHide == null) {
+                mAnimatorListenerHide = new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mCardViewHistory.setVisibility(View.INVISIBLE);
+                        mViewBGSearch.setVisibility(View.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                };
             }
-            if (mAnimHideBG == null) {
-                mAnimHideBG = new AlphaAnimation(1, 0);
-                mAnimHideBG.setDuration(300L);
-                mAnimHideBG.setAnimationListener(this);
-            }
-            mCardViewHistory.startAnimation(mAnimHideCard);
-            mViewBGSearch.startAnimation(mAnimHideBG);
+            mCardViewHistory.animate()
+                    .translationY(-mCardViewHistory.getHeight())
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setListener(mAnimatorListenerHide);
+            mViewBGSearch.animate()
+                    .alpha(0f)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setListener(mAnimatorListenerHide);
         } else {
             mCardViewHistory.setVisibility(View.INVISIBLE);
             mViewBGSearch.setVisibility(View.INVISIBLE);
@@ -240,7 +272,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     public void cleanSearchHistory() {
         if (mHistoryAdapter.getCount() > 0) {
             mHistoryAdapter.clear();
-            mHistoryAdapter.notifyDataSetChanged();
         }
     }
 
@@ -257,29 +288,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     @Override
     public void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onAnimationStart(Animation animation) {
-        if (animation == mAnimShowCard) {
-            mCardViewHistory.setVisibility(View.VISIBLE);
-        } else if (animation == mAnimShowBG) {
-            mViewBGSearch.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onAnimationEnd(Animation animation) {
-        if (animation == mAnimHideCard) {
-            mCardViewHistory.setVisibility(View.INVISIBLE);
-        } else if (animation == mAnimHideBG) {
-            mViewBGSearch.setVisibility(View.INVISIBLE);
-        }
-    }
-
-    @Override
-    public void onAnimationRepeat(Animation animation) {
-
     }
 
     private boolean flymeSetStatusBarLightMode(Window window, boolean dark) {

@@ -46,6 +46,8 @@ interface MovieDetailContract {
 
         void showAllPhoto(int id, String title);
 
+        void showAllPhoto(ArrayList<String> urls, String title);
+
         void updatePhotos(ArrayList<String> urls);
 
         void showVideo(String url, String title);

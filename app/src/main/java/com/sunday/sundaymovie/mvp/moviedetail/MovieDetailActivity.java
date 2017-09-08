@@ -138,6 +138,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             @Override
             public void onAnimationEnd(Animation animation) {
                 ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
+                mProgressBar = null;
             }
 
             @Override
@@ -228,6 +229,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     public void showAllPhoto(int id, String title) {
         AllPhotoActivity.startMe(this, id, title);
+    }
+
+    @Override
+    public void showAllPhoto(ArrayList<String> urls, String title) {
+        AllPhotoActivity.startMe(this, urls, title);
     }
 
     @Override
