@@ -11,13 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by agentchen on 2017/7/24.
@@ -81,21 +79,19 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         mView.showPhoto(mImgsList, position);
         if (mNeedMorePhotoUrl) {
             new AllPhotoModel().getAllPhoto(mMovieId)
-                    .observeOn(Schedulers.computation())
                     .map(new Function<AllPhoto, ArrayList<String>>() {
                         @Override
                         public ArrayList<String> apply(@NonNull AllPhoto allPhoto) throws Exception {
-                            mNeedMorePhotoUrl = false;
                             ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
                             list.addAll(mImgsList);
                             for (AllPhoto.Image image : allPhoto.getImages()) {
                                 list.add(image.getImage());
                             }
                             mImgsList = list;
+                            mNeedMorePhotoUrl = false;
                             return list;
                         }
                     })
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<ArrayList<String>>() {
                         @Override
                         public void onSubscribe(@NonNull Disposable d) {

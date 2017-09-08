@@ -33,14 +33,17 @@ import java.util.List;
  */
 
 public class PhotoActivity extends BaseActivity implements PhotoContract.View, View.OnClickListener {
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static final String KEY_URLS = "urls";
+    private static final String KEY_UPDATE_URLS = "updateUrls";
+    private static final String KEY_POS = "pos";
+
     private PhotoContract.Presenter mPresenter;
     private ViewPager mViewPager;
     private TextView mTextView;
     private ImageButton mButtonDownloadImg;
     private CoordinatorLayout mCoordinatorLayout;
     private PhotoViewPagerAdapter mPagerAdapter;
-    private static boolean isCreated = false;
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,29 +74,30 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     @Override
     protected void initParams(Bundle bundle) {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
-        isCreated = true;
-        new PhotoPresenter(this, bundle.getStringArrayList("imgURLs"), bundle.getInt("position"));
+        if (bundle.containsKey(KEY_URLS)) {
+            new PhotoPresenter(this, bundle.getStringArrayList(KEY_URLS), bundle.getInt(KEY_POS));
+        } else {
+            finish();
+        }
     }
 
     public static void startMe(Context context, ArrayList<String> imgURLs, int position) {
         Intent intent = new Intent(context, PhotoActivity.class);
-        intent.putStringArrayListExtra("imgURLs", imgURLs);
-        intent.putExtra("position", position);
+        intent.putStringArrayListExtra(KEY_URLS, imgURLs);
+        intent.putExtra(KEY_POS, position);
         context.startActivity(intent);
     }
 
     public static void dataChange(Context context, ArrayList<String> list) {
-        if (isCreated) {
-            Intent intent = new Intent(context, PhotoActivity.class);
-            intent.putStringArrayListExtra("imgURLs", list);
-            context.startActivity(intent);
-        }
+        Intent intent = new Intent(context, PhotoActivity.class);
+        intent.putStringArrayListExtra(KEY_UPDATE_URLS, list);
+        context.startActivity(intent);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        ArrayList<String> urls = intent.getExtras().getStringArrayList("imgURLs");
+        ArrayList<String> urls = intent.getExtras().getStringArrayList(KEY_UPDATE_URLS);
         mPresenter.dataChange(urls);
     }
 
@@ -197,7 +201,6 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
 
     @Override
     protected void onDestroy() {
-        isCreated = false;
         mViewPager.clearOnPageChangeListeners();
         super.onDestroy();
     }
