@@ -14,8 +14,6 @@ import com.sunday.sundaymovie.bean.Search;
 import com.sunday.sundaymovie.bean.SearchMovie;
 import com.sunday.sundaymovie.bean.SearchPerson;
 import com.sunday.sundaymovie.bean.SearchResult;
-import com.sunday.sundaymovie.mvp.moviedetail.MovieDetailActivity;
-import com.sunday.sundaymovie.mvp.person.PersonActivity;
 
 import java.util.List;
 
@@ -28,12 +26,14 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
     private Context mContext;
     private List<Search> mList;
     private int mType;
+    private ItemListener mItemListener;
 
-    SearchAdapter(Context context, List<Search> list, int type) {
+    SearchAdapter(Context context, List<Search> list, int type, ItemListener itemListener) {
         super();
         mContext = context;
         mList = list;
         mType = type;
+        mItemListener = itemListener;
     }
 
     @Override
@@ -112,10 +112,16 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             if (type == SearchResult.TYPE_MOVIE) {
-                MovieDetailActivity.startMe(mContext, ((SearchMovie) mSearch).getMovieId());
+                mItemListener.onClickMovie((SearchMovie) mSearch);
             } else if (type == SearchResult.TYPE_PERSON) {
-                PersonActivity.startMe(mContext, ((SearchPerson) mSearch).getPersonId());
+                mItemListener.onClickPerson((SearchPerson) mSearch);
             }
         }
+    }
+
+    public interface ItemListener {
+        void onClickMovie(SearchMovie movie);
+
+        void onClickPerson(SearchPerson person);
     }
 }

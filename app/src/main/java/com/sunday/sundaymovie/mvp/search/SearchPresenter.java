@@ -82,6 +82,7 @@ class SearchPresenter implements SearchContract.Presenter {
 
                 @Override
                 public void onError(@NonNull Throwable e) {
+                    e.printStackTrace();
                     mView.hideProgressBar();
                     mView.toast("有点问题");
                     mIsSearching = false;

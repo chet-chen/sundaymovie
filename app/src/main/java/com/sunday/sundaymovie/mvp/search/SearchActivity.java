@@ -13,8 +13,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
@@ -27,15 +25,18 @@ import android.widget.Toast;
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.base.BaseActivity;
 import com.sunday.sundaymovie.bean.Search;
+import com.sunday.sundaymovie.bean.SearchMovie;
+import com.sunday.sundaymovie.bean.SearchPerson;
+import com.sunday.sundaymovie.mvp.moviedetail.MovieDetailActivity;
+import com.sunday.sundaymovie.mvp.person.PersonActivity;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 /**
  * Created by agentchen on 2017/7/28.
  */
 
-public class SearchActivity extends BaseActivity implements SearchContract.View {
+public class SearchActivity extends BaseActivity implements SearchContract.View, SearchAdapter.ItemListener {
     private SearchContract.Presenter mPresenter;
     private SearchView mSearchView;
     private ListView mListViewHistory;
@@ -93,6 +94,14 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+        }
+    }
+
+    @Override
     public void setPresenter(SearchContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -106,17 +115,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
                 presenter.initSearchText(text);
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-            }
-        }
     }
 
     @Override
     protected void initView(Context context) {
-//        flymeSetStatusBarLightMode(getWindow(), true);
         setContentView(R.layout.activity_search);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -147,7 +149,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
     @Override
     public void showSearchResult(int type, List<Search> list) {
         if (mSearchAdapter == null) {
-            mSearchAdapter = new SearchAdapter(this, list, type);
+            mSearchAdapter = new SearchAdapter(this, list, type, this);
             mRecyclerView.setAdapter(mSearchAdapter);
         } else {
             mSearchAdapter.replaceData(list, type);
@@ -290,37 +292,27 @@ public class SearchActivity extends BaseActivity implements SearchContract.View 
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
-    private boolean flymeSetStatusBarLightMode(Window window, boolean dark) {
-        boolean result = false;
-        if (window != null) {
-            try {
-                WindowManager.LayoutParams lp = window.getAttributes();
-                Field darkFlag = WindowManager.LayoutParams.class
-                        .getDeclaredField("MEIZU_FLAG_DARK_STATUS_BAR_ICON");
-                Field meizuFlags = WindowManager.LayoutParams.class
-                        .getDeclaredField("meizuFlags");
-                darkFlag.setAccessible(true);
-                meizuFlags.setAccessible(true);
-                int bit = darkFlag.getInt(null);
-                int value = meizuFlags.getInt(lp);
-                if (dark) {
-                    value |= bit;
-                } else {
-                    value &= ~bit;
-                }
-                meizuFlags.setInt(lp, value);
-                window.setAttributes(lp);
-                result = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(0, R.anim.search_activity_out);
+    }
+
+    @Override
+    public void onClickMovie(SearchMovie movie) {
+        setUiVisibility();
+        MovieDetailActivity.startMe(this, movie.getMovieId());
+    }
+
+    @Override
+    public void onClickPerson(SearchPerson person) {
+        setUiVisibility();
+        PersonActivity.startMe(this, person.getPersonId());
+    }
+
+    private void setUiVisibility() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+        }
     }
 }
