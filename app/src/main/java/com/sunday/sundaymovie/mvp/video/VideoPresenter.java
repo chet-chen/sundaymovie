@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -30,10 +31,10 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     private MediaPlayer mMediaPlayer;
     private Handler mHandler = new Handler();
     private TimerImmersionRunnable mImmersionRunnable = new TimerImmersionRunnable();
-    private static Timer timer;
+    private Timer timer;
     private ProgressTimerTask mProgressTimerTask;
 
-    private boolean mIsHideMediaController = true, mPrepared = false;
+    private volatile boolean mIsImmersion = false;
     private int mDuration;
 
     VideoPresenter(VideoContract.View view, String url, String title) {
@@ -44,15 +45,16 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         mMediaPlayer = new MediaPlayer();
         mMediaPlayer.setWakeMode(mView.getContext(), PowerManager.FULL_WAKE_LOCK);
         mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.setOnPreparedListener(this);
-        mMediaPlayer.setOnBufferingUpdateListener(this);
-        mMediaPlayer.setOnCompletionListener(this);
-        mMediaPlayer.setOnInfoListener(this);
+        mMediaPlayer.setOnPreparedListener(VideoPresenter.this);
+        mMediaPlayer.setOnBufferingUpdateListener(VideoPresenter.this);
+        mMediaPlayer.setOnCompletionListener(VideoPresenter.this);
+        mMediaPlayer.setOnInfoListener(VideoPresenter.this);
     }
 
     @Override
     public void start() {
         mView.showTitle(mTitle);
+        startImmersionTimer();
         try {
             mMediaPlayer.setDataSource(mView.getContext(), Uri.parse(mUrl));
             mMediaPlayer.prepareAsync();
@@ -65,12 +67,6 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     public void onViewDestroy() {
         cancelProgressTimer();
         cancelImmersionTimer();
-    }
-
-    @Override
-    public void onDestroy() {
-        cancelImmersionTimer();
-        cancelProgressTimer();
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
             mMediaPlayer = null;
@@ -79,16 +75,14 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void onClickSurface() {
-        if (mPrepared) {
-            if (mIsHideMediaController) {
-                mView.showMediaController();
-                mIsHideMediaController = false;
-                startImmersionTimer();
-            } else {
-                mView.hideMediaController();
-                mIsHideMediaController = true;
-                cancelImmersionTimer();
-            }
+        if (mIsImmersion) {
+            mView.showMediaController();
+            mIsImmersion = false;
+            startImmersionTimer();
+        } else {
+            mView.hideMediaController();
+            mIsImmersion = true;
+            cancelImmersionTimer();
         }
     }
 
@@ -135,18 +129,25 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void onRestart() {
-        onClickPlay();
+        mMediaPlayer.start();
+        mView.showPauseIcon();
+        startImmersionTimer();
     }
 
     @Override
     public void onPause() {
         if (mMediaPlayer.isPlaying()) {
-            onClickPlay();
+            mMediaPlayer.pause();
+            mView.showPlayIcon();
+            cancelImmersionTimer();
         }
     }
 
+    private static final String TAG = "VideoPresenter";
+
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        Log.d(TAG, "onCompletion: " + mediaPlayer.getCurrentPosition() + " - " + mediaPlayer.getDuration());
         mHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -157,14 +158,12 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mPrepared = true;
         mDuration = mediaPlayer.getDuration();
         mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
         startProgressTimer();
         mediaPlayer.start();
         mView.enabledPlayButton();
         mView.enabledSeekBar();
-        mView.hideMediaController();
     }
 
     @Override
@@ -193,15 +192,15 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
                 mView.hideProgressBar();
                 break;
         }
-        return false;
+        return true;
     }
 
     private class TimerImmersionRunnable implements Runnable {
         @Override
         public void run() {
-            if (!mIsHideMediaController) {
+            if (!mIsImmersion) {
                 mView.hideMediaController();
-                mIsHideMediaController = true;
+                mIsImmersion = true;
             }
         }
     }

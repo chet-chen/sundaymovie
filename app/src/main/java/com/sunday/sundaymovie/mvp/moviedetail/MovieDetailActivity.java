@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -36,6 +34,7 @@ import java.util.List;
  */
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View, PhotoAdapter.ItemListener, ActorAdapter.ItemListener, View.OnClickListener {
+    private static final String KEY_ID = "id";
     private MovieDetailContract.Presenter mPresenter;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private RatingBar mRatingBar;
@@ -64,7 +63,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     protected void initParams(Bundle bundle) {
         if (bundle != null) {
-            new MovieDetailPresenter(this, bundle.getInt("movieId"));
+            new MovieDetailPresenter(this, bundle.getInt(KEY_ID));
         }
     }
 
@@ -72,7 +71,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     protected void initView(Context context) {
         setContentView(R.layout.activity_movie_detail);
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mCollapsingToolbarLayout.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.movie_detail_toolbar);
         setSupportActionBar(toolbar);
@@ -117,7 +115,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     public static void startMe(Context context, int movieId) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
-        intent.putExtra("movieId", movieId);
+        intent.putExtra(KEY_ID, movieId);
         context.startActivity(intent);
     }
 
@@ -128,24 +126,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void removeProgressBar() {
-        AlphaAnimation animation = new AlphaAnimation(1f, 0f);
-        animation.setDuration(300L);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        mProgressBar.animate().alpha(0f).withEndAction(new Runnable() {
             @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
+            public void run() {
                 ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
                 mProgressBar = null;
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
         });
-        mProgressBar.startAnimation(animation);
     }
 
     @Override
@@ -273,14 +260,10 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     public void showVideoInfo(String title, String imgUrl) {
         mTVMovieVideoTitle.setText(title);
-        try {
-            Glide.with(this)
-                    .load(imgUrl)
-                    .placeholder(R.drawable.img_load)
-                    .into(mIVMovieVideoImg);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
+        Glide.with(this)
+                .load(imgUrl)
+                .placeholder(R.drawable.img_load)
+                .into(mIVMovieVideoImg);
         mIVMovieVideoImg.setOnClickListener(this);
     }
 

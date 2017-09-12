@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.mvp.search;
 
-import android.animation.Animator;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -185,44 +185,36 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mSearchView.clearFocus();
     }
 
-    private Animator.AnimatorListener mAnimatorListenerShow;
-    private Animator.AnimatorListener mAnimatorListenerHide;
+    private static final String TAG = "SearchActivity";
+
+    private Runnable mStartAction = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "run: start action");
+            mCardViewHistory.setVisibility(View.VISIBLE);
+            mViewBGSearch.setVisibility(View.VISIBLE);
+        }
+    };
+
+    private Runnable mEndAction = new Runnable() {
+        @Override
+        public void run() {
+            Log.d(TAG, "run: end action");
+            mCardViewHistory.setVisibility(View.INVISIBLE);
+            mViewBGSearch.setVisibility(View.INVISIBLE);
+        }
+    };
 
     @Override
     public void showHistory(boolean needAnimate) {
         if (needAnimate) {
-            if (mAnimatorListenerShow == null) {
-                mAnimatorListenerShow = new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        mCardViewHistory.setVisibility(View.VISIBLE);
-                        mViewBGSearch.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                };
-            }
             mCardViewHistory.animate()
                     .translationY(-6f)
                     .setInterpolator(new DecelerateInterpolator())
-                    .setListener(mAnimatorListenerShow);
+                    .withStartAction(mStartAction);
             mViewBGSearch.animate()
                     .alpha(1f)
-                    .setInterpolator(new DecelerateInterpolator())
-                    .setListener(mAnimatorListenerShow);
+                    .setInterpolator(new DecelerateInterpolator());
         } else {
             mCardViewHistory.setVisibility(View.VISIBLE);
             mViewBGSearch.setVisibility(View.VISIBLE);
@@ -231,39 +223,17 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public void hideHistory(boolean needAnimate) {
+        if (mCardViewHistory.getVisibility() != View.VISIBLE) {
+            return;
+        }
         if (needAnimate) {
-            if (mAnimatorListenerHide == null) {
-                mAnimatorListenerHide = new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        mCardViewHistory.setVisibility(View.INVISIBLE);
-                        mViewBGSearch.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                };
-            }
             mCardViewHistory.animate()
                     .translationY(-mCardViewHistory.getHeight())
                     .setInterpolator(new AccelerateInterpolator())
-                    .setListener(mAnimatorListenerHide);
+                    .withEndAction(mEndAction);
             mViewBGSearch.animate()
                     .alpha(0f)
-                    .setInterpolator(new AccelerateInterpolator())
-                    .setListener(mAnimatorListenerHide);
+                    .setInterpolator(new AccelerateInterpolator());
         } else {
             mCardViewHistory.setVisibility(View.INVISIBLE);
             mViewBGSearch.setVisibility(View.INVISIBLE);

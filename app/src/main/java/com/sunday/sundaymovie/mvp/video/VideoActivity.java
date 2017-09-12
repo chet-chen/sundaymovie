@@ -1,14 +1,11 @@
 package com.sunday.sundaymovie.mvp.video;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -52,8 +49,8 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     protected void onPause() {
-        mPresenter.onPause();
         super.onPause();
+        mPresenter.onPause();
     }
 
     @Override
@@ -97,7 +94,7 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     protected void onDestroy() {
-        mPresenter.onDestroy();
+        mPresenter.onViewDestroy();
         super.onDestroy();
     }
 
@@ -106,14 +103,28 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
         mTVTitle.setText(title);
     }
 
+    private Runnable mStartAction = new Runnable() {
+        @Override
+        public void run() {
+            mRelativeLayout.setVisibility(View.VISIBLE);
+        }
+    };
+
+    private Runnable mEndAction = new Runnable() {
+        @Override
+        public void run() {
+            mRelativeLayout.setVisibility(View.INVISIBLE);
+        }
+    };
+
     @Override
     public void showMediaController() {
-        alphaShowView(mRelativeLayout);
+        mRelativeLayout.animate().alpha(1f).withStartAction(mStartAction);
     }
 
     @Override
     public void hideMediaController() {
-        alphaHideView(mRelativeLayout);
+        mRelativeLayout.animate().alpha(0f).withEndAction(mEndAction);
     }
 
     @Override
@@ -170,57 +181,6 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     @Override
     public void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-    }
-
-    private void alphaShowView(final View view) {
-        view.clearAnimation();
-        view.animate().alpha(1f).setInterpolator(new DecelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-                        view.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-    }
-
-    private void alphaHideView(final View view) {
-        view.animate().alpha(0f).setInterpolator(new AccelerateInterpolator())
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        view.setVisibility(View.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
     }
 
     @Override

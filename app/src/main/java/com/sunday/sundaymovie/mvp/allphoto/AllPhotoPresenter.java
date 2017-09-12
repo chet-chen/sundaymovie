@@ -42,8 +42,8 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
 
     @Override
     public void start() {
-        mView.showTitle(mTitle);
         if (mUrls == null) {
+            mView.showTitle(mTitle);
             loadAllPhoto();
         } else {
             mView.removeProgressBar();

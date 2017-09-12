@@ -29,7 +29,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private Movie mMovie;
     private ArrayList<String> mImgsList;
     private CompositeDisposable mDisposables;
-    private volatile boolean mNeedMorePhotoUrl = true;
+    private boolean mNeedMorePhotoUrl = true;
 
     MovieDetailPresenter(MovieDetailContract.View view, int movieId) {
         mView = view;
@@ -82,13 +82,13 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
                     .map(new Function<AllPhoto, ArrayList<String>>() {
                         @Override
                         public ArrayList<String> apply(@NonNull AllPhoto allPhoto) throws Exception {
+                            mNeedMorePhotoUrl = false;
                             ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
                             list.addAll(mImgsList);
                             for (AllPhoto.Image image : allPhoto.getImages()) {
                                 list.add(image.getImage());
                             }
                             mImgsList = list;
-                            mNeedMorePhotoUrl = false;
                             return list;
                         }
                     })

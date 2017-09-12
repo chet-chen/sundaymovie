@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".mvp.photo.PhotoActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:theme="@style/PhotoActivityTheme"/>
         <activity android:name=".mvp.allphoto.AllPhotoActivity"/>
         <activity android:name=".mvp.person.PersonActivity"/>

@@ -45,8 +45,6 @@ interface VideoContract {
     }
 
     interface Presenter extends BasePresenter {
-        void onDestroy();
-
         void onClickSurface();
 
         void onSurfaceCreated(@NonNull SurfaceHolder holder);

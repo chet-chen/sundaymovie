@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.mvp.person;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -145,29 +143,13 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
 
     @Override
     public void removeProgressBar() {
-        mProgressBar.animate()
-                .alpha(0f)
-                .setListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
+        mProgressBar.animate().alpha(0f).withEndAction(new Runnable() {
+            @Override
+            public void run() {
+                ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
+                mProgressBar = null;
+            }
+        });
     }
 
     @Override

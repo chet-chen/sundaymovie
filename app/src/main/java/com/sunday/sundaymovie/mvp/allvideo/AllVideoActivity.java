@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.widget.LinearLayout;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -69,24 +67,13 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
 
     @Override
     public void removeProgressBar() {
-        AlphaAnimation animation = new AlphaAnimation(1f, 0f);
-        animation.setDuration(300L);
-        animation.setAnimationListener(new Animation.AnimationListener() {
+        mProgressBar.animate().alpha(0f).withEndAction(new Runnable() {
             @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                ((LinearLayout) mProgressBar.getParent()).removeView(mProgressBar);
+            public void run() {
+                ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
                 mProgressBar = null;
             }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
         });
-        mProgressBar.startAnimation(animation);
     }
 
     @Override
