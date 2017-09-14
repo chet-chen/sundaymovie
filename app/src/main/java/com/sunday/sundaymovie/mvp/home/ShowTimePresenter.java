@@ -24,7 +24,7 @@ class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
         mShowTimeModel.getShowTimeMovies().subscribe(new Observer<ShowTimeMovies>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                mDisposable = d;
+                mDisposable.add(d);
             }
 
             @Override
@@ -36,7 +36,7 @@ class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
 
             @Override
             public void onError(@NonNull Throwable e) {
-                mView.showNetError();
+                mView.showNetworkError();
                 mView.setRefreshing(false);
                 mView.snackBar("网络异常,下拉重试");
             }
@@ -46,10 +46,5 @@ class ShowTimePresenter extends BasePresenter<ShowTimeMovies.MsBean> {
 
             }
         });
-    }
-
-    @Override
-    public void onViewDestroy() {
-
     }
 }

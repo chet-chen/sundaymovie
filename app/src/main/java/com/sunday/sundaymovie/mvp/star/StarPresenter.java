@@ -5,7 +5,10 @@ import com.sunday.sundaymovie.model.StarModel;
 
 import java.util.List;
 
-import io.reactivex.functions.Consumer;
+import io.reactivex.Observer;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * Created by agentchen on 2017/8/1.
@@ -15,29 +18,46 @@ class StarPresenter implements StarContract.Presenter {
     private final StarContract.View mView;
     private final StarModel mStarModel;
     private List<StarMovie> mList;
+    private CompositeDisposable mDisposable;
 
     StarPresenter(StarContract.View view) {
         mView = view;
-        mView.setPresenter(this);
         mStarModel = new StarModel();
+        mDisposable = new CompositeDisposable();
+        mView.setPresenter(this);
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadStarMovie();
     }
 
     @Override
-    public void onViewDestroy() {
-
+    public void unsubscribe() {
+        mDisposable.clear();
     }
 
     private void loadStarMovie() {
-        mStarModel.getAllStarMovie().subscribe(new Consumer<List<StarMovie>>() {
+        mStarModel.getAllStarMovie().subscribe(new Observer<List<StarMovie>>() {
             @Override
-            public void accept(List<StarMovie> starMovies) throws Exception {
+            public void onSubscribe(@NonNull Disposable d) {
+                mDisposable.add(d);
+            }
+
+            @Override
+            public void onNext(@NonNull List<StarMovie> starMovies) {
                 mList = starMovies;
                 mView.showStarMovie(mList);
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

@@ -68,7 +68,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
                 }
             }
         });
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     public static void startMe(Context context, int id) {
@@ -288,6 +288,7 @@ public class PersonActivity extends BaseActivity implements PersonContract.View,
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

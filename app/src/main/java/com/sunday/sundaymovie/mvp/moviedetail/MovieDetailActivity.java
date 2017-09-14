@@ -2,6 +2,8 @@ package com.sunday.sundaymovie.mvp.moviedetail;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -49,21 +51,25 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.start();
         mBtnAllVideo.setOnClickListener(this);
         mFollowButton.setOnClickListener(this);
+        mPresenter.subscribe();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onViewDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override
     protected void initParams(Bundle bundle) {
-        if (bundle != null) {
-            new MovieDetailPresenter(this, bundle.getInt(KEY_ID));
+        new MovieDetailPresenter(this, bundle.getInt(KEY_ID));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            );
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
 

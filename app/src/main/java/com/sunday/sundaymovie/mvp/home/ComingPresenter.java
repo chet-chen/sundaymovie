@@ -25,7 +25,7 @@ class ComingPresenter extends BasePresenter<ComingMovie> {
         mComingModel.getComingMovies().subscribe(new Observer<ComingMovies>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                mDisposable = d;
+                mDisposable.add(d);
             }
 
             @Override
@@ -37,7 +37,7 @@ class ComingPresenter extends BasePresenter<ComingMovie> {
 
             @Override
             public void onError(@NonNull Throwable e) {
-                mView.showNetError();
+                mView.showNetworkError();
                 mView.setRefreshing(false);
                 mView.snackBar("网络异常,下拉重试");
             }
@@ -48,6 +48,5 @@ class ComingPresenter extends BasePresenter<ComingMovie> {
             }
         });
     }
-
 
 }

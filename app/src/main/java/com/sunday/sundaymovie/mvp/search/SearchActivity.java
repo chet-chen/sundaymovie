@@ -90,7 +90,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
                 mPresenter.searchBGClick();
             }
         });
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -131,6 +131,12 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mCardViewHistory = (CardView) findViewById(R.id.cv_search_parent);
         mViewBGSearch = findViewById(R.id.bg_search);
         mTVSearchNull = (TextView) findViewById(R.id.tv_search_null);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
     }
 
     public static void startMe(Context context, String query) {
@@ -190,7 +196,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     private Runnable mStartAction = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG, "run: start action");
+            Log.d(TAG, "run: subscribe action");
             mCardViewHistory.setVisibility(View.VISIBLE);
             mViewBGSearch.setVisibility(View.VISIBLE);
         }

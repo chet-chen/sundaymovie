@@ -31,7 +31,13 @@ public class StarActivity extends BaseActivity implements StarContract.View, Sta
     @Override
     protected void onStart() {
         super.onStart();
-        mPresenter.start();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

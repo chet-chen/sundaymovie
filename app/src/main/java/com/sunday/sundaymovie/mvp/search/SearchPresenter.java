@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -18,16 +19,16 @@ class SearchPresenter implements SearchContract.Presenter {
     private final SearchContract.View mView;
     private final SearchModel mSearchModel;
     private SearchResult mSearchResult;
-    private boolean mIsSearching = false;
     private boolean mIsFirstFocus = true;
     private String mSearchText;
-    private Disposable mDisposable;
+    private CompositeDisposable mDisposable;
     private Observer<SearchResult> mObserver;
 
     SearchPresenter(SearchContract.View view) {
         mView = view;
-        mView.setPresenter(this);
         mSearchModel = new SearchModel();
+        mDisposable = new CompositeDisposable();
+        mView.setPresenter(this);
     }
 
     @Override
@@ -36,17 +37,15 @@ class SearchPresenter implements SearchContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         if (mSearchText != null && !mSearchText.isEmpty()) {
             doSearch(mSearchText);
         }
     }
 
     @Override
-    public void onViewDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-        }
+    public void unsubscribe() {
+        mDisposable.clear();
     }
 
     @Override
@@ -55,19 +54,13 @@ class SearchPresenter implements SearchContract.Presenter {
             return;
         }
         mView.clearSearchFocus();
-        if (mIsSearching) {
-            if (mDisposable != null) {
-                mDisposable.dispose();
-                mDisposable = null;
-            }
-        }
-        mIsSearching = true;
+        mDisposable.clear();
         mView.showProgressBar();
         if (mObserver == null) {
             mObserver = new Observer<SearchResult>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
-                    mDisposable = d;
+                    mDisposable.add(d);
                 }
 
                 @Override
@@ -76,7 +69,6 @@ class SearchPresenter implements SearchContract.Presenter {
                         mSearchResult = searchResult;
                         mView.hideProgressBar();
                         modelToView();
-                        mIsSearching = false;
                     }
                 }
 
@@ -85,7 +77,6 @@ class SearchPresenter implements SearchContract.Presenter {
                     e.printStackTrace();
                     mView.hideProgressBar();
                     mView.toast("有点问题");
-                    mIsSearching = false;
                 }
 
                 @Override

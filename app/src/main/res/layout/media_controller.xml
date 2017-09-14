@@ -65,7 +65,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1.0"
                 android:background="@null"
-                android:max="100"
+                android:max="200"
                 android:maxHeight="4dp"
                 android:minHeight="4dp"
                 android:paddingBottom="8dp"

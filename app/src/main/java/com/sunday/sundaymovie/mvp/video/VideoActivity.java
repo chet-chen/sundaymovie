@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -21,7 +22,10 @@ import com.sunday.sundaymovie.base.BaseActivity;
  */
 
 public class VideoActivity extends BaseActivity implements VideoContract.View, View.OnClickListener, SeekBar.OnSeekBarChangeListener, SurfaceHolder.Callback {
+    private static final String KEY_URL = "url";
+    private static final String KEY_TITLE = "title";
     private VideoContract.Presenter mPresenter;
+    private FrameLayout mFrameLayout;
     private SurfaceView mSurfaceView;
     private TextView mCurrentTimeTextView, mTotalTimeTextView, mTVTitle;
     private ProgressBar mProgressBar;
@@ -32,13 +36,13 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mFrameLayout.setOnClickListener(this);
         mSurfaceView.getHolder().addCallback(this);
-        mSurfaceView.setOnClickListener(this);
         mSeekBar.setOnSeekBarChangeListener(this);
         mButtonPlay.setOnClickListener(this);
         mButtonDownload.setOnClickListener(this);
         mButtonBack.setOnClickListener(this);
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -60,8 +64,8 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     protected void initParams(Bundle bundle) {
-        String url = bundle.getString("url");
-        String title = bundle.getString("title");
+        String url = bundle.getString(KEY_URL);
+        String title = bundle.getString(KEY_TITLE);
         new VideoPresenter(this, url, title);
         isFullScreen = true;
         isAllowScreenRotate = true;
@@ -70,6 +74,7 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_video);
+        mFrameLayout = (FrameLayout) findViewById(R.id.content_view);
         mSurfaceView = (SurfaceView) findViewById(R.id.surface_view_video);
         mSeekBar = (SeekBar) findViewById(R.id.media_controller_seek_bar);
         mButtonPlay = (ImageButton) findViewById(R.id.btn_play_video);
@@ -87,14 +92,14 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     public static void startMe(Context context, String url, String title) {
         Intent intent = new Intent(context, VideoActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
+        intent.putExtra(KEY_URL, url);
+        intent.putExtra(KEY_TITLE, title);
         context.startActivity(intent);
     }
 
     @Override
     protected void onDestroy() {
-        mPresenter.onViewDestroy();
+        mPresenter.unsubscribe();
         super.onDestroy();
     }
 
@@ -174,11 +179,6 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     }
 
     @Override
-    public Context getContext() {
-        return this;
-    }
-
-    @Override
     public void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
@@ -189,8 +189,8 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
             case R.id.btn_close:
                 finish();
                 break;
-            case R.id.surface_view_video:
-                mPresenter.onClickSurface();
+            case R.id.content_view:
+                mPresenter.onClickContentView();
                 break;
             case R.id.btn_play_video:
                 mPresenter.onClickPlay();
@@ -213,7 +213,6 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-
     }
 
     @Override

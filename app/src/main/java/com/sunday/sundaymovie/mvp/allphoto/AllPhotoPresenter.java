@@ -8,6 +8,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -21,7 +22,7 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
     private AllPhotoModel mAllPhotoModel;
     private AllPhoto mAllPhoto;
     private ArrayList<String> mUrls;
-    private Disposable mDisposable;
+    private CompositeDisposable mDisposable;
 
     AllPhotoPresenter(AllPhotoContract.View view, int movieId, String title) {
         this(view, title);
@@ -36,12 +37,13 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
 
     private AllPhotoPresenter(AllPhotoContract.View view, String title) {
         mView = view;
-        mView.setPresenter(this);
+        mDisposable = new CompositeDisposable();
         mTitle = title;
+        mView.setPresenter(this);
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         if (mUrls == null) {
             mView.showTitle(mTitle);
             loadAllPhoto();
@@ -53,17 +55,15 @@ class AllPhotoPresenter implements AllPhotoContract.Presenter {
     }
 
     @Override
-    public void onViewDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-        }
+    public void unsubscribe() {
+        mDisposable.clear();
     }
 
     private void loadAllPhoto() {
         mAllPhotoModel.getAllPhoto(mMovieId).subscribe(new Observer<AllPhoto>() {
             @Override
             public void onSubscribe(@NonNull Disposable d) {
-                mDisposable = d;
+                mDisposable.add(d);
             }
 
             @Override

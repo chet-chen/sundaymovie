@@ -2,7 +2,7 @@ package com.sunday.sundaymovie.mvp.home;
 
 import com.sunday.sundaymovie.model.StarModel;
 
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by agentchen on 2017/7/23.
@@ -10,22 +10,21 @@ import io.reactivex.disposables.Disposable;
 
 abstract class BasePresenter<T> implements HomeContract.Presenter {
     protected final HomeContract.View<T> mView;
-    Disposable mDisposable;
+    CompositeDisposable mDisposable;
     private StarModel mStarModel;
-    private boolean mIsStarted = false;
+    private boolean mIsSubscribed = false;
 
     BasePresenter(HomeContract.View<T> view) {
         mView = view;
+        mStarModel = new StarModel();
+        mDisposable = new CompositeDisposable();
         mView.setPresenter(this);
     }
 
     @Override
-    public void start() {
-        if (mStarModel == null) {
-            mStarModel = new StarModel();
-        }
-        if (!mIsStarted) {
-            mIsStarted = true;
+    public void subscribe() {
+        if (!mIsSubscribed) {
+            mIsSubscribed = true;
             mView.setRefreshing(true);
             loadMovies();
         }
@@ -56,9 +55,7 @@ abstract class BasePresenter<T> implements HomeContract.Presenter {
     }
 
     @Override
-    public void onViewDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-        }
+    public void unsubscribe() {
+        mDisposable.clear();
     }
 }

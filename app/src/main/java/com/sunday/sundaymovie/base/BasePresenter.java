@@ -5,7 +5,7 @@ package com.sunday.sundaymovie.base;
  */
 
 public interface BasePresenter {
-    void start();
+    void subscribe();
 
-    void onViewDestroy();
+    void unsubscribe();
 }

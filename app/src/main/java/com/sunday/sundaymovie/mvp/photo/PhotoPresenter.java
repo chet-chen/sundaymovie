@@ -30,13 +30,13 @@ class PhotoPresenter implements PhotoContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         mView.showPhotos(mImgURLs, mPosition);
         mView.showPosition(mPosition, mImgURLs.size());
     }
 
     @Override
-    public void onViewDestroy() {
+    public void unsubscribe() {
 
     }
 

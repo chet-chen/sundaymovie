@@ -25,17 +25,17 @@ import java.util.List;
  */
 
 public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.View, GridPhotosAdapter.ItemListener {
+    private static final String KEY_ID = "id";
+    private static final String KEY_URLS = "urls";
+    private static final String KEY_TITLE = "title";
     private AllPhotoContract.Presenter mPresenter;
     private RecyclerView mRecyclerView;
     private ProgressBar mProgressBar;
-    private static final String KEY_ID = "id";
-    private static final String KEY_URLS = "urls";
-    public static final String KEY_TITLE = "title";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -83,7 +83,7 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mPresenter.onViewDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

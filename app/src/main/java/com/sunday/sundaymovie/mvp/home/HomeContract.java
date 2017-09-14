@@ -15,7 +15,7 @@ interface HomeContract {
 
         void snackBar(String text);
 
-        void showNetError();
+        void showNetworkError();
 
         void removeNetError();
 

@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
+        android:clickable="true"
         android:padding="150dp"/>
 
     <com.sunday.sundaymovie.widget.MyScrollView

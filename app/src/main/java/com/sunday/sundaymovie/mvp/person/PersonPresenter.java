@@ -30,12 +30,12 @@ class PersonPresenter implements PersonContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadPerson();
     }
 
     @Override
-    public void onViewDestroy() {
+    public void unsubscribe() {
         if (mDisposable != null) {
             mDisposable.dispose();
         }

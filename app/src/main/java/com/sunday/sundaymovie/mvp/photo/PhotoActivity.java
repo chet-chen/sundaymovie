@@ -63,7 +63,7 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
             public void onPageScrollStateChanged(int state) {
             }
         });
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -201,8 +201,9 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
 
     @Override
     protected void onDestroy() {
-        mViewPager.clearOnPageChangeListeners();
         super.onDestroy();
+        mViewPager.clearOnPageChangeListeners();
+        mPresenter.unsubscribe();
     }
 
     private boolean checkPermission() {

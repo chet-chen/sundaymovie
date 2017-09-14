@@ -33,7 +33,7 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
         super.onCreate(savedInstanceState);
         mScrollEndListener = new OnScrollEndListener();
         mRecyclerView.setOnScrollListener(mScrollEndListener);
-        mPresenter.start();
+        mPresenter.subscribe();
     }
 
     @Override
@@ -113,7 +113,7 @@ public class AllVideoActivity extends BaseActivity implements AllVideoContract.V
         if (mScrollEndListener != null) {
             mRecyclerView.removeOnScrollListener(mScrollEndListener);
         }
-        mPresenter.onViewDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

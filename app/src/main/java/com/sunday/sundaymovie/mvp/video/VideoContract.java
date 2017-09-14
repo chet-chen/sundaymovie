@@ -1,6 +1,5 @@
 package com.sunday.sundaymovie.mvp.video;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
 
@@ -37,15 +36,13 @@ interface VideoContract {
 
         void showSecondaryProgress(int percent);
 
-        Context getContext();
-
         void toast(String text);
 
         void finish();
     }
 
     interface Presenter extends BasePresenter {
-        void onClickSurface();
+        void onClickContentView();
 
         void onSurfaceCreated(@NonNull SurfaceHolder holder);
 

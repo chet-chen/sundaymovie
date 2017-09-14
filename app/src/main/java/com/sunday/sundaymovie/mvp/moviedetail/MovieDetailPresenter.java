@@ -27,7 +27,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     private final MovieDetailModel mDetailModel;
     private final StarModel mStarModel;
     private Movie mMovie;
-    private ArrayList<String> mImgsList;
+    private ArrayList<String> mPhotos;
     private CompositeDisposable mDisposables;
     private boolean mNeedMorePhotoUrl = true;
 
@@ -41,7 +41,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadMovieDetail();
     }
 
@@ -76,19 +76,19 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void openPhoto(int position) {
-        mView.showPhoto(mImgsList, position);
+        mView.showPhoto(mPhotos, position);
         if (mNeedMorePhotoUrl) {
             new AllPhotoModel().getAllPhoto(mMovieId)
                     .map(new Function<AllPhoto, ArrayList<String>>() {
                         @Override
                         public ArrayList<String> apply(@NonNull AllPhoto allPhoto) throws Exception {
                             mNeedMorePhotoUrl = false;
-                            ArrayList<String> list = new ArrayList<>(mImgsList.size() + allPhoto.getImages().size());
-                            list.addAll(mImgsList);
+                            ArrayList<String> list = new ArrayList<>(mPhotos.size() + allPhoto.getImages().size());
+                            list.addAll(mPhotos);
                             for (AllPhoto.Image image : allPhoto.getImages()) {
                                 list.add(image.getImage());
                             }
-                            mImgsList = list;
+                            mPhotos = list;
                             return list;
                         }
                     })
@@ -105,7 +105,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
                         @Override
                         public void onError(@NonNull Throwable e) {
-
+                            e.printStackTrace();
                         }
 
                         @Override
@@ -144,11 +144,11 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         }
 
         List<Movie.BasicBean.StageImgBean.ListBean> listBean = mMovie.getBasic().getStageImg().getList();
-        mImgsList = new ArrayList<>(4);
+        mPhotos = new ArrayList<>(4);
         for (int i = 0; i < listBean.size() && i < 4; i++) {
-            mImgsList.add(listBean.get(i).getImgUrl());
+            mPhotos.add(listBean.get(i).getImgUrl());
         }
-        mView.showPhotos(mImgsList);
+        mView.showPhotos(mPhotos);
 
         List<Movie.BasicBean.ActorsBean> actors = mMovie.getBasic().getActors();
 //        把导演插入到演员list
@@ -174,7 +174,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         if (mNeedMorePhotoUrl) {
             mView.showAllPhoto(mMovieId, title);
         } else {
-            mView.showAllPhoto(mImgsList, title);
+            mView.showAllPhoto(mPhotos, title);
         }
     }
 
@@ -205,9 +205,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
     }
 
     @Override
-    public void onViewDestroy() {
-        if (mDisposables != null) {
-            mDisposables.dispose();
-        }
+    public void unsubscribe() {
+        mDisposables.clear();
     }
 }

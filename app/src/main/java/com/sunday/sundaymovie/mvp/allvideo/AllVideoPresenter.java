@@ -7,6 +7,7 @@ import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
 /**
@@ -24,27 +25,26 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
     private boolean mLoading = false;
     private boolean mFirstLoad = true;
     private Observer<VideoAll> mObserver;
-    private Disposable mDisposable;
+    private CompositeDisposable mDisposable;
 
     AllVideoPresenter(AllVideoContract.View view, int id, String title) {
         mView = view;
-        mView.setPresenter(this);
         mId = id;
         mTitle = title;
         mAllVideoModel = new AllVideoModel();
+        mDisposable = new CompositeDisposable();
+        mView.setPresenter(this);
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         loadAllVideo();
         mView.showTitle(mTitle);
     }
 
     @Override
-    public void onViewDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-        }
+    public void unsubscribe() {
+        mDisposable.clear();
     }
 
     private void loadAllVideo() {
@@ -52,7 +52,7 @@ class AllVideoPresenter implements AllVideoContract.Presenter {
             mObserver = new Observer<VideoAll>() {
                 @Override
                 public void onSubscribe(@NonNull Disposable d) {
-                    mDisposable = d;
+                    mDisposable.add(d);
                 }
 
                 @Override

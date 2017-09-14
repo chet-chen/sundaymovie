@@ -19,12 +19,12 @@ class ExpriencesPresenter implements ExpriencesContract.Presenter {
     }
 
     @Override
-    public void start() {
+    public void subscribe() {
         mView.showExpriences(mList);
     }
 
     @Override
-    public void onViewDestroy() {
+    public void unsubscribe() {
 
     }
 

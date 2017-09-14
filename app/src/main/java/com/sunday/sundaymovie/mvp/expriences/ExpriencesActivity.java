@@ -25,7 +25,13 @@ public class ExpriencesActivity extends BaseActivity implements ExpriencesContra
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter.start();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
     }
 
     @Override

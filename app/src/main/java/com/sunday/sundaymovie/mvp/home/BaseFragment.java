@@ -55,7 +55,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         super.onStart();
         mIsReady = true;
         if (getUserVisibleHint()) {
-            mPresenter.start();
+            mPresenter.subscribe();
         }
     }
 
@@ -63,7 +63,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (mIsReady && isVisibleToUser) {
-            mPresenter.start();
+            mPresenter.subscribe();
         }
     }
 
@@ -89,7 +89,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     }
 
     @Override
-    public void showNetError() {
+    public void showNetworkError() {
         if (mNetErrorView == null && mRecyclerEmpty) {
             View root = getView();
             if (root != null) {
@@ -127,6 +127,6 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mPresenter.onViewDestroy();
+        mPresenter.unsubscribe();
     }
 }
