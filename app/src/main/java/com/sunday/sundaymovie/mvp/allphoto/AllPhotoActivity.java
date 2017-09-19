@@ -56,7 +56,7 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     @Override
     protected void initView(Context context) {
         setContentView(R.layout.activity_all_photo);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.image_all_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);

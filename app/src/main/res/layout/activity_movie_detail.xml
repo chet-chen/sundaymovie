@@ -10,13 +10,13 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:collapsedTitleGravity="left"
             app:contentScrim="?attr/colorPrimary"
@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/iv_top_bg_img"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="240dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
@@ -47,7 +47,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="@string/behavior_appbar_scrolling">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,12 +56,11 @@
             android:paddingBottom="8dp"
             android:paddingTop="8dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:orientation="horizontal">
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp">
 
                 <ImageView
                     android:id="@+id/iv_main_img"
@@ -70,119 +69,123 @@
                     android:scaleType="centerCrop"
                     tools:src="@drawable/img_load"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_movie_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:orientation="vertical">
+                    android:layout_toEndOf="@id/iv_main_img"
+                    android:textColor="@color/colorTextBlack_1"
+                    android:textSize="18sp"
+                    tools:text="盗梦空间"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTextBlack_1"
-                        android:textSize="18sp"
-                        tools:text="盗梦空间"/>
+                <TextView
+                    android:id="@+id/tv_movie_en_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_name"
+                    android:textColor="@color/colorTextBlack_4"
+                    tools:text="Inception"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_en_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="2dp"
-                        android:textColor="@color/colorTextBlack_4"
-                        tools:text="Inception"/>
+                <TextView
+                    android:id="@+id/tv_is_3D"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/iv_main_img"
+                    android:alpha="0.8"
+                    android:background="@drawable/text_bg_3d_false"
+                    android:gravity="center"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="4dp"
+                    android:text="@string/_3d"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"/>
 
-                    <TextView
-                        android:id="@+id/tv_is_3D"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="4dp"
-                        android:background="@drawable/text_bg_3d_false"
-                        android:gravity="center"
-                        android:paddingEnd="5dp"
-                        android:paddingStart="5dp"
-                        android:text="@string/_3d"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tv_movie_type"
+                    style="@style/BaseInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_en_name"
+                    android:layout_marginTop="8dp"
+                    tools:text="动作/冒险/科幻/惊悚"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_type"
-                        style="@style/BaseInfoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="动作/冒险/科幻/惊悚"/>
+                <TextView
+                    android:id="@+id/tv_movie_director_name"
+                    style="@style/BaseInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_type"
+                    tools:text="导演: 克里斯托弗·诺兰"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_director_name"
-                        style="@style/BaseInfoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="导演: 克里斯托弗·诺兰"/>
+                <TextView
+                    android:id="@+id/tv_movie_release_date_and_area"
+                    style="@style/BaseInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_director_name"
+                    tools:text="上映日期: 2010-9-1(中国)"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_release_date_and_area"
-                        style="@style/BaseInfoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="上映日期: 2010-9-1(中国)"/>
+                <TextView
+                    android:id="@+id/tv_movie_mins"
+                    style="@style/BaseInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_release_date_and_area"
+                    tools:text="时长: 148分钟"/>
 
-                    <TextView
-                        android:id="@+id/tv_movie_mins"
-                        style="@style/BaseInfoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="时长: 148分钟"/>
+                <TextView
+                    android:id="@+id/tv_movie_box_office"
+                    style="@style/BaseInfoTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@id/tv_movie_name"
+                    android:layout_below="@id/tv_movie_mins"
+                    tools:text="累计票房: 4.43亿元"/>
+            </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/tv_movie_box_office"
-                        style="@style/BaseInfoTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="累计票房: 4.43亿元"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_marginTop="16dp">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_overall_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_centerInParent="true"
+                    android:layout_marginStart="4dp"
+                    android:textColor="@color/colorTextBlack_2"
+                    android:textSize="16sp"
+                    tools:text="9.1"/>
 
-                    <RatingBar
-                        android:id="@+id/rb_overall_rating"
-                        style="@style/Widget.AppCompat.RatingBar.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="6dp"
-                        android:isIndicator="true"
-                        android:numStars="5"
-                        tools:rating="4.55"/>
-
-                    <TextView
-                        android:id="@+id/tv_overall_rating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/colorTextBlack_2"
-                        android:textSize="16sp"
-                        tools:text="9.1"/>
-                </LinearLayout>
+                <RatingBar
+                    android:id="@+id/rb_overall_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/tv_overall_rating"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    tools:rating="4.55"/>
 
                 <com.sunday.sundaymovie.widget.FollowButton
                     android:id="@+id/btn_follow"
                     android:layout_width="76dp"
                     android:layout_height="34dp"
-                    android:layout_marginStart="20dp"/>
-            </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_toEndOf="@id/tv_overall_rating"/>
+            </RelativeLayout>
 
             <com.ms.square.android.expandabletextview.ExpandableTextView
                 android:id="@+id/tv_movie_story"
@@ -305,7 +308,8 @@
         style="@style/MyProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/listBG"
+        android:background="?android:attr/colorBackground"
         android:clickable="true"
+        android:fitsSystemWindows="true"
         android:padding="150dp"/>
 </android.support.design.widget.CoordinatorLayout>

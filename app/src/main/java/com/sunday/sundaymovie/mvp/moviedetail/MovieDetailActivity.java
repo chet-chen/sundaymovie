@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -66,9 +65,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     protected void initParams(Bundle bundle) {
         new MovieDetailPresenter(this, bundle.getInt(KEY_ID));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().getDecorView().setSystemUiVisibility(
-                    View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-            );
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
     }
@@ -131,12 +127,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void removeProgressBar() {
+    public void hideProgressBar() {
         mProgressBar.animate().alpha(0f).withEndAction(new Runnable() {
             @Override
             public void run() {
-                ((ViewGroup) mProgressBar.getParent()).removeView(mProgressBar);
-                mProgressBar = null;
+                mProgressBar.setVisibility(View.GONE);
             }
         });
     }
@@ -162,14 +157,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
             mRatingBar.setRating((float) (overallRating / 2));
             mTVOverallRating.setText(String.valueOf(overallRating));
         } else {
-            ((ViewGroup) mRatingBar.getParent()).removeView(mRatingBar);
+            mRatingBar.setVisibility(View.GONE);
             mTVOverallRating.setText("暂无评分");
             mTVOverallRating.setTextColor(getResources().getColor(R.color.colorTextBlack_4));
         }
         mTVMovieDirectorName.setText(String.format("导演: %s", movieDirectorName));
         mTVMovieDateAndArea.setText(dateAndArea);
         if (movieMins.isEmpty()) {
-            ((ViewGroup) mTVMovieMins.getParent()).removeView(mTVMovieMins);
+            mTVMovieMins.setVisibility(View.GONE);
         } else {
             mTVMovieMins.setText(String.format("片长: %s", movieMins));
         }
@@ -185,8 +180,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void removeType() {
-        ((ViewGroup) mTVMovieType.getParent()).removeView(mTVMovieType);
+    public void hideType() {
+        mTVMovieType.setVisibility(View.GONE);
     }
 
     @Override
@@ -255,12 +250,9 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     @Override
-    public void removeVideoInfo() {
-        View view1 = findViewById(R.id.tv_hint_video);
-        View view2 = findViewById(R.id.layout_movie_video);
-        ViewGroup parent = (ViewGroup) view1.getParent();
-        parent.removeView(view1);
-        parent.removeView(view2);
+    public void hideVideoInfo() {
+        findViewById(R.id.tv_hint_video).setVisibility(View.GONE);
+        findViewById(R.id.layout_movie_video).setVisibility(View.GONE);
     }
 
     @Override

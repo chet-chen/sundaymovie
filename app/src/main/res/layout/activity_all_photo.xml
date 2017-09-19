@@ -13,11 +13,11 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/image_all_toolbar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-            app:titleTextColor="@android:color/white"/>
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"/>
     </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
@@ -25,7 +25,6 @@
         style="@style/MyProgressBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:clickable="true"
         android:padding="150dp"/>
 

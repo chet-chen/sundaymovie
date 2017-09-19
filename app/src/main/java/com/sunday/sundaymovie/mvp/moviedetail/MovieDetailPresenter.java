@@ -55,7 +55,7 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
             @Override
             public void onNext(@NonNull Movie movie) {
                 if (movie != null) {
-                    mView.removeProgressBar();
+                    mView.hideProgressBar();
                     mMovie = movie;
                     modelToView();
                 }
@@ -133,12 +133,12 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
             String type = MovieDetailModel.getMovieType(types);
             mView.showType(type);
         } else {
-            mView.removeType();
+            mView.hideType();
         }
         mView.showMovieStory(mMovie.getBasic().getStory());
 //        如果此电影没有视频，则去除视频相关view
         if (mMovie.getBasic().getVideo().getCount() == 0) {
-            mView.removeVideoInfo();
+            mView.hideVideoInfo();
         } else {
             mView.showVideoInfo(mMovie.getBasic().getVideo().getTitle(), mMovie.getBasic().getVideo().getImg());
         }

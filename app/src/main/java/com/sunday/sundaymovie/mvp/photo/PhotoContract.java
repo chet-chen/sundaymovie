@@ -4,6 +4,7 @@ import com.sunday.sundaymovie.base.BasePresenter;
 import com.sunday.sundaymovie.base.BaseView;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.List;
 
 /**
