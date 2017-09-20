@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,20 +35,30 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAdapter = new HomePagerAdapter(getSupportFragmentManager());
-
-        ShowTimeFragment showTimeFragment = new ShowTimeFragment();
-        showTimeFragment.setPresenter(new ShowTimePresenter(showTimeFragment));
+        FragmentManager fm = getSupportFragmentManager();
+        mAdapter = new HomePagerAdapter(fm);
+        ShowTimeFragment showTimeFragment = (ShowTimeFragment) fm.findFragmentByTag(makeFragmentName(mViewPager.getId(), 0));
+        if (showTimeFragment == null) {
+            showTimeFragment = new ShowTimeFragment();
+        }
+        new ShowTimePresenter(showTimeFragment);
         mAdapter.addTab(showTimeFragment, "正在热映");
 
-        ComingFragment comingFragment = new ComingFragment();
-        comingFragment.setPresenter(new ComingPresenter(comingFragment));
+        ComingFragment comingFragment = (ComingFragment) fm.findFragmentByTag(makeFragmentName(mViewPager.getId(), 1));
+        if (comingFragment == null) {
+            comingFragment = new ComingFragment();
+        }
+        new ComingPresenter(comingFragment);
         mAdapter.addTab(comingFragment, "即将上映");
 
         mViewPager.setAdapter(mAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
         mTabLayout.addOnTabSelectedListener(this);
         mNavigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private static String makeFragmentName(int viewId, long id) {
+        return "android:switcher:" + viewId + ":" + id;
     }
 
     @Override

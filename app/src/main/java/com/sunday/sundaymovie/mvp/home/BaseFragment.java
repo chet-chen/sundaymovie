@@ -24,7 +24,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
     protected HomeContract.Presenter mPresenter;
     protected SwipeRefreshLayout mRefreshLayout;
     protected RecyclerView mRecyclerView;
-    private boolean mRecyclerEmpty = true, mIsReady = false;
+    private boolean mIsReady = false;
     protected View mNetErrorView;
 
     @Override
@@ -44,9 +44,6 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
         mRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         mRecyclerView = root.findViewById(R.id.recycler_view_show_time);
         mRefreshLayout.setOnRefreshListener(this);
-        if (mPresenter == null) {
-            recreatePresenter();
-        }
         return root;
     }
 
@@ -66,8 +63,6 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
             mPresenter.subscribe();
         }
     }
-
-    protected abstract void recreatePresenter();
 
     @Override
     public void onRefresh() {
@@ -90,7 +85,7 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
 
     @Override
     public void showNetworkError() {
-        if (mNetErrorView == null && mRecyclerEmpty) {
+        if (mNetErrorView == null && mRecyclerView.getChildCount() == 0) {
             View root = getView();
             if (root != null) {
                 FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
@@ -103,12 +98,11 @@ public abstract class BaseFragment<T> extends Fragment implements HomeContract.V
 
     @Override
     public void removeNetError() {
-        if (mNetErrorView != null && mRecyclerEmpty) {
+        if (mNetErrorView != null) {
             View root = getView();
             if (root != null) {
                 FrameLayout frameLayout = root.findViewById(R.id.frame_layout);
                 frameLayout.removeView(mNetErrorView);
-                mRecyclerEmpty = false;
                 mNetErrorView = null;
             }
         }
