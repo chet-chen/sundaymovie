@@ -32,9 +32,9 @@ interface VideoContract {
 
         void showTotalTime(String totalTime);
 
-        void showCurrentTime(int percent, String currentTime);
+        void showCurrentTime(int progress, String currentTime);
 
-        void showSecondaryProgress(int percent);
+        void showSecondaryProgress(int progress);
 
         void toast(String text);
 

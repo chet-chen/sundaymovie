@@ -14,8 +14,6 @@ import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.util.StringFormatUtil;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static android.content.Context.DOWNLOAD_SERVICE;
 
@@ -30,11 +28,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     private final String mTitle;
     private MediaPlayer mMediaPlayer;
     private Handler mHandler = new Handler();
-    private TimerImmersionRunnable mImmersionRunnable = new TimerImmersionRunnable();
-    private Timer timer;
-    private ProgressTimerTask mProgressTimerTask;
-
-    private volatile boolean mIsImmersion = false;
+    private volatile boolean mIsHiddenMediaController = false;
     private int mDuration;
 
     VideoPresenter(VideoContract.View view, String url, String title) {
@@ -54,7 +48,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     @Override
     public void subscribe() {
         mView.showTitle(mTitle);
-        startImmersionTimer();
+        postHideMediaController();
         try {
             mMediaPlayer.setDataSource(mUrl);
             mMediaPlayer.prepareAsync();
@@ -65,25 +59,28 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void unsubscribe() {
-        cancelProgressTimer();
-        cancelImmersionTimer();
+        removeShowProgress();
+        removeHideMediaController();
         if (mMediaPlayer != null) {
             mMediaPlayer.release();
+            mMediaPlayer = null;
         }
     }
 
     @Override
     public void onClickContentView() {
-        if (mIsImmersion) {
+        if (mIsHiddenMediaController) {
+            postShowProgress();
             mView.showMediaController();
-            mIsImmersion = false;
+            mIsHiddenMediaController = false;
             if (mMediaPlayer.isPlaying()) {
-                startImmersionTimer();
+                postHideMediaController();
             }
         } else {
+            removeShowProgress();
             mView.hideMediaController();
-            mIsImmersion = true;
-            cancelImmersionTimer();
+            mIsHiddenMediaController = true;
+            removeHideMediaController();
         }
     }
 
@@ -96,18 +93,21 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     public void onClickPlay() {
         if (mMediaPlayer.isPlaying()) {
             mMediaPlayer.pause();
+            removeShowProgress();
             mView.showPlayIcon();
-            cancelImmersionTimer();
+            removeHideMediaController();
         } else {
             mMediaPlayer.start();
+            postShowProgress();
             mView.showPauseIcon();
-            startImmersionTimer();
+            postHideMediaController();
         }
     }
 
     @Override
     public void onClickDownload() {
-        DownloadManager downloadManager = (DownloadManager) BaseApplication.getContext().getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager downloadManager = (DownloadManager) BaseApplication.getContext()
+                .getSystemService(DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(mUrl);
         DownloadManager.Request request = new DownloadManager.Request(uri)
                 .setTitle(mTitle)
@@ -119,34 +119,33 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void onStartTrackingTouch() {
-        cancelImmersionTimer();
+        removeShowProgress();
+        removeHideMediaController();
     }
 
     @Override
     public void onStopTrackingTouch(int progress) {
-        mMediaPlayer.seekTo(progress * mDuration / 100);
-        startImmersionTimer();
+        mMediaPlayer.seekTo(progress * mDuration / 1000);
+        postShowProgress();
+        postHideMediaController();
     }
 
     @Override
     public void onRestart() {
-        if (!mIsImmersion) {
-            mView.hideMediaController();
+        if (!mIsHiddenMediaController) {
+            postShowProgress();
+            postHideMediaController();
         }
-        mHandler.post(new Runnable() {
-            @Override
-            public void run() {
-                mMediaPlayer.start();
-                mView.showPauseIcon();
-            }
-        });
+        mMediaPlayer.start();
+        mView.showPauseIcon();
     }
 
     @Override
     public void onPause() {
         if (mMediaPlayer.isPlaying()) {
-            cancelImmersionTimer();
             mMediaPlayer.pause();
+            removeShowProgress();
+            removeHideMediaController();
             mView.showPlayIcon();
         }
     }
@@ -163,25 +162,17 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
-        mDuration = mediaPlayer.getDuration();
+        mDuration = mMediaPlayer.getDuration();
         mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
         mediaPlayer.start();
-        startProgressTimer();
+        postShowProgress();
         mView.enabledPlayButton();
         mView.enabledSeekBar();
     }
 
     @Override
     public void onBufferingUpdate(MediaPlayer mediaPlayer, int percent) {
-        mView.showSecondaryProgress(percent);
-    }
-
-    private void startImmersionTimer() {
-        mHandler.postDelayed(mImmersionRunnable, 3000L);
-    }
-
-    private void cancelImmersionTimer() {
-        mHandler.removeCallbacks(mImmersionRunnable);
+        mView.showSecondaryProgress(percent * 10);
     }
 
     @Override
@@ -200,44 +191,44 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         return true;
     }
 
-    private class TimerImmersionRunnable implements Runnable {
+    private void postHideMediaController() {
+        mHandler.postDelayed(mHideMediaController, 3000L);
+    }
+
+    private void removeHideMediaController() {
+        mHandler.removeCallbacks(mHideMediaController);
+    }
+
+    private final Runnable mHideMediaController = new Runnable() {
         @Override
         public void run() {
-            if (!mIsImmersion) {
+            if (!mIsHiddenMediaController) {
                 mView.hideMediaController();
-                mIsImmersion = true;
+                mIsHiddenMediaController = true;
+                removeShowProgress();
             }
         }
+    };
+
+    private void postShowProgress() {
+        mHandler.post(mShowProgress);
     }
 
-    private void startProgressTimer() {
-        timer = new Timer();
-        mProgressTimerTask = new ProgressTimerTask();
-        timer.schedule(mProgressTimerTask, 0L, 1000L);
+    private void removeShowProgress() {
+        mHandler.removeCallbacks(mShowProgress);
     }
 
-    private void cancelProgressTimer() {
-        if (mProgressTimerTask != null) {
-            mProgressTimerTask.cancel();
-            mProgressTimerTask = null;
-        }
-        if (timer != null) {
-            timer.cancel();
-            timer = null;
-        }
-    }
-
-    private class ProgressTimerTask extends TimerTask {
+    private final Runnable mShowProgress = new Runnable() {
         @Override
         public void run() {
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    int current = mMediaPlayer.getCurrentPosition();
-                    int percent = 100 * current / mDuration;
-                    mView.showCurrentTime(percent, StringFormatUtil.getTimeString(current));
-                }
-            });
+            if (mMediaPlayer == null || !mMediaPlayer.isPlaying() || mIsHiddenMediaController) {
+                return;
+            }
+            int current = mMediaPlayer.getCurrentPosition();
+            int progress = 1000 * current / mDuration;
+            mView.showCurrentTime(progress, StringFormatUtil.getTimeString(current));
+            mHandler.postDelayed(mShowProgress, 1000 - (current % 1000));
         }
-    }
+    };
+
 }

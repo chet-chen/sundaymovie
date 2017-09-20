@@ -168,14 +168,14 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     }
 
     @Override
-    public void showCurrentTime(int percent, String currentTime) {
-        mSeekBar.setProgress(percent);
+    public void showCurrentTime(int progress, String currentTime) {
+        mSeekBar.setProgress(progress);
         mCurrentTimeTextView.setText(currentTime);
     }
 
     @Override
-    public void showSecondaryProgress(int percent) {
-        mSeekBar.setSecondaryProgress(percent);
+    public void showSecondaryProgress(int progress) {
+        mSeekBar.setSecondaryProgress(progress);
     }
 
     @Override
