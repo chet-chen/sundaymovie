@@ -37,14 +37,17 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
         super.onCreate(savedInstanceState);
         FragmentManager fm = getSupportFragmentManager();
         mAdapter = new HomePagerAdapter(fm);
-        ShowTimeFragment showTimeFragment = (ShowTimeFragment) fm.findFragmentByTag(makeFragmentName(mViewPager.getId(), 0));
+        int viewId = mViewPager.getId();
+        ShowTimeFragment showTimeFragment = (ShowTimeFragment) fm.findFragmentByTag(
+                makeFragmentName(viewId, 0));
         if (showTimeFragment == null) {
             showTimeFragment = new ShowTimeFragment();
         }
         new ShowTimePresenter(showTimeFragment);
         mAdapter.addTab(showTimeFragment, "正在热映");
 
-        ComingFragment comingFragment = (ComingFragment) fm.findFragmentByTag(makeFragmentName(mViewPager.getId(), 1));
+        ComingFragment comingFragment = (ComingFragment) fm.findFragmentByTag(
+                makeFragmentName(viewId, 1));
         if (comingFragment == null) {
             comingFragment = new ComingFragment();
         }
