@@ -13,6 +13,8 @@ SundayMovie是一个查看电影信息的Android应用程序，能够查看热�
 - [ExpandableTextView][1]
 - [Gson][2]
 - [Glide][3]
+- [Rxjava][7]
+- [RxAndroid][8]
 - [OkHttp][4]
 - [PhotoView][5]
 - [ZHFollowButton][6]
@@ -25,6 +27,8 @@ SundayMovie是一个查看电影信息的Android应用程序，能够查看热�
 [4]: https://github.com/square/okhttp
 [5]: https://github.com/chrisbanes/PhotoView
 [6]: https://github.com/zgzczzw/ZHFollowButton
+[7]: https://github.com/ReactiveX/RxJava
+[8]: https://github.com/ReactiveX/RxAndroid
 
 [100]: http://www.mtime.com
 
