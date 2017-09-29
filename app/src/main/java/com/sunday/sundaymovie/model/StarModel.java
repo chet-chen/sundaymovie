@@ -34,31 +34,15 @@ public class StarModel {
     }
 
     public void starMovie(final int id, final String name, final String imageURL) {
-        Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Object> e) throws Exception {
-                StarMovie starMovie = new StarMovie(id, name, imageURL);
-                mHelper.insert(starMovie);
-            }
-        }).subscribeOn(Schedulers.io()).subscribe();
+        StarMovie starMovie = new StarMovie(id, name, imageURL);
+        mHelper.insert(starMovie);
     }
 
     public void unstarMovie(final int id) {
-        Observable.create(new ObservableOnSubscribe<Object>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Object> e) throws Exception {
-                mHelper.delete(id);
-            }
-        }).subscribeOn(Schedulers.io()).subscribe();
+        mHelper.delete(id);
     }
 
-
-    public Observable<Boolean> isStar(final int id) {
-        return Observable.create(new ObservableOnSubscribe<Boolean>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
-                e.onNext(mHelper.queryIsExist(id));
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    public boolean isStar(int id) {
+        return mHelper.queryIsExist(id);
     }
 }

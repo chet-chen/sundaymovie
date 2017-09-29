@@ -46,20 +46,16 @@ public class ShowTimeFragment extends BaseFragment<ShowTimeMovies.MsBean> {
             return false;
         }
         ShowTimeMovies.MsBean msBean = mAdapter.getSelectedMovie();
-        String hint;
         switch (item.getItemId()) {
             case ID_STAR:
                 mPresenter.star(msBean.getId(), msBean.getTCn(), msBean.getImg());
-                hint = "已收藏";
                 break;
             case ID_UN_STAR:
                 mPresenter.unStar(msBean.getId());
-                hint = "已取消收藏";
                 break;
             default:
                 return super.onContextItemSelected(item);
         }
-        snackBar(hint);
         return true;
     }
 

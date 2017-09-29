@@ -97,7 +97,7 @@ class ComingAdapter extends RecyclerView.Adapter<ComingAdapter.ViewHolder> {
                 mTVDirecto.setText("导演: " + mMovie.getDirector());
             }
             if (!mMovie.getActor1().isEmpty()) {
-                mTVActor.setText(String.format("主演: %s, %s", mMovie.getActor1(), movie.getActor2()));
+                mTVActor.setText("主演: " + mMovie.getActor1() + movie.getActor2());
             }
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);

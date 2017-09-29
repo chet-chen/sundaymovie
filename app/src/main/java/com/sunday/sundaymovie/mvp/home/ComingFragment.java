@@ -46,20 +46,16 @@ public class ComingFragment extends BaseFragment<ComingMovie> {
             return false;
         }
         ComingMovie movie = mAdapter.getSelectedMovie();
-        String hint;
         switch (item.getItemId()) {
             case ID_STAR:
                 mPresenter.star(movie.getId(), movie.getTitle(), movie.getImage());
-                hint = "已收藏";
                 break;
             case ID_UN_STAR:
                 mPresenter.unStar(movie.getId());
-                hint = "已取消收藏";
                 break;
             default:
                 return super.onContextItemSelected(item);
         }
-        snackBar(hint);
         return true;
     }
 

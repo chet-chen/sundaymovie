@@ -101,8 +101,8 @@ class SearchPresenter implements SearchContract.Presenter {
 
     @Override
     public void cleanSearchHistory() {
-        mView.hideHistory(true);
         mView.cleanSearchHistory();
+        mView.clearSearchFocus();
         mSearchModel.cleanSearchHistory();
     }
 
@@ -113,19 +113,14 @@ class SearchPresenter implements SearchContract.Presenter {
             if (mView.getHistoryCount() > 0) {
                 if (mIsFirstFocus) {
                     mView.showHistory(false);
-                    mIsFirstFocus = false;
                 } else {
                     mView.showHistory(true);
-                }
-            } else {
-                mView.hideHistory(false);
-                if (mIsFirstFocus) {
-                    mIsFirstFocus = false;
                 }
             }
         } else {
             mView.hideHistory(true);
         }
+        mIsFirstFocus = false;
     }
 
     @Override

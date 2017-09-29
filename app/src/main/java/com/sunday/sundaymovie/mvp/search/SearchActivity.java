@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -191,12 +190,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         mSearchView.clearFocus();
     }
 
-    private static final String TAG = "SearchActivity";
 
     private Runnable mStartAction = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG, "run: subscribe action");
             mCardViewHistory.setVisibility(View.VISIBLE);
             mViewBGSearch.setVisibility(View.VISIBLE);
         }
@@ -205,7 +202,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     private Runnable mEndAction = new Runnable() {
         @Override
         public void run() {
-            Log.d(TAG, "run: end action");
             mCardViewHistory.setVisibility(View.INVISIBLE);
             mViewBGSearch.setVisibility(View.INVISIBLE);
         }
@@ -229,9 +225,6 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
 
     @Override
     public void hideHistory(boolean needAnimate) {
-        if (mCardViewHistory.getVisibility() != View.VISIBLE) {
-            return;
-        }
         if (needAnimate) {
             mCardViewHistory.animate()
                     .translationY(-mCardViewHistory.getHeight())

@@ -117,11 +117,11 @@ public class HomeActivity extends BaseActivity implements TabLayout.OnTabSelecte
     public void onTabReselected(TabLayout.Tab tab) {
         switch (tab.getPosition()) {
             case 0:
-                ShowTimeFragment sf = (ShowTimeFragment) mAdapter.instantiateItem(mViewPager, 0);
+                ShowTimeFragment sf = (ShowTimeFragment) mAdapter.getItem(0);
                 sf.smoothScrollToTop();
                 break;
             case 1:
-                ComingFragment cf = (ComingFragment) mAdapter.instantiateItem(mViewPager, 1);
+                ComingFragment cf = (ComingFragment) mAdapter.getItem(1);
                 cf.smoothScrollToTop();
                 break;
             default:

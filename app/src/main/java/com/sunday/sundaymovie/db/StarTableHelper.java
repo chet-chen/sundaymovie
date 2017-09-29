@@ -17,7 +17,11 @@ import java.util.List;
  */
 
 public class StarTableHelper {
-    private static final String TABLE_NAME = "star";
+    static final String TABLE_NAME = "star";
+    static final String COLUMN_ID = "id";
+    static final String COLUMN_NAME = "name";
+    static final String COLUMN_IMG = "img";
+
     private DataBaseHelper mHelper;
 
     public StarTableHelper(@NonNull Context context) {
@@ -27,33 +31,31 @@ public class StarTableHelper {
     public void insert(StarMovie starMovie) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("id", starMovie.getId());
-        values.put("name", starMovie.getName());
-        values.put("img", starMovie.getImg());
+        values.put(COLUMN_ID, starMovie.getId());
+        values.put(COLUMN_NAME, starMovie.getName());
+        values.put(COLUMN_IMG, starMovie.getImg());
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
 
     public void delete(int id) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        db.delete(TABLE_NAME, "id=?", new String[]{String.valueOf(id)});
+        db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{"" + id});
         db.close();
     }
 
     public List<StarMovie> queryAll() {
         SQLiteDatabase db = mHelper.getWritableDatabase();
-        List<StarMovie> list = new ArrayList<>();
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                list.add(new StarMovie(
-                        cursor.getInt(cursor.getColumnIndex("id")),
-                        cursor.getString(cursor.getColumnIndex("name")),
-                        cursor.getString(cursor.getColumnIndex("img")))
-                );
-            }
-            cursor.close();
+        int count = cursor.getCount();
+        List<StarMovie> list = new ArrayList<>(count);
+        while (cursor.moveToNext()) {
+            list.add(new StarMovie(
+                    cursor.getInt(cursor.getColumnIndex(COLUMN_ID)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_NAME)),
+                    cursor.getString(cursor.getColumnIndex(COLUMN_IMG))));
         }
+        cursor.close();
         db.close();
         return list;
     }
@@ -61,8 +63,9 @@ public class StarTableHelper {
     public boolean queryIsExist(int id) {
         SQLiteDatabase db = mHelper.getWritableDatabase();
         boolean b;
-        Cursor cursor = db.query(TABLE_NAME, null, "id=?", new String[]{String.valueOf(id)}, null, null, null);
-        b = cursor.moveToFirst();
+        Cursor cursor = db.query(TABLE_NAME, new String[]{"" + COLUMN_ID}, "id=?",
+                new String[]{"" + id}, null, null, null);
+        b = cursor.getCount() > 0;
         cursor.close();
         db.close();
         return b;
