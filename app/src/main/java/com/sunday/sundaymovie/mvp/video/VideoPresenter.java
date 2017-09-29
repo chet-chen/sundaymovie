@@ -1,14 +1,17 @@
 package com.sunday.sundaymovie.mvp.video;
 
 import android.app.DownloadManager;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.PowerManager;
+import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.SurfaceHolder;
+import android.view.WindowManager;
 
 import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -21,40 +24,52 @@ import static android.content.Context.DOWNLOAD_SERVICE;
  * Created by agentchen on 2017/8/7.
  */
 
-class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletionListener
-        , MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener, MediaPlayer.OnInfoListener {
+class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletionListener,
+        MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener,
+        MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
+    private static final String TAG = "VideoPresenter";
     private final VideoContract.View mView;
     private final String mUrl;
     private final String mTitle;
     private MediaPlayer mMediaPlayer;
-    private Handler mHandler = new Handler();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
     private volatile boolean mIsHiddenMediaController = false;
     private int mDuration;
+    private int mPositionRecord = 0;
+    public Rect mSurfaceFrame;
 
     VideoPresenter(VideoContract.View view, String url, String title) {
         mView = view;
         mUrl = url;
         mTitle = title;
-        mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setWakeMode(BaseApplication.getContext(), PowerManager.FULL_WAKE_LOCK);
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        mMediaPlayer.setOnPreparedListener(VideoPresenter.this);
-        mMediaPlayer.setOnBufferingUpdateListener(VideoPresenter.this);
-        mMediaPlayer.setOnCompletionListener(VideoPresenter.this);
-        mMediaPlayer.setOnInfoListener(VideoPresenter.this);
         mView.setPresenter(this);
     }
 
     @Override
     public void subscribe() {
+        Log.d(TAG, "subscribe: ");
+        mView.enabledMediaController(false);
+        mView.showPauseIcon();
+        mView.showProgressBar();
         mView.showTitle(mTitle);
         postHideMediaController();
+        if (mMediaPlayer == null) {
+            mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setWakeMode(BaseApplication.getContext(),
+                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mMediaPlayer.setOnPreparedListener(this);
+            mMediaPlayer.setOnBufferingUpdateListener(this);
+            mMediaPlayer.setOnVideoSizeChangedListener(this);
+            mMediaPlayer.setOnCompletionListener(this);
+            mMediaPlayer.setOnInfoListener(this);
+        }
         try {
             mMediaPlayer.setDataSource(mUrl);
-            mMediaPlayer.prepareAsync();
         } catch (IOException | IllegalArgumentException e) {
             e.printStackTrace();
         }
+        mMediaPlayer.prepareAsync();
     }
 
     @Override
@@ -62,9 +77,23 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         removeShowProgress();
         removeHideMediaController();
         if (mMediaPlayer != null) {
+            mPositionRecord = mMediaPlayer.getCurrentPosition();
             mMediaPlayer.release();
             mMediaPlayer = null;
         }
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mediaPlayer) {
+        mDuration = mMediaPlayer.getDuration();
+        mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
+        if (mPositionRecord > 0) {
+            mMediaPlayer.seekTo(mPositionRecord);
+        }
+        mMediaPlayer.start();
+        postShowProgress();
+        mView.enabledMediaController(true);
+        mView.hideProgressBar();
     }
 
     @Override
@@ -87,6 +116,35 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     @Override
     public void onSurfaceCreated(@NonNull SurfaceHolder holder) {
         mMediaPlayer.setDisplay(holder);
+        mSurfaceFrame = holder.getSurfaceFrame();
+    }
+
+    @Override
+    public void onSurfaceChanged(SurfaceHolder holder) {
+        mMediaPlayer.setDisplay(holder);
+        mSurfaceFrame = holder.getSurfaceFrame();
+    }
+
+    @Override
+    public void onSurfaceDestroyed() {
+        mMediaPlayer.setOnCompletionListener(null);
+        mSurfaceFrame = null;
+    }
+
+    @Override
+    public void onVideoSizeChanged(MediaPlayer mp, int width, int height) {
+        if (width > 0 && height > 0 && mSurfaceFrame != null) {
+            int rawWidth = mSurfaceFrame.width();
+            int rawHeight = mSurfaceFrame.height();
+            if ((float) width / height > (float) rawHeight / rawWidth) {
+                height = (int) ((float) rawWidth / width * height);
+                width = rawWidth;
+            } else {
+                width = (int) ((float) rawHeight / height * width);
+                height = rawHeight;
+            }
+            mView.setSurfaceSize(width, height);
+        }
     }
 
     @Override
@@ -131,26 +189,6 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     }
 
     @Override
-    public void onRestart() {
-        if (!mIsHiddenMediaController) {
-            postShowProgress();
-            postHideMediaController();
-        }
-        mMediaPlayer.start();
-        mView.showPauseIcon();
-    }
-
-    @Override
-    public void onPause() {
-        if (mMediaPlayer.isPlaying()) {
-            mMediaPlayer.pause();
-            removeShowProgress();
-            removeHideMediaController();
-            mView.showPlayIcon();
-        }
-    }
-
-    @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
         mHandler.postDelayed(new Runnable() {
             @Override
@@ -158,16 +196,6 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
                 mView.finish();
             }
         }, 800L);
-    }
-
-    @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        mDuration = mMediaPlayer.getDuration();
-        mView.showTotalTime(StringFormatUtil.getTimeString(mDuration));
-        mediaPlayer.start();
-        postShowProgress();
-        mView.enabledPlayButton();
-        mView.enabledSeekBar();
     }
 
     @Override
@@ -227,8 +255,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
             int current = mMediaPlayer.getCurrentPosition();
             int progress = 1000 * current / mDuration;
             mView.showCurrentTime(progress, StringFormatUtil.getTimeString(current));
-            mHandler.postDelayed(mShowProgress, 1000 - (current % 1000));
+            mHandler.postDelayed(this, 800);
         }
     };
-
 }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
@@ -42,19 +43,18 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
         mButtonPlay.setOnClickListener(this);
         mButtonDownload.setOnClickListener(this);
         mButtonBack.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         mPresenter.subscribe();
     }
 
     @Override
-    protected void onRestart() {
-        super.onRestart();
-        mPresenter.onRestart();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mPresenter.onPause();
+    protected void onStop() {
+        super.onStop();
+        mPresenter.unsubscribe();
     }
 
     @Override
@@ -85,9 +85,6 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
         mTVTitle = (TextView) findViewById(R.id.tv_movie_video_title);
         mButtonBack = (ImageButton) findViewById(R.id.btn_close);
         mRelativeLayout = (RelativeLayout) findViewById(R.id.media_controller_all);
-
-        mButtonPlay.setEnabled(false);
-        mSeekBar.setEnabled(false);
     }
 
     public static void startMe(Context context, String url, String title) {
@@ -98,9 +95,11 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     }
 
     @Override
-    protected void onDestroy() {
-        mPresenter.unsubscribe();
-        super.onDestroy();
+    public void setSurfaceSize(int width, int height) {
+        ViewGroup.LayoutParams params = mSurfaceView.getLayoutParams();
+        params.width = width;
+        params.height = height;
+        mSurfaceView.requestLayout();
     }
 
     @Override
@@ -143,23 +142,19 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
     }
 
     @Override
-    public void enabledPlayButton() {
-        mButtonPlay.setEnabled(true);
-    }
-
-    @Override
-    public void enabledSeekBar() {
-        mSeekBar.setEnabled(true);
+    public void enabledMediaController(boolean enabled) {
+        mButtonPlay.setEnabled(enabled);
+        mSeekBar.setEnabled(enabled);
     }
 
     @Override
     public void showPlayIcon() {
-        mButtonPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_white_56dp));
+        mButtonPlay.setImageResource(R.drawable.ic_play_arrow_white_56dp);
     }
 
     @Override
     public void showPauseIcon() {
-        mButtonPlay.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_white_56dp));
+        mButtonPlay.setImageResource(R.drawable.ic_pause_white_56dp);
     }
 
     @Override
@@ -208,11 +203,12 @@ public class VideoActivity extends BaseActivity implements VideoContract.View, V
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
+        mPresenter.onSurfaceChanged(surfaceHolder);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        mPresenter.onSurfaceDestroyed();
     }
 
     @Override

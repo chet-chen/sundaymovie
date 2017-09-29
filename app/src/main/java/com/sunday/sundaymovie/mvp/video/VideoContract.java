@@ -22,9 +22,7 @@ interface VideoContract {
 
         void showProgressBar();
 
-        void enabledPlayButton();
-
-        void enabledSeekBar();
+        void enabledMediaController(boolean enabled);
 
         void showPlayIcon();
 
@@ -38,6 +36,8 @@ interface VideoContract {
 
         void toast(String text);
 
+        void setSurfaceSize(int width, int height);
+
         void finish();
     }
 
@@ -45,6 +45,10 @@ interface VideoContract {
         void onClickContentView();
 
         void onSurfaceCreated(@NonNull SurfaceHolder holder);
+
+        void onSurfaceChanged(SurfaceHolder holder);
+
+        void onSurfaceDestroyed();
 
         void onClickPlay();
 
@@ -54,8 +58,5 @@ interface VideoContract {
 
         void onStopTrackingTouch(int progress);
 
-        void onRestart();
-
-        void onPause();
     }
 }

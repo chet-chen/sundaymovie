@@ -5,12 +5,14 @@
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/black"
     tools:context="com.sunday.sundaymovie.mvp.allvideo.AllVideoActivity">
 
     <SurfaceView
         android:id="@+id/surface_view_video"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_gravity="center"/>
 
     <include layout="@layout/media_controller"/>
 </FrameLayout>
