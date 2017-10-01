@@ -14,7 +14,6 @@ import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 
 /**
@@ -160,12 +159,8 @@ class MovieDetailPresenter implements MovieDetailContract.Presenter {
         ab.setRoleName("导演");
         actors.add(0, ab);
         mView.showActor(actors);
-        mStarModel.isStar(mMovieId).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean aBoolean) throws Exception {
-                mView.setFollowed(aBoolean);
-            }
-        });
+        boolean isStar = mStarModel.isStar(mMovieId);
+        mView.setFollowed(isStar);
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.sunday.sundaymovie.model;
 import com.sunday.sundaymovie.bean.VideoAll;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
-import com.sunday.sundaymovie.net.converter.VideoAllConverter;
+import com.sunday.sundaymovie.net.converter.GsonConverter;
 
 import io.reactivex.Observable;
 
@@ -19,6 +19,6 @@ public class AllVideoModel {
     }
 
     public Observable<VideoAll> getAllVideo(int id, int pageIndex) {
-        return mOkManager.get(Api.getVideoAllUrl(id, pageIndex), new VideoAllConverter());
+        return mOkManager.get(Api.getVideoAllUrl(id, pageIndex), new GsonConverter<>(VideoAll.class));
     }
 }

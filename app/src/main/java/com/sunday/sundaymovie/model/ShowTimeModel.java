@@ -3,7 +3,7 @@ package com.sunday.sundaymovie.model;
 import com.sunday.sundaymovie.bean.ShowTimeMovies;
 import com.sunday.sundaymovie.net.Api;
 import com.sunday.sundaymovie.net.OkManager;
-import com.sunday.sundaymovie.net.converter.ShowTimeMoviesConverter;
+import com.sunday.sundaymovie.net.converter.GsonConverter;
 
 import io.reactivex.Observable;
 
@@ -19,6 +19,6 @@ public class ShowTimeModel {
     }
 
     public Observable<ShowTimeMovies> getShowTimeMovies() {
-        return mOkManager.get(Api.SHOW_TIME_MOVIES, new ShowTimeMoviesConverter());
+        return mOkManager.get(Api.SHOW_TIME_MOVIES, new GsonConverter<>(ShowTimeMovies.class));
     }
 }

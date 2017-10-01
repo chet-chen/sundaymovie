@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
@@ -27,7 +26,6 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletionListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnBufferingUpdateListener,
         MediaPlayer.OnInfoListener, MediaPlayer.OnVideoSizeChangedListener {
-    private static final String TAG = "VideoPresenter";
     private final VideoContract.View mView;
     private final String mUrl;
     private final String mTitle;
@@ -36,7 +34,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
     private volatile boolean mIsHiddenMediaController = false;
     private int mDuration;
     private int mPositionRecord = 0;
-    public Rect mSurfaceFrame;
+    private Rect mSurfaceFrame;
 
     VideoPresenter(VideoContract.View view, String url, String title) {
         mView = view;
@@ -47,7 +45,6 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
 
     @Override
     public void subscribe() {
-        Log.d(TAG, "subscribe: ");
         mView.enabledMediaController(false);
         mView.showPauseIcon();
         mView.showProgressBar();

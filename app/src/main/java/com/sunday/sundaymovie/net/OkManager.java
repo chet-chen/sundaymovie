@@ -21,7 +21,7 @@ import okhttp3.Response;
  * Email agentchen97@gmail.com
  */
 public class OkManager {
-    private static OkManager mOkManager;
+    private static OkManager INSTANCE;
     private OkHttpClient client;
 
     private OkManager() {
@@ -29,14 +29,14 @@ public class OkManager {
     }
 
     public static OkManager getInstance() {
-        if (mOkManager == null) {
+        if (INSTANCE == null) {
             synchronized (OkManager.class) {
-                if (mOkManager == null) {
-                    mOkManager = new OkManager();
+                if (INSTANCE == null) {
+                    INSTANCE = new OkManager();
                 }
             }
         }
-        return mOkManager;
+        return INSTANCE;
     }
 
     public <T> Observable<T> asyncPost(final String url, final Map<String, String> params, final Converter<T> converter) {
