@@ -3,7 +3,6 @@ package com.sunday.sundaymovie.widget;
 import android.content.Context;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -46,7 +45,7 @@ public class MyBehavior extends CoordinatorLayout.Behavior<RelativeLayout> {
                 //view.getHeight()固定为144
                 //ViewCompat.getTranslationY(view)从144-0，再从0-144
                 minOffset = Math.min(minOffset,
-                        ViewCompat.getTranslationY(view) - view.getHeight());
+                        view.getTranslationY() - view.getHeight());
             }
         }
 

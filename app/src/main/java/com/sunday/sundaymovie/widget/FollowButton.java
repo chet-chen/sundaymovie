@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.Path;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -57,7 +59,8 @@ public class FollowButton extends FrameLayout {
     }
 
     public boolean onInterceptTouchEvent(MotionEvent event) {
-        return event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE;
+        return event.getAction() == MotionEvent.ACTION_DOWN
+                || event.getAction() == MotionEvent.ACTION_MOVE;
     }
 
     public boolean onTouchEvent(MotionEvent event) {
@@ -130,7 +133,6 @@ public class FollowButton extends FrameLayout {
             mUnFollowTv.bringToFront();
         }
         if (needAnimate) {
-
             mAnimator = ValueAnimator.ofFloat(0.0F, (float) Math.hypot(getMeasuredWidth(), getMeasuredHeight()));
             mAnimator.setDuration(400L);
             mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());

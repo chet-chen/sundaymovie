@@ -18,14 +18,8 @@
     </style>
 
     <style name="SearchActivityTheme" parent="AppTheme">
-        <item name="android:windowAnimationStyle">@style/AnimSearchActivity</item>
         <item name="colorPrimary">#F5F5F5</item>
         <item name="colorPrimaryDark">#DBDBDB</item>
-    </style>
-
-    <style name="AnimSearchActivity" parent="@android:style/Animation.Activity">
-        <item name="android:activityOpenEnterAnimation">@anim/search_activity_in</item>
-        <item name="android:activityCloseExitAnimation">@anim/search_activity_out</item>
     </style>
 
     <style name="ExpandedText">

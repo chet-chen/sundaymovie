@@ -1,5 +1,6 @@
 package com.sunday.sundaymovie.mvp.search;
 
+import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -144,6 +146,10 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
             intent.putExtra(SearchManager.QUERY, query);
         }
         context.startActivity(intent);
+        Activity activity = context instanceof Activity ? ((Activity) context) : null;
+        if (activity != null) {
+            activity.overridePendingTransition(R.anim.search_activity_in, R.anim.search_activity_out);
+        }
     }
 
     @Override
@@ -264,7 +270,7 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0, R.anim.search_activity_out);
+        overridePendingTransition(R.anim.search_activity_in, R.anim.search_activity_out);
     }
 
     @Override
@@ -283,5 +289,18 @@ public class SearchActivity extends BaseActivity implements SearchContract.View,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            if (mSearchView.hasFocus()) {
+                mSearchView.clearFocus();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

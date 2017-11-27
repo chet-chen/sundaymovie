@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import com.sunday.sundaymovie.R;
 import com.sunday.sundaymovie.base.BaseActivity;
-import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.widget.HackyViewPager;
 
 import java.io.File;
@@ -207,23 +207,14 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
     }
 
     private boolean checkPermission() {
-        boolean result = true;
-        String[] PERMISSIONS_STORAGE = {
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-        };
-        int permission = ActivityCompat.checkSelfPermission(
-                BaseApplication.getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            result = false;
-            ActivityCompat.requestPermissions(
-                    this,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_EXTERNAL_STORAGE);
+            return false;
         }
-        return result;
+        return true;
     }
 
     private class IntervalTransformer implements ViewPager.PageTransformer {
