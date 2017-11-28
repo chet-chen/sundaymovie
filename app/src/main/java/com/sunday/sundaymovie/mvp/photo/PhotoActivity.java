@@ -106,9 +106,9 @@ public class PhotoActivity extends BaseActivity implements PhotoContract.View, V
         setContentView(R.layout.activity_photo);
         mViewPager = (HackyViewPager) findViewById(R.id.photo_hacky_view_pager);
         mViewPager.setPageTransformer(true, new IntervalTransformer());
-        mTextView = (TextView) findViewById(R.id.tv_photo_position_hint);
-        mButtonDownloadImg = (ImageButton) findViewById(R.id.btn_download_img);
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinator_layout);
+        mTextView = findViewById(R.id.tv_photo_position_hint);
+        mButtonDownloadImg = findViewById(R.id.btn_download_img);
+        mCoordinatorLayout = findViewById(R.id.coordinator_layout);
     }
 
     @Override
