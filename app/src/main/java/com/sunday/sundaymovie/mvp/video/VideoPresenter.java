@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.view.SurfaceHolder;
-import android.view.WindowManager;
 
 import com.sunday.sundaymovie.base.BaseApplication;
 import com.sunday.sundaymovie.util.StringFormatUtil;
@@ -52,8 +51,7 @@ class VideoPresenter implements VideoContract.Presenter, MediaPlayer.OnCompletio
         postHideMediaController();
         if (mMediaPlayer == null) {
             mMediaPlayer = new MediaPlayer();
-            mMediaPlayer.setWakeMode(BaseApplication.getContext(),
-                    WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            mMediaPlayer.setScreenOnWhilePlaying(true);
             mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mMediaPlayer.setOnPreparedListener(this);
             mMediaPlayer.setOnBufferingUpdateListener(this);

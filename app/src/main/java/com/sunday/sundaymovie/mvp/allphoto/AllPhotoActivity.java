@@ -105,6 +105,7 @@ public class AllPhotoActivity extends BaseActivity implements AllPhotoContract.V
     @Override
     public void showAllImage(List<String> urls) {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         int space = getResources().getDimensionPixelSize(R.dimen.images_space);
         mRecyclerView.addItemDecoration(new ItemSpacing(space));
